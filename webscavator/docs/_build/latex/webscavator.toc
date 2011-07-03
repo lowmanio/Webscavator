@@ -1,0 +1,57 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Webscavator API}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}launch.py}{3}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Starting Webscavator}{3}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.2}application.py}{3}{section.2.2}
+\contentsline {section}{\numberline {2.3}Controllers}{4}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}baseController}{4}{subsection.2.3.1}
+\contentsline {subsubsection}{baseController}{4}{subsubsection*.2}
+\contentsline {subsection}{\numberline {2.3.2}caseController}{5}{subsection.2.3.2}
+\contentsline {subsubsection}{caseController}{5}{subsubsection*.3}
+\contentsline {subsection}{\numberline {2.3.3}generalController}{6}{subsection.2.3.3}
+\contentsline {subsubsection}{generalController}{6}{subsubsection*.4}
+\contentsline {subsection}{\numberline {2.3.4}visualController}{7}{subsection.2.3.4}
+\contentsline {subsubsection}{visualController}{7}{subsubsection*.5}
+\contentsline {subsection}{\numberline {2.3.5}Controllers}{8}{subsection.2.3.5}
+\contentsline {section}{\numberline {2.4}Converters}{8}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}xmlConverter}{8}{subsection.2.4.1}
+\contentsline {subsubsection}{Web Historian Converter}{8}{subsubsection*.6}
+\contentsline {subsubsection}{XML Convertors}{8}{subsubsection*.7}
+\contentsline {subsection}{\numberline {2.4.2}csvConverter}{9}{subsection.2.4.2}
+\contentsline {subsubsection}{Chrome Cache Viewer Converter}{9}{subsubsection*.8}
+\contentsline {subsubsection}{Fox Analysis Converter}{9}{subsubsection*.9}
+\contentsline {subsubsection}{Pasco Converter}{9}{subsubsection*.10}
+\contentsline {subsubsection}{Net Analysis Converter}{10}{subsubsection*.11}
+\contentsline {subsubsection}{CSV Converters}{10}{subsubsection*.12}
+\contentsline {subsection}{\numberline {2.4.3}Converters}{11}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.4}Variables}{11}{subsection.2.4.4}
+\contentsline {subsection}{\numberline {2.4.5}Functions}{11}{subsection.2.4.5}
+\contentsline {section}{\numberline {2.5}Forms and Validators}{12}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Forms}{12}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Validators}{16}{subsection.2.5.2}
+\contentsline {subsection}{\numberline {2.5.3}Forms and Validators}{20}{subsection.2.5.3}
+\contentsline {section}{\numberline {2.6}Models}{20}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}Database Models}{21}{subsection.2.6.1}
+\contentsline {subsubsection}{Models}{21}{subsubsection*.13}
+\contentsline {subsection}{\numberline {2.6.2}Filters}{28}{subsection.2.6.2}
+\contentsline {subsubsection}{Filters}{28}{subsubsection*.14}
+\contentsline {subsection}{\numberline {2.6.3}Models}{28}{subsection.2.6.3}
+\contentsline {section}{\numberline {2.7}Utility functions}{28}{section.2.7}
+\contentsline {subsection}{\numberline {2.7.1}Utils}{28}{subsection.2.7.1}
+\contentsline {subsubsection}{Variables}{28}{subsubsection*.15}
+\contentsline {subsubsection}{Functions}{29}{subsubsection*.16}
+\contentsline {subsection}{\numberline {2.7.2}Utilities}{29}{subsection.2.7.2}
+\contentsline {section}{\numberline {2.8}Testing}{29}{section.2.8}
+\contentsline {subsection}{\numberline {2.8.1}Testing Utilities}{29}{subsection.2.8.1}
+\contentsline {subsection}{\numberline {2.8.2}Functional Testing}{29}{subsection.2.8.2}
+\contentsline {subsubsection}{Case Controller Testing}{30}{subsubsection*.17}
+\contentsline {subsubsection}{General Controller Testing}{30}{subsubsection*.18}
+\contentsline {subsubsection}{Visual Controller Testing}{30}{subsubsection*.19}
+\contentsline {subsection}{\numberline {2.8.3}Unit Testing}{30}{subsection.2.8.3}
+\contentsline {subsubsection}{Forms Testing}{30}{subsubsection*.20}
+\contentsline {subsubsection}{Validator Testing}{30}{subsubsection*.21}
+\contentsline {subsubsection}{Model Testing}{30}{subsubsection*.22}
+\contentsline {chapter}{\numberline {3}Indices and tables}{31}{chapter.3}
+\contentsline {chapter}{Module Index}{33}{section*.23}
+\contentsline {chapter}{Index}{35}{section*.24}

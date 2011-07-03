@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>caseController &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Controllers" href="controllers.html" />
+    <link rel="next" title="generalController" href="generalController.html" />
+    <link rel="prev" title="baseController" href="baseController.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="generalController.html" title="generalController"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="baseController.html" title="baseController"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="controllers.html" accesskey="U">Controllers</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="baseController.html"
+                                  title="previous chapter">baseController</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="generalController.html"
+                                  title="next chapter">generalController</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/caseController.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.controllers.caseController">
+<h1>caseController<a class="headerlink" href="#module-webscavator.controllers.caseController" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>caseController<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Contains the class that has all the endpoints for loading, adding and editing a case.</p>
+<dl class="class">
+<dt id="webscavator.controllers.caseController.CaseController">
+<em class="property">
+class </em><tt class="descclassname">webscavator.controllers.caseController.</tt><tt class="descname">CaseController</tt><big>(</big><em>request</em>, <em>urls</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for the set up and editing of cases.</p>
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.addData">
+<tt class="descname">addData</tt><big>(</big><em>entry</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.addData" title="Permalink to this definition">¶</a></dt>
+<dd>Given a validated form called <cite>entry</cite>, adds the group to the database, 
+then calls <cite>self.addEntry()</cite> to convert the data in <cite>entry[&#8216;data&#8217;]</cite> to <cite>Entry</cite> objects. 
+Returns the group if the adding of entries was successful, and otherwise
+returns <cite>None</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.addEntry">
+<tt class="descname">addEntry</tt><big>(</big><em>program</em>, <em>file</em>, <em>group</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.addEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the generator <cite>convert_file()</cite> found in <a class="reference external" href="converters.html"><em>Converters</em></a> on each row of the file, 
+and adds the result to the database. If an exception happens during the converting and
+adding of data, then the session is rolled back and <cite>None</cite> is returned. Otherwise
+<cite>True</cite> is returned.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This had been optimised to make the adding of data as fast as possible, but
+has been slowed down again by adding search terms.</p>
+<p class="last"><strong>ToDo</strong>: Optimise the adding of search terms.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.case_details">
+<tt class="descname">case_details</tt><big>(</big><em>edit=False</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.case_details" title="Permalink to this definition">¶</a></dt>
+<dd>First step of the wizard: add or edit case details.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.check_details">
+<tt class="descname">check_details</tt><big>(</big><em>edit=False</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.check_details" title="Permalink to this definition">¶</a></dt>
+<dd>Third step of wizard: user gets to check everything has been added correctly.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.edit1">
+<tt class="descname">edit1</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.edit1" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for editing a case. Returns <cite>self.case_details(edit=True)</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.edit2">
+<tt class="descname">edit2</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.edit2" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for editing CSV files. Returns <cite>self.file_details(edit=True)</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.edit3">
+<tt class="descname">edit3</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.edit3" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for checking details are correct. Returns <cite>self.check_details(edit=True)</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.edit4">
+<tt class="descname">edit4</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.edit4" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the end of the wizard. Returns <cite>self.finish_wizard(edit=True)</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.file_details">
+<tt class="descname">file_details</tt><big>(</big><em>edit=False</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.file_details" title="Permalink to this definition">¶</a></dt>
+<dd>Second step of wizard: add the browser history files.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.finish_wizard">
+<tt class="descname">finish_wizard</tt><big>(</big><em>edit=False</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.finish_wizard" title="Permalink to this definition">¶</a></dt>
+<dd>Forth step of wizard: The wizard is complete. Creates a hash of the database
+file and adds message to log file by calling <cite>self.write_log(dbfile, msg)</cite>
+found in <a class="reference external" href="baseController.html"><em>baseController</em></a>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.jsonAddCase">
+<tt class="descname">jsonAddCase</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.jsonAddCase" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for wizard 1 form (adding case name and dbfile name). This is done via Ajax. 
+If the form has errors, the error dictionary <cite>self.form_errors</cite> is jsonified 
+and passed back to the webpage and the errors displayed to the user. 
+If the form is valid, then the new case is created, the database initialised 
+and data saved to the database. This will then return <cite>True</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.jsonAddEntries">
+<tt class="descname">jsonAddEntries</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.jsonAddEntries" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for wizard 2 form (adding CSV/XML data). This is done via Ajax. 
+If the form has errors, the error dictionary <cite>self.form_errors</cite> is jsonified 
+and passed back to the webpage and the errors displayed to the user. 
+If the form is valid, then <cite>self.addData()</cite> is called. 
+If all goes well, this will then return <cite>True</cite>, otherwise if their are errors in 
+the adding of the data in <cite>self.addData()</cite> then self.form_erros is returned.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.jsonEditCase">
+<tt class="descname">jsonEditCase</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.jsonEditCase" title="Permalink to this definition">¶</a></dt>
+<dd>Same as <cite>self.jsonAddCase()</cite> apart from the user is not allowed to edit the database name - 
+this can be done manually be renaming the file when not in use.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.jsonEditEntries">
+<tt class="descname">jsonEditEntries</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.jsonEditEntries" title="Permalink to this definition">¶</a></dt>
+<dd>Same as <cite>self.jsonAddEntries</cite> but allows the editing of old entries and the addition
+of new entries.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.load">
+<tt class="descname">load</tt><big>(</big><em>**vars</em><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.load" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the page to load an old case.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.loaded">
+<tt class="descname">loaded</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.loaded" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for when user has chosen to load a particular case. 
+Checks whether the case is valid. 
+If so, returns <cite>finish_wizard()</cite>. Otherwise, it returns <cite>self.form_errors()</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.wizard">
+<tt class="descname">wizard</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.wizard" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the index page when a case is not yet loaded. 
+Gives the user a choice whether to add
+a new case or load an old case.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.wizard1">
+<tt class="descname">wizard1</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.wizard1" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for adding a new case. returns <cite>self.case_details()</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.wizard2">
+<tt class="descname">wizard2</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.wizard2" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for adding new CSV files. returns <cite>self.file_details()</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.wizard3">
+<tt class="descname">wizard3</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.wizard3" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for checking details are correct. Returns <cite>self.check_details()</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.caseController.CaseController.wizard4">
+<tt class="descname">wizard4</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.caseController.CaseController.wizard4" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the end of the wizard. Returns <cite>self.finish_wizard()</cite>.</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

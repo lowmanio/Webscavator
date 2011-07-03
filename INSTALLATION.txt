@@ -1,0 +1,51 @@
+Prerequisites
+=============
+
+You will need to install Python 2.5 or higher. Please add python to your system path.
+
+Webscavator visualises the output of web history parsers. Please make sure you have at 
+least one of the following programs installed:
+
+ * Net Analysis <http://www.digital-detective.co.uk/netanalysis.asp>
+ * Web Historian <http://mandiant.org/products/free_software/web_historian/>
+ * Pasco <http://www.foundstone.com/us/resources/proddesc/pasco.htm>
+ * Chrome Cache View <http://www.nirsoft.net/utils/chrome_cache_view.html>
+ * Fox Analysis <http://forensic-software.co.uk/foxanalysis.aspx>
+
+Installation
+============
+
+Webscavator requires a few Python libraries to be installed. The easiest way is to download
+setuptools (http://packages.python.org/distribute/easy_install.html) and add it to your 
+system path. Then you can install the following by going to the command line and typing:
+
+    easy_install <libraryname>
+
+The required libraries are:
+ * formencode 1.2.2
+ * mako 0.2.4
+ * simplejson
+ * sqlalchemy 0.5.4
+ * werkzeug 0.5
+ 
+ If you wish to help develop Webscavator, it is recommended you also install:
+ * sphinx 0.6.2
+ 
+Running Webscavator
+===================
+ 
+Once the libraries have been installed, in the command line to the folder where 
+Webscavator is kept and type:
+
+    python launch.py runserver
+ 
+Go to your web browser (Google Chrome or Firefox is recommended) and go to:
+
+    http://localhost:5000
+    
+Testing Webscavator
+-------------------
+
+You can run the unit and functional tests by typing:
+
+    python launch.py runtests

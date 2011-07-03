@@ -1,0 +1,84 @@
+/* root element for tabs  */
+ul.tabs, ul.in_tabs {  
+	margin:0px !important; 
+	padding:0;
+	height:40px;	
+    border-bottom:1px solid black;
+}
+
+ul.in_tabs{
+    padding: 15px 0px 0px 0px;
+    height: 30px;
+    border: none;
+    display: inline;
+}
+
+/* single tab */
+ul.tabs li , ul.in_tabs li{  
+	float:left;	
+	margin:0px 5px 0px 0px;  
+	list-style-type:none;	
+}
+
+ul.tabs a , il.in_tabs a{ 
+	float:left;
+	font-size:13px;
+	display:block;
+	padding:10px 30px;	
+	text-decoration:none;
+	border:1px solid #666;	
+	border-bottom:0px;
+	height:18px;
+	background-color:#efefef;
+	color:black;
+	margin-right:2px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright:4px;
+	position:relative;
+	top:1px;	
+}
+
+il.in_tabs a{ 
+   padding:0px;
+}
+
+ul.tabs a:hover {
+	background-color:#F7F7F7;
+	color:#333;
+}
+	
+/* selected tab */
+ul.tabs a.current, ul.in_tabs a.current {
+	background-color:white;
+	border-bottom:2px solid white;	
+	color:black;	
+	cursor:default;
+}
+
+ul.in_tabs a.current {
+    text-decoration:none;
+}
+
+.tab_title{
+    font-size: 140%;
+}
+
+.panes{
+    border-bottom: solid black 1px;
+    border-right: solid black 1px;
+    border-left: solid black 1px;
+    padding: 0px;
+}
+
+.interior{
+    padding: 10px;
+}
+
+.in_panes{
+    padding: 0px;
+}
+
+div.hiddentab {
+    position: absolute;
+    left: -10000px;
+}

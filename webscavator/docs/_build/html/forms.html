@@ -1,0 +1,394 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Forms &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Forms and Validators" href="inputs.html" />
+    <link rel="next" title="Validators" href="validators.html" />
+    <link rel="prev" title="Forms and Validators" href="inputs.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="validators.html" title="Validators"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="inputs.html" title="Forms and Validators"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="inputs.html" accesskey="U">Forms and Validators</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="inputs.html"
+                                  title="previous chapter">Forms and Validators</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="validators.html"
+                                  title="next chapter">Validators</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/forms.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.forms.forms">
+<h1>Forms<a class="headerlink" href="#module-webscavator.forms.forms" title="Permalink to this headline">¶</a></h1>
+<p>Each class represents the fields present on a particular web form, and how it should be validated.
+Specific validators can be found in <a class="reference external" href="validators.html"><em>Validators</em></a>. All forms inherit from Schema.</p>
+<p>If the form has an error, the validator will throw an exception and add the name of the 
+form field and the error message to a dictionary <cite>form_error</cite>, which is passed back to the 
+web page for the user to correct. If the form is valid, the endpoint will process the form, 
+and return the successful web page.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Most of these forms were created before it was realised that files other than CSV were needed
+(such as XML). 
+Therefore a lot of form field names are &#8216;csv_file&#8217; rather than just generic &#8216;file&#8217;.</p>
+<p class="last"><strong>ToDo</strong>: Change any field names that refer to csv data to be more generic. Applies to Mako
+templates too.</p>
+</div>
+<dl class="class">
+<dt id="webscavator.forms.forms.AddData">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">AddData</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.AddData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to add a new file. Inherits from <cite>Data()</cite></p>
+<p><strong>Attributes</strong></p>
+<p><cite>program</cite> &#8211; web history program used to create file.</p>
+<p><cite>name</cite> &#8211; name of this dataset.</p>
+<p><cite>desc</cite> &#8211; optional description of dataset.</p>
+<p><cite>data</cite> &#8211; the web history file.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.Case">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">Case</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.Case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Case Schema.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.Data">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">Data</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data Schema.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.EditData">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">EditData</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.EditData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to edit file. Inherits from <cite>Data()</cite></p>
+<p><strong>Attributes</strong></p>
+<p><cite>group</cite> &#8211; the current data group being edited. Validator checks this exists.</p>
+<p><cite>program</cite> &#8211; web history program used to create file.</p>
+<p><cite>name</cite> &#8211; name of this data.</p>
+<p><cite>desc</cite> &#8211; optional description of data.</p>
+<p><cite>keepcsv</cite> &#8211; user chooses to keep the current file or upload another.</p>
+<p><cite>data</cite> &#8211; the new file if keepcsv is <cite>False</cite>.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.Filter">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">Filter</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents one filter line. <cite>add_filter_form</cite> can have many filter lines.</p>
+<p><strong>Attributes</strong></p>
+<p><cite>cls</cite> &#8211; The Class the filter applies to.</p>
+<p><cite>attribute</cite> &#8211; the Class&#8217;s attribute the filter applies to.</p>
+<p><cite>function</cite> &#8211; the operation to do on the attribute.</p>
+<p><cite>value</cite> &#8211; the value the attribute will be compared with.</p>
+<p><cite>value_list</cite> &#8211; the file of items to compare the attribute to.</p>
+<p>Either <cite>value</cite> or <cite>value_list</cite> will be selected, the other will be <cite>None</cite>.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.add_filter_form">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">add_filter_form</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.add_filter_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to add a filter.</p>
+<p><strong>Attributes</strong></p>
+<p><cite>filter</cite> &#8211; list of <cite>Filter()</cite>.</p>
+<p><cite>name</cite> &#8211; name of the filter.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.edit1_form">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">edit1_form</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.edit1_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to edit case. Inherits from <cite>Case()</cite></p>
+<p><strong>Attributes</strong></p>
+<p><cite>name</cite> &#8211; new name of case.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.edit2_form">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">edit2_form</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.edit2_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to edit multiple files.</p>
+<p><strong>Attributes</strong></p>
+<p><cite>csv_entry</cite> &#8211; list of <cite>EditData</cite> objects.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.load_form">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">load_form</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.load_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to load a case Sqlite database file.</p>
+<p><strong>Attributes</strong></p>
+<p><cite>case</cite> &#8211; the name of a case. Validator checks case exists on disk.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.wizard1_form">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">wizard1_form</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.wizard1_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to add a new case. Inherits from <cite>Case()</cite>.</p>
+<p><strong>Attributes</strong></p>
+<p><cite>name</cite> &#8211; name of case.</p>
+<p><cite>dbfile</cite> &#8211; file to save case to. Validator checks this file doesn&#8217;t already exist.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.forms.wizard2_form">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.forms.</tt><tt class="descname">wizard2_form</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.forms.wizard2_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form to add multiple files.</p>
+<p><strong>Attributes</strong></p>
+<p><cite>csv_entry</cite> &#8211; list of <cite>AddData</cite> objects.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

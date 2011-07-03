@@ -1,0 +1,28 @@
+.valueLabels {
+	font-size:70%;
+	color:black;
+    width: 400px;
+}
+div.valueLabelLight {
+	border:none;
+	position:absolute;
+    width: 400px;
+}
+div.valueLabel {
+	position:absolute;
+	border: none;
+    margin-top: 5px;
+    margin-left: 10px;
+    width: 400px;
+    word-wrap: break-word;
+}
+
+div.valueLabelRight {
+	position:absolute;
+	border: none;
+    margin-top: 5px;
+    margin-left: 10px;
+    width: 400px;
+    word-wrap: break-word;
+    text-align: right;
+}

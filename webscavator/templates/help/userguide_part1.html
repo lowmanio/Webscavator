@@ -1,0 +1,101 @@
+﻿<%inherit file="/base/base.html"/>
+
+<%def name="javascripts()" filter="trim">
+   
+</%def>
+
+<h1>User Guide Part 1: Adding, loading and editing cases</h1>
+
+<h2><img src="${urls.build("images", dict(file='site/world.png'))|h}" alt="lightbulb icon" class="surround" />Getting the web history files</h2>
+<p>Firstly, you must have a program that exports web history files into a text file format. The programs currently supported by Webscavator are:</p>
+<ul>
+    % for k, v in programs:
+    <li>${k} - exports to ${v.upper()} files</li>
+    % endfor
+</ul>
+<p>You can add more programs by following the guide <a href="${urls.build("general.help_addfiles", dict())|h}">here</a> (You'll have to do some Python programming
+though!).</p>
+
+% for k, v in program_explanations.iteritems():
+<h3><img src="${urls.build("images", dict(file='programs/' + v['image']))|h}" alt="${k|h} icon" class="surround_small" />Using ${k|h} with Webscavator</h3>
+${v['description']}
+<hr class="break" />
+% endfor
+
+<h2><img src="${urls.build("images", dict(file='site/lightbulb.png'))|h}" alt="addicon" class="surround" />Starting Webscavator</h2>
+<p>To start Webscavator type the following command line in the Webscavator directory:</p>
+<pre class="command_line">python launch.py runserver</pre>
+<div class="note">
+    <p>In Windows, if you get the error:</p>
+    <pre class="command_line">'python' is not recognized as an internal or external command, operable program or batch file.</pre>
+    You will need to add python to your system environment %path% variable (this is easy to do, search online for <i>adding a path
+    to system environment for [your operating system]</i>).</p>
+</div>
+<p>Finally, go to your favourite web browser (Firefox or Chrome is recommended) and go to <a href="http://localhost:5000">http://localhost:5000</a>.</p>
+
+<h2><img src="${urls.build("images", dict(file='site/add.png'))|h}" alt="addicon" class="surround" />Adding a new case</h2>
+<p>Once you have got your extracted web history files, and started Webscavator, you are ready to make a new case.
+To add a new case, follow the 'new case' wizard. 
+
+<h3>Add case details</h3>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/addcase_wizard1.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/addcase_wizard1.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>Each case is stored individually in it's own Sqlite database in the 'case files' folder of Webscavator. You can store these somewhere else for safe keeping, 
+but Webscavator will only load files from this folder. Having cases stored separately means you can easily share a particular case with a colleague without revealing 
+any other cases.</p>
+
+<h3>Add files</h3>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/addcase_wizard2.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/addcase_wizard2.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>Make sure to select the correct program you used to make the file, otherwise the file will not be uploaded!</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/addcase_wizard2a.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/addcase_wizard2a.png'))|h}" />
+    </a>
+</p>
+<p>If the file is very large, it may take a long time to add all the data. You can add multiple files to a case if the person you are investigating has 
+used multiple browsers or the program you have used has produced several files as output.</p>
+
+<h3>Check details</h3>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/addcase_wizard3.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/addcase_wizard3.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>Use the table to check the data you have added looks correct.</p>
+
+<h3>Finish wizard</h3>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/addcase_wizard4.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/addcase_wizard4.png'))|h}" />
+    </a>
+</p>
+<p>Congratulations, you have added a case. You can now see the visualisations.</p>
+
+<div class="note">
+    <h3>Security</h3>
+    <p>Once you have added, edited or loaded any case an MD5 hash of the Sqlite database is created and stored in 'case file hashes' folder of Webscavator, in a text file with 
+    the same name as the database file. For any subsequent edits, loads or filter additions, this file is updated with new hashes. The integrity of the database 
+    file can be checked by computing the MD5 hash of the database and comparing it to the latest entry in its MD5 hash file.</p>
+    <p>Webscavator has strong input validation. Because it only runs on a local port, the website is not available to anyone on the same network. </p>
+</div>
+
+<h2><img src="${urls.build("images", dict(file='site/database_go.png'))|h}" alt="loading icon" class="surround" />Loading a case</h2>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/loadcase.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/loadcase.png'))|h}" />
+    </a>
+</p>
+<p>If you have already added a case, you can load it into Webscavator. Make sure the case file is in the 'case files' folder of Webscavator, and then select it in the
+load case wizard. </p>
+
+<h2><img src="${urls.build("images", dict(file='site/spanner.png'))|h}" alt="edit icon" class="surround" />
+Editing a case</h2>
+<p>Once you have added a case or loaded a case, you can edit it by following the same wizard you did to create the case. You can change any of the details, including 
+changing the files. To change the name of the case database, just rename the file in the 'case files' folder (but not whilst Webscavator is using it!). </p>

@@ -1,0 +1,43 @@
+
+<%def name="format_date(datetime)" filter="trim">
+	% if datetime:
+        ${datetime.strftime('%d %B %Y')}
+    % endif
+</%def>
+
+
+
+<%def name="format_datetime(date=None, time=None)" filter="trim">
+    % if date and time:
+    ${date.strftime("%d/%m/%Y")} ${time.strftime("%H:%M:%S")}
+    % else:
+    ${time.strftime("%H:%M:%S")}
+    % endif
+</%def>
+
+<%def name="createTime()" filter="trim">
+function createTime() {
+    var span = $('<span class="timeselect"><input type="hidden" name="filter.value" /></span>');
+    <% hours = "" %>
+    % for x in range(0, 24):
+        <% hours = hours + '<option>%02d</option>' % x %>
+    % endfor
+    <% mins = "" %>
+    % for x in range(0, 60):
+        <% mins = mins + '<option>%02d</option>' % x %>
+    % endfor
+    
+    span.append($('<select class="hour">${hours}</select>')).append(' : ');
+    span.append($('<select class="min">${mins}</select>')).append(' : ');
+    span.append($('<select class="sec">${mins}</select>'));
+
+    span.children('select').change(function () {
+        var hour = span.children('.hour').val();
+        var min = span.children('.min').val();
+        var sec = span.children('.sec').val();
+        span.children('input').val(hour + ':' + min + ':' + sec);
+    });
+    
+    return span;
+}
+</%def>

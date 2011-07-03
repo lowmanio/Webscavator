@@ -1,0 +1,17 @@
+﻿<%inherit file="/base/base.html"/>
+
+<%def name="javascripts()" filter="trim">
+   
+</%def>
+
+<h1>Help</h1>
+<p>For all the latest news, error reports and troubleshooting, please go to <a href="http://webscavator.org">www.webscavator.org</a>. Please submit any bug reports and queries there.</p>
+
+<h2><img src="${urls.build("images", dict(file='site/book.png'))|h}" alt="book icon" class="surround" /> User Documentation</h2>
+<p>An HTML guide on how to use Webscavator can be found <a href="${urls.build("general.userguide", dict())|h}">here</a>, 
+alternatively you can view the same user guide in PDF format available in the Webscavator folder.</p>
+
+<h2><img src="${urls.build("images", dict(file='site/report.png'))|h}" alt="report icon" class="surround" /> Developer Documentation</h2>
+<p>HTML PyDoc documentation can be found <a href="${urls.build("docs", dict(file='index.html'))|h}">here</a>.</p>
+<p>A step-by-step tutorial on how to add new files from web history programs not listed on Webscavator can be found <a href="${urls.build("general.help_addfiles", dict())|h}">here</a>.</p>
+

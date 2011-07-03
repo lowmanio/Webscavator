@@ -1,0 +1,208 @@
+﻿<%inherit file="/base/base.html"/>
+<%namespace file="/utils/common.html" name="c" />
+<%namespace file="/utils/forms.html" name="f" />
+
+<%def name="javascripts()" filter="trim">
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.form.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.tools.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.autofocus-min.js"))|h}"></script>
+    <script type="text/javascript">
+    
+    function renum() {
+        $('form fieldset.field_browse').each(function (i) {
+            % if edit:
+            $(":input[name$=.group]", this).attr('name', 'csv_entry-' + i + '.group').attr('id', 'group-' + i);
+            $(":input[name$=.keepcsv]", this).attr('name', 'csv_entry-' + i + '.keepcsv').attr('id', 'keepcsv-' + i); 
+            % endif
+            $(":input[name$=.name]", this).attr('name', 'csv_entry-' + i + '.name').attr('id', 'name-' + i);
+            $(":input[name$=.desc]", this).attr('name', 'csv_entry-' + i + '.desc').attr('id', 'desc-' + i);
+            $(":input[name$=.program]", this).attr('name', 'csv_entry-' + i + '.program').attr('id', 'program-' + i);
+            $(":input[name$=.data]", this).attr('name', 'csv_entry-' + i + '.data').attr('id', 'data-' + i);            
+            
+            $("legend", this).html("Web Browser Files " + (i+1));
+        });
+	}
+        
+
+
+    function popUp(URL) {
+        eval("page = window.open(URL, 'guidelines', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=700,height=600');");
+    }
+
+    function formWait() {
+        $('#wait_overlay').data('overlay').load();
+    }
+    
+    $(document).ready(function () {
+        $("[autofocus='']").autofocus();
+
+        $('#wait_overlay').overlay({
+            mask: {
+                color: '#ddd',
+                opacity: 0.8,
+            },
+            closeOnClick: false,
+            closeOnEsc: false,
+            top: 260
+        });
+    
+        ${c.tooltips('wizard2')}
+        
+        ${c.wizard_hover('2', '1', '3')}      
+        $('#wizard2').ajaxForm({
+            dataType: 'json', 
+            beforeSubmit: function () {
+                $('span.error').remove();
+                formWait();
+            },
+            success: function (obj) {
+                if (obj == true){
+                        % if edit:
+                        window.location = "${urls.build('case.edit3')|h}";
+                        % else:
+                        window.location = "${urls.build('case.wizard3')|h}";
+                        % endif
+                }    
+                else{
+                    $('#wait_overlay').data('overlay').close();
+                
+                    jQuery.each(obj, function (key, value) {
+                        $('[name=' + key + ']').after('<span class="error">' + value + '</span>');
+                        $('[name=' + key + ']').addClass('error');
+                    });
+                    $('#form_errors').show();                   
+                }
+        }});
+
+        $(".replacecsv").click(function() {
+            if ($(this).hasClass("shown")) { 
+                $(this).removeClass('shown').html('Replace this');
+                $(this).parent().next().hide();
+                $(this).siblings('.input').removeClass('deleted');
+                $(this).siblings('.keepcsv').val('True');
+                return false;
+            }
+            else {
+                $(this).addClass('shown').html('Keep this');
+                $(this).parent().next().show();
+                $(this).siblings('.input').addClass('deleted');
+                $(this).siblings('.keepcsv').val('False');
+                return false;
+            };
+            
+
+        });
+        
+        $('.remover').click(function () {
+            $(this).parents('.field_browse').slideUp('fast', function () { 
+                $(this).remove(); 
+                renum(); 
+            });
+            return false;
+        });
+        
+        $('.adder').click(function () {
+            $('.browser_group').clone(true).insertAfter($(this).parents('.field_browse')).removeClass('browser_group').slideDown(function () {
+                renum();
+                $(":input", this).tooltip(${c.tooltip_options()}); 
+            });  
+            return false;
+        });
+        renum();
+
+    });
+    
+    </script>
+</%def>
+
+${c.wizard(2, edit)}
+
+% if edit:
+<h1>Step 2: Edit browser history files</h1>
+% else:
+<h1>Step 2: Add browser history files</h1>
+% endif
+
+% if edit:
+<form id="wizard2" action="${urls.build("case.jsonEditEntries", dict())|h}" method="post" enctype="multipart/form-data">
+% else:
+<form id="wizard2" action="${urls.build("case.jsonAddEntries", dict())|h}" method="post" enctype="multipart/form-data">
+% endif
+
+    <p>Webscavator accepts CSV files produced from programs which process web browser files. You must process the raw web history files (e.g. index.dat files) first before uploading them to Webscavator. 
+    You can <b>add multiple different browser files</b> by clicking the "Add more" button.</p>
+    
+    ${c.form_errors()}
+    
+   % if edit:
+   
+       % for i, g in enumerate(case.groups):
+       <fieldset class="field_browse"><legend class="legend">Web Browser Files</legend>
+            <input type="hidden" name="csv_entry.group" id="group" value="${g.id|h}" />
+            
+            <p>${f.input("Data name", "csv_entry.name", "name", "Please pick a short name for this data e.g. JohnDoe #1", inputclass='grouped_name', value=g.name, autofocus=True)|h}</p>
+            
+            <p>${f.input("Data description (optional)", "csv_entry.desc", "desc", "Please pick a description for this data e.g. John Doe's History for May 2010", inputclass='grouped_desc', value=g.description)|h}</p>
+            
+            <p>${f.input_selector("What program created this file?", "csv_entry.program", "program", "Please pick the program you used to create the csv file", programs, selected=g.program_name, inputclass='programchoice')|h}</p>
+            
+            <p>${f.input_text("File", "csv_file", "csv", g.csv_name, inputclass='input')|h} <a href="#" class="replacecsv">Replace this</a> <input type="hidden" class="keepcsv" name="csv_entry.keepcsv" id="keepcsv" value="True" /></p>
+            
+            <p style="display:none">${f.input("New CSV file", "csv_entry.data", "data", "Please pick a CSV file with web browser data", inputtype='file', inputclass='grouped_input')|h}</p>
+            
+            % if i > 0:
+            <p class="centre"><a class="no_link" href=""><img class="remover" src="${urls.build("images", dict(file='site/removebrowser.bmp'))|h}" alt="Remove a CSV file" /></a>
+            <a class="no_link" href=""><img class="adder" src="${urls.build("images", dict(file='site/addanotherbrowser.bmp'))|h}" alt="Add another CSV file" /></a></p>
+            % else:
+            <p class="centre"><a class="no_link" href=""><img class="adder" src="${urls.build("images", dict(file='site/addanotherbrowser.bmp'))|h}" alt="Add another CSV file" /></a></p>
+            % endif
+        </fieldset>
+        % endfor
+    
+    % else:
+    
+   <fieldset class="field_browse"><legend class="legend">Web Browser Files</legend>
+        <p>${f.input("Data name", "csv_entry.name", "name", "Please pick a short name for this data e.g. JohnDoe #1", inputclass='grouped_name', autofocus=True)|h}</p>
+        
+        <p>${f.input("Data description (optional)", "csv_entry.desc", "desc", "Please pick a description for this data e.g. John Doe's History for May 2010", inputclass='grouped_desc')|h}</p>
+        
+        <p>${f.input_selector("What program created this file?", "csv_entry.program", "program", "Please pick the program you used to create the csv file", programs, inputclass='programchoice')|h}</p>
+        
+        <p>${f.input("file", "csv_entry.data", "data", "Please pick a CSV file with web browser data", inputtype='file', inputclass='grouped_input')|h}</p>
+
+        <p class="centre"><a class="no_link" href=""><img class="adder" src="${urls.build("images", dict(file='site/addanotherbrowser.bmp'))|h}" alt="Add another CSV file" /></a></p>
+
+    </fieldset>
+    
+    % endif
+    
+    <p class="centre">
+        <a class="no_link" href="${urls.build("case.edit1", dict())|h}"><img src="${urls.build("images", dict(file='site/previous.bmp'))|h}" alt="Previous" /></a>
+        <input type="image" id="next_button" src="${urls.build("images", dict(file='site/next.bmp'))|h}" alt="Next" />
+    </p>
+</form>
+
+
+
+<fieldset class="browser_group field_browse" style="display:none"><legend class="legend">Web Browser Files</legend>
+
+        <p>${f.input("Data name", "csv_entry.name", "name", "Please pick a short name for this data e.g. JohnDoe #1", inputclass='grouped_name')|h}</p>
+        
+        <p>${f.input("Data description (optional)", "csv_entry.desc", "desc", "Please pick a description for this data e.g. John Doe's History for May 2010", inputclass='grouped_desc')|h}</p>
+        
+        <p>${f.input_selector("What program created this file?", "csv_entry.program", "program", "Please pick the program you used to create the csv file", programs, inputclass='programchoice')|h}</p>
+        
+        <p>${f.input("File", "csv_entry.data", "data", "Please pick a CSV file with web browser data", inputtype='file', inputclass='grouped_input')|h}</p>
+        
+        <p class="centre"><a class="no_link" href=""><img class="remover" src="${urls.build("images", dict(file='site/removebrowser.bmp'))|h}" alt="Remove a CSV file" /></a>
+        <a class="no_link" href=""><img class="adder" src="${urls.build("images", dict(file='site/addanotherbrowser.bmp'))|h}" alt="Add another CSV file" /></a></p>
+    </fieldset>
+    
+<div id="wait_overlay" class="overlay" style="display:none">
+    <div class="overlay_inner">
+    <p class="centre"><img src="${urls.build("images", dict(file='site/ajax-loader.gif'))|h}" alt="" /></p>
+    <p class="centre">Checking and uploading data!</p>
+    <p class="small">Please do not press refresh or stop and wait until the page automatically reloads. This can take up to 10 minutes with very large sets of data.</p>
+    </div>
+</div>

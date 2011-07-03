@@ -1,0 +1,56 @@
+﻿## -*- coding: utf-8 -*-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<%def name="javascripts()"></%def>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+	<link rel="StyleSheet" href="${urls.build("css", dict(file='style.css'))|h}" type="text/css" />
+	<link rel="icon" type="image/png" href="${urls.build("images", dict(file='site/favicon.ico'))|h}" />
+	<title></title>
+    ${self.javascripts()}
+</head>
+
+<%def name="body_tag()" filter="trim">
+<body>
+</%def>
+
+${self.body_tag()}
+    <div id="wrapper">
+        <div id="header">
+            <div id="logo">
+                <a href="${urls.build("general.index", dict())|h}" class="no_link"><img src="${urls.build("images", dict(file='site/logo.jpg'))|h}" alt="Webscavator logo" /></a>
+            </div>
+            <div id="header_info">
+                <p><a href="${urls.build("general.index", dict())|h}" title="Homepage"><img class="config" src="${urls.build("images", dict(file='site/house.png'))|h}" /></a>
+                 % if not_in_wizard:
+                 <a href="${urls.build("case.edit1", dict())|h}" title="Change the settings of this case"><img class="config" src="${urls.build("images", dict(file='site/spanner.png'))|h}" /></a>
+                 <a href="${urls.build("case.load", dict())|h}" title="Change to a different saved case"><img class="config" src="${urls.build("images", dict(file='site/database_go.png'))|h}" /></a>
+                 <a href="${urls.build("case.wizard1", dict())|h}" title="Change to a new case"><img class="config" src="${urls.build("images", dict(file='site/add.png'))|h}" /></a>
+                 % endif
+                 <a href="${urls.build("general.help", dict())|h}" title="Help!"><img class="config" src="${urls.build("images", dict(file='site/help.png'))|h}" /></a>
+                 <a href="${urls.build("general.about", dict())|h}" title="About Webscavator"><img class="config" src="${urls.build("images", dict(file='site/information.png'))|h}" /></a></p>
+                            <p class="small">   
+                                <div class="info_spacer"><a href="${urls.build("general.about", dict())|h}">About</a></div>
+                                <div class="info_spacer"><a href="${urls.build("general.help", dict())|h}">Help</a></div> 
+                                % if not_in_wizard:
+                                <div class="info_spacer"><a href="${urls.build("case.wizard1", dict())|h}">New case</a></div>
+                                <div class="info_spacer"><a href="${urls.build("case.load", dict())|h}">Load case</a></div> 
+                                <div class="info_spacer"><a href="${urls.build("case.edit1", dict())|h}">Edit case</a></div> 
+                                % endif
+                                <div class="info_spacer"><a href="${urls.build("general.index", dict())|h}">Home</a></div>
+                            </p>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="body">
+
+            ${self.body()}
+        </div>
+        <div id="footer">
+            <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a>. Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+        </div>
+    </div>
+</body>
+</html>

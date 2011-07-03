@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Utils &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Utility functions" href="utilities.html" />
+    <link rel="next" title="Testing" href="testing.html" />
+    <link rel="prev" title="Utility functions" href="utilities.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="testing.html" title="Testing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utilities.html" title="Utility functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="utilities.html" accesskey="U">Utility functions</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="utilities.html"
+                                  title="previous chapter">Utility functions</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="testing.html"
+                                  title="next chapter">Testing</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/utils.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.utils.utils">
+<h1>Utils<a class="headerlink" href="#module-webscavator.utils.utils" title="Permalink to this headline">¶</a></h1>
+<p>Useful variables and methods. Includes all the database connection functions and access to the 
+configuration file.</p>
+<div class="section" id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><cite>ROOT_DIR</cite></dt>
+<dd>the root directory of Webscavator.</dd>
+<dt><cite>CASE_FILE_DIR</cite></dt>
+<dd>where case files are kept.</dd>
+<dt><cite>CONFIG_PATH</cite></dt>
+<dd>where the config file is kept.</dd>
+<dt><cite>FILE_TYPES</cite></dt>
+<dd>dictionary of file extensions and what type of file they are. Used in 
+displaying file accesses in the &#8216;files&#8217; tab.</dd>
+<dt><cite>session</cite></dt>
+<dd>the sqlite session. Used to access the database. Useful methods include  
+session.add(obj)`, <cite>session.flush()</cite> and <cite>session.commit()</cite>.</dd>
+<dt><cite>config</cite></dt>
+<dd>the config parser. To get an option do <cite>config[section][option]</cite></dd>
+</dl>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="webscavator.utils.utils.bind">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">bind</tt><big>(</big><em>db</em><big>)</big><a class="headerlink" href="#webscavator.utils.utils.bind" title="Permalink to this definition">¶</a></dt>
+<dd>This binds the database to the current session.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.utils.utils.checkDebugging">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">checkDebugging</tt><big>(</big><em>testing</em><big>)</big><a class="headerlink" href="#webscavator.utils.utils.checkDebugging" title="Permalink to this definition">¶</a></dt>
+<dd>If debug is set to <cite>True</cite> in the config file, a default database is loaded called <cite>debug.db</cite>. 
+This is so that every time webscavator is restarted, there is a database pre-loaded. 
+The Python web server automatically restarts when it detects a change to the code, 
+so when debugging webscavator lots of restarts will happen.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.utils.utils.connect">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">connect</tt><big>(</big><em>dbfile</em><big>)</big><a class="headerlink" href="#webscavator.utils.utils.connect" title="Permalink to this definition">¶</a></dt>
+<dd>Given a database file, create an SQLAlchemy database engine which connects to the database.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.utils.utils.getCases">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">getCases</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.utils.utils.getCases" title="Permalink to this definition">¶</a></dt>
+<dd>Gets the case names (.db files) stored in the case file directory.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.utils.utils.getLists">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">getLists</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.utils.utils.getLists" title="Permalink to this definition">¶</a></dt>
+<dd>Gets the list names (.txt files) stored in the case lists directory.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.utils.utils.init_database">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">init_database</tt><big>(</big><em>db</em><big>)</big><a class="headerlink" href="#webscavator.utils.utils.init_database" title="Permalink to this definition">¶</a></dt>
+<dd>Initialises the database by creating all the tables in webscavator.models.models.py.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.utils.utils.multidict_to_dict">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">multidict_to_dict</tt><big>(</big><em>md</em><big>)</big><a class="headerlink" href="#webscavator.utils.utils.multidict_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd>Turns a Werkzeug multidict into a dictionary with lists in entries which have 
+more than one value.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.utils.utils.setup">
+<tt class="descclassname">webscavator.utils.utils.</tt><tt class="descname">setup</tt><big>(</big><em>testing=False</em><big>)</big><a class="headerlink" href="#webscavator.utils.utils.setup" title="Permalink to this definition">¶</a></dt>
+<dd>This is run when webscavator is started in <a class="reference external" href="launch.html"><em>launch.py</em></a>.
+Finds the config file and loads it into the global variable
+config using <cite>ConfigParser()</cite>. Then runs <cite>checkDebugging(testing)</cite>
+with the config option for testing.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

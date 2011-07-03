@@ -1,0 +1,813 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Database Models &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Models" href="model.html" />
+    <link rel="next" title="Filters" href="filters.html" />
+    <link rel="prev" title="Models" href="model.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="filters.html" title="Filters"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="model.html" title="Models"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="model.html" accesskey="U">Models</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="model.html"
+                                  title="previous chapter">Models</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="filters.html"
+                                  title="next chapter">Filters</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/models.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.model.models">
+<h1>Database Models<a class="headerlink" href="#module-webscavator.model.models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+<p>This is where all the database models are defined. 
+Each database table is represented by a class, and each object in that class is a table row. 
+SQLAlchemy converts the objects into rows and any manipulation on them as SQL queries 
+to abstract the model from the actual database implementation used.</p>
+<dl class="class">
+<dt id="webscavator.model.models.Browser">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.models.</tt><tt class="descname">Browser</tt><big>(</big><em>name</em>, <em>version</em>, <em>source</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Browser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that stores browser types.</p>
+<dl class="docutils">
+<dt><cite>id</cite></dt>
+<dd>browser id</dd>
+<dt><cite>name</cite></dt>
+<dd>browser name</dd>
+<dt><cite>version</cite></dt>
+<dd>browser version</dd>
+<dt><cite>source</cite></dt>
+<dd>browser source. this is either a profile for Firefox/Chrome 
+or the file location for IE, e.g. history or cache</dd>
+<dt><cite>entries</cite></dt>
+<dd>list of entry items that were made using this browser</dd>
+</dl>
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Browser.getPercentages">
+<em class="property">
+static </em><tt class="descname">getPercentages</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Browser.getPercentages" title="Permalink to this definition">¶</a></dt>
+<dd>Used in the overview statistics. Returns a list of <cite>(browser object, percent)</cite> tuples 
+for each browser where percent is the percentage this browser is used in all the entries.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Browser.id">
+<tt class="descname">id</tt><a class="headerlink" href="#webscavator.model.models.Browser.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Browser.name">
+<tt class="descname">name</tt><a class="headerlink" href="#webscavator.model.models.Browser.name" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Browser.source">
+<tt class="descname">source</tt><a class="headerlink" href="#webscavator.model.models.Browser.source" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Browser.version">
+<tt class="descname">version</tt><a class="headerlink" href="#webscavator.model.models.Browser.version" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.model.models.Case">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.models.</tt><tt class="descname">Case</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that stores the case. Each database will only have one case.</p>
+<dl class="docutils">
+<dt><cite>id</cite>    </dt>
+<dd>case id</dd>
+<dt><cite>name</cite></dt>
+<dd>case name</dd>
+<dt><cite>date</cite></dt>
+<dd>date this case was created</dd>
+<dt><cite>groups</cite></dt>
+<dd>A list of group objects that belong to this case</dd>
+</dl>
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.create_database">
+<em class="property">
+static </em><tt class="descname">create_database</tt><big>(</big><em>dbfile</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.create_database" title="Permalink to this definition">¶</a></dt>
+<dd>Creates the database file, initialises all the models in this file and binds the 
+database to webscavator&#8217;s session.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Case.date">
+<tt class="descname">date</tt><a class="headerlink" href="#webscavator.model.models.Case.date" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.model.models.Case.dblocation">
+<tt class="descname">dblocation</tt><big>(</big><em>dbfile</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.dblocation" title="Permalink to this definition">¶</a></dt>
+<dd>Return the absolute location of a given database file.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.filter_queries">
+<em class="property">
+static </em><tt class="descname">filter_queries</tt><big>(</big><em>q</em>, <em>remove_funcs</em>, <em>highlight_funcs</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.filter_queries" title="Permalink to this definition">¶</a></dt>
+<dd>This expects <cite>q</cite> to have entry, browser, url, group and search_terms available 
+for filtering. Returns three queries with the correct entries put in each according
+to the filters:
+<cite>q_removed</cite>, <cite>q_highlighted</cite> and <cite>q_not_highlighted</cite>.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Case.formatted_date">
+<tt class="descname">formatted_date</tt><a class="headerlink" href="#webscavator.model.models.Case.formatted_date" title="Permalink to this definition">¶</a></dt>
+<dd>A property for formatted_date. Returns the date in a normalised format.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.getAllEntries">
+<em class="property">
+static </em><tt class="descname">getAllEntries</tt><big>(</big><em>case</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.getAllEntries" title="Permalink to this definition">¶</a></dt>
+<dd>Returns all the entries for this case where the access time and date are not <cite>None</cite>.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.getMinMax">
+<em class="property">
+static </em><tt class="descname">getMinMax</tt><big>(</big><em>latest</em>, <em>case</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.getMinMax" title="Permalink to this definition">¶</a></dt>
+<dd>Return the minimum and maximum dates for Flot. Given a date, returns minimum which is
+1 month prior on the 1st of the month, to the last day of the month for the given date.
+E.g. given 12th May, returns (1st April, 31st May). This is returned in JavaScript 
+milliseconds since the Epoch.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.getNewestEntry">
+<em class="property">
+static </em><tt class="descname">getNewestEntry</tt><big>(</big><em>case</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.getNewestEntry" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the latest Entry for this case.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.getOldestEntry">
+<em class="property">
+static </em><tt class="descname">getOldestEntry</tt><big>(</big><em>case</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.getOldestEntry" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the oldest Entry for this case.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.getTimeGraph">
+<em class="property">
+static </em><tt class="descname">getTimeGraph</tt><big>(</big><em>startdate</em>, <em>enddate</em>, <em>starttime</em>, <em>endtime</em>, <em>case</em>, <em>remove_funcs</em>, <em>highlight_funcs</em>, <em>remove_duplicates=False</em>, <em>duplicate_time=0</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.getTimeGraph" title="Permalink to this definition">¶</a></dt>
+<dd>Given a start and end date and time and filters, returns three lists of entry points:
+<cite>highlighted</cite>, <cite>not_highlighted</cite> and <cite>removed</cite> by calling <cite>filter_queries()</cite>
+Each entry will be in one of those lists for Flot to draw.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.get_case">
+<em class="property">
+static </em><tt class="descname">get_case</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.get_case" title="Permalink to this definition">¶</a></dt>
+<dd>Get the current case.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Case.id">
+<tt class="descname">id</tt><a class="headerlink" href="#webscavator.model.models.Case.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Case.load_database">
+<em class="property">
+static </em><tt class="descname">load_database</tt><big>(</big><em>dbfile</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Case.load_database" title="Permalink to this definition">¶</a></dt>
+<dd>Given a database file, connects to the database and binds it to webscavator&#8217;s session.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Case.name">
+<tt class="descname">name</tt><a class="headerlink" href="#webscavator.model.models.Case.name" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.model.models.Group">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.models.</tt><tt class="descname">Group</tt><big>(</big><em>name</em>, <em>desc</em>, <em>case</em>, <em>program</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Group" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<p>Class that stores information about a particular uploaded file.</p>
+<dl class="docutils">
+<dt><cite>id</cite>    </dt>
+<dd>group id</dd>
+<dt><cite>name</cite></dt>
+<dd>group name</dd>
+<dt><cite>description</cite></dt>
+<dd>group description</dd>
+<dt><cite>csv_name</cite></dt>
+<dd>the filename of the uploaded file</dd>
+<dt><cite>program</cite></dt>
+<dd>the program used to make the file</dd>
+<dt><cite>case</cite></dt>
+<dd>the case object this group belongs to</dd>
+<dt><cite>entries</cite></dt>
+<dd>list of entry objects for this group</dd>
+</dl>
+</blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Most of these forms were created before it was realised that files other than CSV were needed
+(such as XML).</p>
+<p class="last"><strong>ToDo</strong>: change <cite>csv_name</cite> to <cite>file_name</cite>.</p>
+</div>
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.case">
+<tt class="descname">case</tt><a class="headerlink" href="#webscavator.model.models.Group.case" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.case_id">
+<tt class="descname">case_id</tt><a class="headerlink" href="#webscavator.model.models.Group.case_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.csv_name">
+<tt class="descname">csv_name</tt><a class="headerlink" href="#webscavator.model.models.Group.csv_name" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.description">
+<tt class="descname">description</tt><a class="headerlink" href="#webscavator.model.models.Group.description" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.model.models.Group.getEndDate">
+<tt class="descname">getEndDate</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Group.getEndDate" title="Permalink to this definition">¶</a></dt>
+<dd>Get the ending date of all the group&#8217;s entries.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.model.models.Group.getNumEntries">
+<tt class="descname">getNumEntries</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Group.getNumEntries" title="Permalink to this definition">¶</a></dt>
+<dd>Get amount of entries for this group.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.model.models.Group.getStartDate">
+<tt class="descname">getStartDate</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Group.getStartDate" title="Permalink to this definition">¶</a></dt>
+<dd>Get the starting date of all the group&#8217;s entries.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.id">
+<tt class="descname">id</tt><a class="headerlink" href="#webscavator.model.models.Group.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.name">
+<tt class="descname">name</tt><a class="headerlink" href="#webscavator.model.models.Group.name" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.program">
+<tt class="descname">program</tt><a class="headerlink" href="#webscavator.model.models.Group.program" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.program_icon">
+<tt class="descname">program_icon</tt><a class="headerlink" href="#webscavator.model.models.Group.program_icon" title="Permalink to this definition">¶</a></dt>
+<dd>Return the icon of the web history program used to create the file. See 
+vizzieweb/convertors/__init__.py for details.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Group.program_name">
+<tt class="descname">program_name</tt><a class="headerlink" href="#webscavator.model.models.Group.program_name" title="Permalink to this definition">¶</a></dt>
+<dd>Return the full name of the web history program used to create the file. See 
+vizzieweb/convertors/__init__.py for details.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.model.models.Entry">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.models.</tt><tt class="descname">Entry</tt><big>(</big><em>**vars</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that stores a particular row in the file.</p>
+<dl class="docutils">
+<dt><cite>id</cite></dt>
+<dd>entry id</dd>
+<dt><cite>type</cite></dt>
+<dd>entry type e.g. URL</dd>
+<dt><cite>access_date</cite></dt>
+<dd>entry access date</dd>
+<dt><cite>access_time</cite></dt>
+<dd>entry access time</dd>
+<dt><cite>modified_date</cite></dt>
+<dd>entry modified date</dd>
+<dt><cite>modified_time</cite></dt>
+<dd>entry modified time</dd>
+<dt><cite>url</cite></dt>
+<dd>entry url</dd>
+<dt><cite>filename</cite></dt>
+<dd>entry filename on disk</dd>
+<dt><cite>directory</cite></dt>
+<dd>entry folder on disk</dd>
+<dt><cite>http_headers</cite></dt>
+<dd>entry url http headers</dd>
+<dt><cite>title</cite></dt>
+<dd>entry url title</dd>
+<dt><cite>deleted</cite></dt>
+<dd>whether entry was originally deleted or not</dd>
+<dt><cite>content_type</cite></dt>
+<dd>type of content, usually only index.dat files store this</dd>
+<dt><cite>group</cite></dt>
+<dd>group object this entry belongs to</dd>
+<dt><cite>parsedurl</cite></dt>
+<dd>url object this entry has</dd>
+<dt><cite>browser</cite></dt>
+<dd>browser object this entry belong to</dd>
+</dl>
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.access_date">
+<tt class="descname">access_date</tt><a class="headerlink" href="#webscavator.model.models.Entry.access_date" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.access_time">
+<tt class="descname">access_time</tt><a class="headerlink" href="#webscavator.model.models.Entry.access_time" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.access_time_str">
+<tt class="descname">access_time_str</tt><a class="headerlink" href="#webscavator.model.models.Entry.access_time_str" title="Permalink to this definition">¶</a></dt>
+<dd>A property for access_time_str. Returns the date in a normalised format.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Entry.averagePages">
+<em class="property">
+static </em><tt class="descname">averagePages</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Entry.averagePages" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the average number of websites visited in one day, i.e. only http
+and http entries.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.browser">
+<tt class="descname">browser</tt><a class="headerlink" href="#webscavator.model.models.Entry.browser" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.browser_id">
+<tt class="descname">browser_id</tt><a class="headerlink" href="#webscavator.model.models.Entry.browser_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.browsername">
+<tt class="descname">browsername</tt><a class="headerlink" href="#webscavator.model.models.Entry.browsername" title="Permalink to this definition">¶</a></dt>
+<dd>A property for browsername.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.content_type">
+<tt class="descname">content_type</tt><a class="headerlink" href="#webscavator.model.models.Entry.content_type" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.deleted">
+<tt class="descname">deleted</tt><a class="headerlink" href="#webscavator.model.models.Entry.deleted" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.directory">
+<tt class="descname">directory</tt><a class="headerlink" href="#webscavator.model.models.Entry.directory" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.filename">
+<tt class="descname">filename</tt><a class="headerlink" href="#webscavator.model.models.Entry.filename" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Entry.filesAccessed">
+<em class="property">
+static </em><tt class="descname">filesAccessed</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Entry.filesAccessed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a file directory tree and the total amount of files accessed. The tree
+is a dictionary of drives, each drive letter is the key and the value is another dictionary 
+with the keys being file types. For each file type, the value is a tree structure with the
+end point being a file name, the number of times the file was accessed and a list of 
+access dates.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This does not allow for Linux etc drives, only Windows one letter drives.</p>
+<p><strong>ToDo</strong>: re-optimise this query, more things were done making it slow again for 
+larger datasets.</p>
+<p class="last"><strong>ToDo</strong>: Allow other operating systems file systems.</p>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Entry.generateHeatMap">
+<em class="property">
+static </em><tt class="descname">generateHeatMap</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Entry.generateHeatMap" title="Permalink to this definition">¶</a></dt>
+<dd>Returns heatmap things for the overview: the table headers, the heatmap
+table and the highest and lowest values (used to calculate heatmap colour).</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.group">
+<tt class="descname">group</tt><a class="headerlink" href="#webscavator.model.models.Entry.group" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.group_id">
+<tt class="descname">group_id</tt><a class="headerlink" href="#webscavator.model.models.Entry.group_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.http_headers">
+<tt class="descname">http_headers</tt><a class="headerlink" href="#webscavator.model.models.Entry.http_headers" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.id">
+<tt class="descname">id</tt><a class="headerlink" href="#webscavator.model.models.Entry.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.modified_date">
+<tt class="descname">modified_date</tt><a class="headerlink" href="#webscavator.model.models.Entry.modified_date" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.modified_time">
+<tt class="descname">modified_time</tt><a class="headerlink" href="#webscavator.model.models.Entry.modified_time" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.modified_time_str">
+<tt class="descname">modified_time_str</tt><a class="headerlink" href="#webscavator.model.models.Entry.modified_time_str" title="Permalink to this definition">¶</a></dt>
+<dd>A property for modified_time_str. Returns the date in a normalised format.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Entry.peakTime">
+<em class="property">
+static </em><tt class="descname">peakTime</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.Entry.peakTime" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the peak time of web browser usage. Similar to the heatmap, although doesn&#8217;t 
+do for each day of the week - sums up each hour and returns the highest.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.timeline_date">
+<tt class="descname">timeline_date</tt><a class="headerlink" href="#webscavator.model.models.Entry.timeline_date" title="Permalink to this definition">¶</a></dt>
+<dd>A property for timeline_date. Returns the date in a normalised format for Flot.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.title">
+<tt class="descname">title</tt><a class="headerlink" href="#webscavator.model.models.Entry.title" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.type">
+<tt class="descname">type</tt><a class="headerlink" href="#webscavator.model.models.Entry.type" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Entry.url">
+<tt class="descname">url</tt><a class="headerlink" href="#webscavator.model.models.Entry.url" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.model.models.URL">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.models.</tt><tt class="descname">URL</tt><big>(</big><em>url=None</em><big>)</big><a class="headerlink" href="#webscavator.model.models.URL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that stores a URL for an entry divided up into its different parts.</p>
+<dl class="docutils">
+<dt><cite>entry_id</cite></dt>
+<dd>url id</dd>
+<dt><cite>scheme</cite></dt>
+<dd>url scheme</dd>
+<dt><cite>netloc</cite></dt>
+<dd>url network location</dd>
+<dt><cite>path</cite></dt>
+<dd>url path</dd>
+<dt><cite>params</cite></dt>
+<dd>url params</dd>
+<dt><cite>query</cite></dt>
+<dd>url query strings</dd>
+<dt><cite>fragment</cite></dt>
+<dd>url fragment</dd>
+<dt><cite>username</cite></dt>
+<dd>url username</dd>
+<dt><cite>password</cite></dt>
+<dd>url password</dd>
+<dt><cite>hostname</cite></dt>
+<dd>url hostname</dd>
+<dt><cite>port</cite></dt>
+<dd>url port</dd>
+<dt><cite>domain</cite></dt>
+<dd>normalised hostname i.e without the www</dd>
+<dt><cite>search</cite></dt>
+<dd>the search engine string (if any)</dd>
+<dt><cite>entry</cite></dt>
+<dd>entry object. one-to-one join.</dd>
+</dl>
+<dl class="method">
+<dt id="webscavator.model.models.URL.asDict">
+<tt class="descname">asDict</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.URL.asDict" title="Permalink to this definition">¶</a></dt>
+<dd>Used for optimising adding URLs to database when converting files.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.domain">
+<tt class="descname">domain</tt><a class="headerlink" href="#webscavator.model.models.URL.domain" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.entry">
+<tt class="descname">entry</tt><a class="headerlink" href="#webscavator.model.models.URL.entry" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.entry_id">
+<tt class="descname">entry_id</tt><a class="headerlink" href="#webscavator.model.models.URL.entry_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.fragment">
+<tt class="descname">fragment</tt><a class="headerlink" href="#webscavator.model.models.URL.fragment" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.URL.getTop">
+<em class="property">
+static </em><tt class="descname">getTop</tt><big>(</big><em>num=100</em>, <em>highlight_funcs=</em><span class="optional">[</span><span class="optional">]</span>, <em>remove_funcs=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#webscavator.model.models.URL.getTop" title="Permalink to this definition">¶</a></dt>
+<dd>Get the top [amount] filtered URLS for a case. This has been optimised as one 
+query with a subquery.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.hostname">
+<tt class="descname">hostname</tt><a class="headerlink" href="#webscavator.model.models.URL.hostname" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.netloc">
+<tt class="descname">netloc</tt><a class="headerlink" href="#webscavator.model.models.URL.netloc" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.params">
+<tt class="descname">params</tt><a class="headerlink" href="#webscavator.model.models.URL.params" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.password">
+<tt class="descname">password</tt><a class="headerlink" href="#webscavator.model.models.URL.password" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.path">
+<tt class="descname">path</tt><a class="headerlink" href="#webscavator.model.models.URL.path" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.port">
+<tt class="descname">port</tt><a class="headerlink" href="#webscavator.model.models.URL.port" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.query">
+<tt class="descname">query</tt><a class="headerlink" href="#webscavator.model.models.URL.query" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.scheme">
+<tt class="descname">scheme</tt><a class="headerlink" href="#webscavator.model.models.URL.scheme" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.search">
+<tt class="descname">search</tt><a class="headerlink" href="#webscavator.model.models.URL.search" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.model.models.URL.setDomain">
+<tt class="descname">setDomain</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.models.URL.setDomain" title="Permalink to this definition">¶</a></dt>
+<dd>Removes www from front of any hostnames to normalise the hostnames and 
+then tries to remove subdomains by working backwards to find the domain.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.URL.setDomain_manual">
+<em class="property">
+static </em><tt class="descname">setDomain_manual</tt><big>(</big><em>group</em><big>)</big><a class="headerlink" href="#webscavator.model.models.URL.setDomain_manual" title="Permalink to this definition">¶</a></dt>
+<dd>Manually set the domain names. Used in the optimised adding of URLs which bypasses 
+creating URL objects using <cite>__init__()</cite></dd></dl>
+
+<dl class="method">
+<dt id="webscavator.model.models.URL.urlstrip">
+<tt class="descname">urlstrip</tt><big>(</big><em>url</em><big>)</big><a class="headerlink" href="#webscavator.model.models.URL.urlstrip" title="Permalink to this definition">¶</a></dt>
+<dd>Some urls from IE appear like [username]&#64;[url]. urlstrip() gets rid of the 
+[username]&#64; bit. Returns the shortened URL</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.URL.username">
+<tt class="descname">username</tt><a class="headerlink" href="#webscavator.model.models.URL.username" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.model.models.Filter">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.models.</tt><tt class="descname">Filter</tt><big>(</big><em>label</em>, <em>text</em>, <em>fillColor='#33A1C9'</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that stores a filter object.</p>
+<dl class="docutils">
+<dt><cite>id</cite></dt>
+<dd>filter id</dd>
+<dt><cite>fillcolor</cite></dt>
+<dd>the color of flot&#8217;s markers</dd>
+<dt><cite>label</cite></dt>
+<dd>the name of the filter</dd>
+<dt><cite>text</cite></dt>
+<dd>the long name of the filter, what the user sees</dd>
+<dt><cite>query</cite></dt>
+<dd>pickled Filter object which stores the filter parts see model/filters.py</dd>
+</dl>
+<dl class="attribute">
+<dt id="webscavator.model.models.Filter.fillColor">
+<tt class="descname">fillColor</tt><a class="headerlink" href="#webscavator.model.models.Filter.fillColor" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Filter.id">
+<tt class="descname">id</tt><a class="headerlink" href="#webscavator.model.models.Filter.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Filter.label">
+<tt class="descname">label</tt><a class="headerlink" href="#webscavator.model.models.Filter.label" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.Filter.onlineSearches">
+<em class="property">
+static </em><tt class="descname">onlineSearches</tt><big>(</big><em>engine</em>, <em>highlight_funcs=</em><span class="optional">[</span><span class="optional">]</span>, <em>remove_funcs=</em><span class="optional">[</span><span class="optional">]</span>, <em>num=20</em><big>)</big><a class="headerlink" href="#webscavator.model.models.Filter.onlineSearches" title="Permalink to this definition">¶</a></dt>
+<dd>Given a search engine, amount and filters, returns a word cloud dictionary of search terms.
+The keys are the terms and the values are a (ratio, search phrases term was in, 
+length of search phrases) tuple. Also returns total amount of terms, total number of unique 
+terms and the smallest ratio (used to make the sizes of the words relative to smallest).</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Filter.query">
+<tt class="descname">query</tt><a class="headerlink" href="#webscavator.model.models.Filter.query" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.Filter.text">
+<tt class="descname">text</tt><a class="headerlink" href="#webscavator.model.models.Filter.text" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.model.models.SearchTerms">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.models.</tt><tt class="descname">SearchTerms</tt><big>(</big><em>term</em>, <em>engine</em>, <em>engine_long</em><big>)</big><a class="headerlink" href="#webscavator.model.models.SearchTerms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that stores a search term.</p>
+<dl class="docutils">
+<dt><cite>id</cite></dt>
+<dd>search term id</dd>
+<dt><cite>term</cite></dt>
+<dd>the term</dd>
+<dt><cite>occurrence</cite></dt>
+<dd>number of times term has appeared in searches</dd>
+<dt><cite>engine</cite></dt>
+<dd>what search engine this term appeared in</dd>
+<dt><cite>engine_long</cite></dt>
+<dd>full name of search engine</dd>
+<dt><cite>entries</cite></dt>
+<dd>list of entries search term belongs to</dd>
+</dl>
+<dl class="attribute">
+<dt id="webscavator.model.models.SearchTerms.engine">
+<tt class="descname">engine</tt><a class="headerlink" href="#webscavator.model.models.SearchTerms.engine" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.SearchTerms.engine_long">
+<tt class="descname">engine_long</tt><a class="headerlink" href="#webscavator.model.models.SearchTerms.engine_long" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.SearchTerms.entries">
+<tt class="descname">entries</tt><a class="headerlink" href="#webscavator.model.models.SearchTerms.entries" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.model.models.SearchTerms.getTerms">
+<em class="property">
+static </em><tt class="descname">getTerms</tt><big>(</big><em>query</em><big>)</big><a class="headerlink" href="#webscavator.model.models.SearchTerms.getTerms" title="Permalink to this definition">¶</a></dt>
+<dd>Given the query part of a url, extracts the serach terms or phrases (those surrounded
+by quotes). Returns the search string and a list of terms in that string.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.SearchTerms.id">
+<tt class="descname">id</tt><a class="headerlink" href="#webscavator.model.models.SearchTerms.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.SearchTerms.occurrence">
+<tt class="descname">occurrence</tt><a class="headerlink" href="#webscavator.model.models.SearchTerms.occurrence" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="webscavator.model.models.SearchTerms.term">
+<tt class="descname">term</tt><a class="headerlink" href="#webscavator.model.models.SearchTerms.term" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.model.models.get_plotable">
+<tt class="descclassname">webscavator.model.models.</tt><tt class="descname">get_plotable</tt><big>(</big><em>d</em>, <em>t</em>, <em>u</em>, <em>bn</em>, <em>bv</em>, <em>bs</em>, <em>p</em>, <em>ti</em><big>)</big><a class="headerlink" href="#webscavator.model.models.get_plotable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns (date, time, URL, browser name, browser version, browser source, program name, title)
+in a format Flot (the JavaScript timeline library) will understand. 
+Only (date, time) needs to be sent in order
+for the graph to be displayed properly. The others are used for hover over and clickable text.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Currently this function uses a hack to get British Summer Time dates to be displayed
+properly as GMT in Flot by adding an hour on to any dates after March 28th 2010.</p>
+<p class="last"><strong>ToDo</strong>: Fix this urgently!!</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.model.models.getFilter">
+<tt class="descclassname">webscavator.model.models.</tt><tt class="descname">getFilter</tt><big>(</big><em>highlight_funcs=</em><span class="optional">[</span><span class="optional">]</span>, <em>remove_funcs=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#webscavator.model.models.getFilter" title="Permalink to this definition">¶</a></dt>
+<dd>Get the right filter. This is used to filter domain names and search terms correctly.
+<cite>Case.filter_queries</cite> is called, and if <cite>highlight_funcs</cite> != [] then return
+the highlighted query, otherwise return the non-highlighted query.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

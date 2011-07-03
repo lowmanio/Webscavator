@@ -1,0 +1,143 @@
+﻿<%inherit file="/base/base.html"/>
+
+<%def name="javascripts()" filter="trim">
+   
+    <script type="text/javascript">
+    function popUp(URL) {
+        eval("page = window.open(URL, 'guidelines', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=700,height=600');");
+    }
+    </script>
+    
+</%def>
+
+<h1>Adding Programs</h1>
+
+<h2><img src="${urls.build("images", dict(file='site/lightbulb.png'))|h}" alt="lightbulb icon" class="surround" />
+Introduction</h2>
+<p>Webscavator currently accepts CSV and XML files from the following programs:</p>
+
+<ul>
+    % for program, file in programs:
+    <li>${program|h} - ${file.upper()|h} files</li>
+    % endfor
+</ul>
+
+<p>If you would like Webscavator to take another web history analysis program as input, you will have to create a new Python class. Firstly,
+make sure your program can export to a text file format such as CSV, XML or other text format. If it exports to CSV or XML, you can skip step 1 of the tutorial below.
+We will assume your program is called "Webby" and it has the file format "foo" for this tutorial example. </p>
+
+<h2><img src="${urls.build("images", dict(file='site/pencil.png'))|h}" alt="pencil icon" class="surround" /> Step 1: Creating a new convertor</h2>
+<p>You will need to write an abstract class that converts the input file format. For this example the file format will be called 'foo' with files
+having a <span class="pre">.foo</span> extension. In the <span class="pre">${folder}</span> folder, create a new Python file called <span class="pre">foo_converter.py</span> and
+add the following:</p>
+
+<div class="blockofcode"><pre><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">FooConverter</span>(<span style="color: #008000">object</span>):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, foo_file):
+        <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">            Constructor takes in a foo file. </span>
+<span style="color: #BA2121; font-style: italic">        &quot;&quot;&quot;</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>foo_file <span style="color: #666666">=</span> foo_file
+    
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">process</span>(<span style="color: #008000">self</span>):
+        <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">            Reads in the foo file, then for each line in the foo file calls</span>
+<span style="color: #BA2121; font-style: italic">            self.process_row() in the child class.</span>
+<span style="color: #BA2121; font-style: italic">            </span>
+<span style="color: #BA2121; font-style: italic">            Returns a generator which can be looped over to get the normalised row.</span>
+<span style="color: #BA2121; font-style: italic">        &quot;&quot;&quot;</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>foo_file<span style="color: #666666">.</span>seek(<span style="color: #666666">0</span>) <span style="color: #408080; font-style: italic"># rewind to beginning</span>
+        
+        <span style="color: #408080; font-style: italic">#   Do your processing of the file here so that</span>
+        <span style="color: #408080; font-style: italic">#   foo_row contains one web history element.</span>
+        <span style="color: #408080; font-style: italic">#   For example, in CSVConvertor, each row in csv_row</span>
+        <span style="color: #408080; font-style: italic">#   contains one line of the CSV file. In XMLConvertor,</span>
+        <span style="color: #408080; font-style: italic">#   each row in xml_row contains one XML history element.</span>
+        
+        <span style="color: #008000; font-weight: bold">for</span> row <span style="color: #AA22FF; font-weight: bold">in</span> foo_row:
+            <span style="color: #008000; font-weight: bold">try</span>:
+                <span style="color: #008000; font-weight: bold">yield</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>process_row(row)
+            <span style="color: #008000; font-weight: bold">except</span> <span style="color: #D2413A; font-weight: bold">Exception</span>, e:
+                <span style="color: #008000; font-weight: bold">yield</span> e
+</pre></div>
+
+<h2><img src="${urls.build("images", dict(file='site/spanner_orange.png'))|h}" alt="pencil icon" class="surround" /> Step 2: Creating the program output convertor</h2>
+
+<p>Create a file called <span class="pre">webby.py</span> in the folder <span class="pre">v${folder|h}</span> and add the following:</p>
+
+<div class="blockofcode"><pre><span style="color: #408080; font-style: italic"># import the correct convertor:</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">foo_converter</span> <span style="color: #008000; font-weight: bold">import</span> FooConverter
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">WebbyConverter</span>(FooConverter): <span style="color: #408080; font-style: italic"># put the convertor to inherit from</span>
+    <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">        Converts Webby Foo output to normalised format.</span>
+<span style="color: #BA2121; font-style: italic">        </span>
+<span style="color: #BA2121; font-style: italic">        Give instruciton here of how to extract Foo data out of Webby. </span>
+<span style="color: #BA2121; font-style: italic">    &quot;&quot;&quot;</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">process_row</span>(<span style="color: #008000">self</span>, row): 
+        <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">            `process_row` takes in a row from the Foo file, and returns a normalised dictionary as output.</span>
+<span style="color: #BA2121; font-style: italic">        &quot;&quot;&quot;</span>   
+         
+        <span style="color: #408080; font-style: italic">#   Do the processing of the row here. Row contains one web history element</span>
+        <span style="color: #408080; font-style: italic">#   e.g. for CSV&#39;s this is one line of the CSV file and for XMl this is</span>
+        <span style="color: #408080; font-style: italic">#   one web hsitory XML element.</span>
+        
+        <span style="color: #408080; font-style: italic"># must return this dictionary. The elements that *must* be returned as not None</span>
+        <span style="color: #408080; font-style: italic"># are access_time and URL. Please convert all strings to Unicode using </span>
+        <span style="color: #408080; font-style: italic"># unicode(str, &#39;utf-8&#39;), all dates to Python datetime objects and all booleans</span>
+        <span style="color: #408080; font-style: italic"># to Python True/False</span>
+        <span style="color: #008000; font-weight: bold">return</span> {
+            <span style="color: #BA2121">&#39;type&#39;</span>: <span style="color: #008000">None</span>, 
+            <span style="color: #BA2121">&#39;url&#39;</span>: <span style="color: #008000">None</span>, 
+            <span style="color: #BA2121">&#39;modified_time&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;access_time&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;filename&#39;</span>: <span style="color: #008000">None</span>, 
+            <span style="color: #BA2121">&#39;directory&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;http_headers&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;title&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;deleted&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;content_type&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;browser_name&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;browser_version&#39;</span>: <span style="color: #008000">None</span>,
+            <span style="color: #BA2121">&#39;source_file&#39;</span>: <span style="color: #008000">None</span>
+        }    
+</pre></div>
+
+<p>Change the imported Foo convertor to be the file convertor you require e.g. CSVConvertor or XMLConvertor. Please return only those entries in the return dictionary. Meanings:</p>
+<p class="indent_max"><span class="pre">type</span> refers to the type of entry e.g. URL, redirect, file etc.</p>
+<p class="indent_max"><span class="pre">url</span> is the URL accessed. This is usually either a website or a file on the computer. <i>Must</i> be not None.</p>
+<p class="indent_max"><span class="pre">access_time</span> is the time this URL was accessed in Python datetime format. <i>Must</i> be not None</p>
+<p class="indent_max"><span class="pre">modified_time</span> is the last time the URL was modified in Python datetime format.</p>
+<p class="indent_max"><span class="pre">filename</span> refers to the name of the file on disk where the item was cached/stored. Only used for index.dat files.</p>
+<p class="indent_max"><span class="pre">directory</span> refers to the name of the folder on disk to where the item was cached/stored. Only used for index.dat files.</p>
+<p class="indent_max"><span class="pre">http_headers</span> are any headers from the URL.</p>
+<p class="indent_max"><span class="pre">title</span> is the URL's title.</p>
+<p class="indent_max"><span class="pre">deleted</span> is whether this entry was originally deleted from the file and recovered, is either True or False or None if not known. </p>
+<p class="indent_max"><span class="pre">content_type</span> is the URL content type e.g. text/html or image/jpeg.</p>
+<p class="indent_max"><span class="pre">browser_name</span> is the name of the browser used.</p>
+<p class="indent_max"><span class="pre">browser_version</span> is the version of the browser used.</p>
+<p class="indent_max"><span class="pre">source_file</span> for index.dat files this is the location of the file, e.g. history, cache, cookies etc. For firefox & Chrome this is the profile.</p>
+
+<h2><img src="${urls.build("images", dict(file='site/plugin.png'))|h}" alt="plugin icon" class="surround" />Step 3: Add program to list</h2>
+<p>Open the <span class="pre">__init__.py</span> file in the same folder, and add an entry to the bottom of the dictionary called <span class="pre">program_lookup</span>. The format should be:</p>
+<div class="blockofcode"><pre>{<span style="color: #BA2121">&#39;Webby Program&#39;</span> : [<span style="color: #BA2121">&#39;webby&#39;</span>, <span style="color: #BA2121">'foo'</span>]}
+</pre></div>
+<p>The dictionary keys (i.e. <span class="pre">Webby Program</span>) are how you would like the program to be displayed to users i.e. its full name. The first entry in the list is the
+name of the module the converter is in, conventionally the full name with no spaces and lower case (i.e. <span class="pre">webby</span> if stored in <span class="pre">webby.py</span>). 
+The second part of the list is the file type that is converted (i.e. <span class="pre">foo</span>). 
+
+<h2><img src="${urls.build("images", dict(file='site/information.png'))|h}" alt="information icon" class="surround" />Step 4: Add program information</h2>
+<p>In the same <span class="pre">__init__.py</span> file, add an entry to the dictionary <span class="pre">program_info</span>. The format should be:</p>
+<div class="blockofcode"><pre>{<span style="color: #BA2121">&#39;Program Full Name&#39;</span> : {<span style="color: #BA2121">'image': 'name of program icon (application.png if none)'</span>, 
+                        <span style="color: #BA2121">'description': 'A description in HTML of how to get a foo/csv/xml file using this program'</span>}}
+</pre></div>
+<p>This is used when there is a problem uploading a file, and the user can view guidelines for the programs 
+(<a href="javascript:popUp('${urls.build('general.guidelines', dict())}')">Current guidelines available</a> [pop-up]). 
+Please make the <span class="pre">'description'</span> field as descriptive as possible,
+covering any likely problems to occur when making or reading files. Use <span class="pre">&lt;pre class="command_line"&gt;&lt;/pre&gt;</span> to put text into command line formatting 
+and <span class="pre">&lt;span class="pre"&gt;&lt;/span&gt;</span> to put words into a fixed with font like <span class="pre">this</span>. 
+If you have an icon for the program, please put it in <span class="pre">${folder_icons|h}</span> 
+and add the filename to <span class="pre">'image'</span>. </p>
+<p>You can add other dictionary elements to <span class="pre">program_info</span> to help other developers such as author, date etc.</p>
+

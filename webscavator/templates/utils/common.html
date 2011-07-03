@@ -1,0 +1,121 @@
+## for showing tooltips next to inputs giving useful information
+<%def name="tooltips(wizard)" filter="trim">
+    $("#${wizard|h} :input").tooltip(${tooltip_options()});  
+</%def>
+
+<%def name="tooltip_options()" filter="trim">
+        <% return '{position: "center right", offset: [-2, 10], effect: "fade", opacity: 1.0}'%>
+</%def>
+
+## for the wizard box at the top, hovering over icons
+<%def name="wizard_hover(main, first, second)" filter="trim">
+    $("#step${first}_link").mouseover(function () {
+        $("#step" + ${first}).show();
+        $("#step" + ${main}).hide();
+      }).mouseout(function (){
+        $("#step" + ${main}).show();
+        $("#step" + ${first}).hide();
+      });
+    $("#step${second}_link").mouseover(function () {
+        $("#step" + ${second}).show();
+        $("#step" + ${main}).hide();
+      }).mouseout(function (){
+        $("#step" + ${main}).show();
+        $("#step" + ${second}).hide();
+      });
+</%def>
+
+## what to show when hovering over wizard box at the top
+<%def name="wizard(step, edit)" filter="trim">
+<div id="wizard">
+    <h1>Setup Wizard</h1>
+    <div id="wizard_icons">
+        <div class="step">
+            <p class="key">1.</p>
+            % if step == 1:
+            <p><a class="no_link" id="step1_link"><img src="${urls.build("images", dict(file='site/textfield.png'))|h}" alt="icon for step 1" /></a></p>
+            % else:
+            <p><a class="faded_out no_link" id="step1_link"><img src="${urls.build("images", dict(file='site/textfield.png'))|h}" alt="icon for step 1" /></a></p>
+            % endif
+        </div>
+        <div class="step">
+            <img class="img_arrow" src="${urls.build("images", dict(file='site/arrow_right.png'))|h}" alt="arrow icon" />
+        </div>
+        <div class="step">
+            <p class="key">2.</p>
+            % if step == 2:
+            <p><a class="no_link" id="step2_link"><img src="${urls.build("images", dict(file='site/table_multiple.png'))|h}" alt="icon for step 2" /></a></p>
+            % else:
+            <p><a class="faded_out no_link" id="step2_link"><img src="${urls.build("images", dict(file='site/table_multiple.png'))|h}" alt="icon for step 2" /></a></p>
+            % endif
+        </div>
+        <div class="step">
+            <img class="img_arrow" src="${urls.build("images", dict(file='site/arrow_right.png'))|h}" alt="arrow icon" />
+        </div>
+        <div class="step">
+            <p class="key">3.</p>
+            % if step == 3:
+            <p><a class="no_link" id="step3_link"><img src="${urls.build("images", dict(file='site/magnifier.png'))|h}" alt="icon for step 3" /></a></p>
+            % else:
+            <p><a class="faded_out no_link" id="step3_link"><img src="${urls.build("images", dict(file='site/magnifier.png'))|h}" alt="icon for step 3" /></a></p>
+            % endif
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    % if edit:
+    <% verb = "Edit" %>
+    % else:
+    <% verb = "Add" %>
+    % endif
+    
+    % if step == 1:
+    <p class="wizard_info" id="step1">Step 1: ${verb} case information</p>
+    % else:
+    <p class="wizard_info" id="step1" style="display:none">Step 1: ${verb} case information</p>
+    % endif
+    % if step == 2:
+    <p class="wizard_info" id="step2">Step 2: ${verb} browser history files</p>
+    % else:
+    <p class="wizard_info" id="step2" style="display:none">Step 2: ${verb} browser history files</p>
+    % endif
+    % if step == 3:
+    <p class="wizard_info" id="step3">Step 3: Check data is correct</p>
+    % else:
+    <p class="wizard_info" id="step3" style="display:none">Step 3: Check data is correct</p>
+    % endif
+    
+</div>
+</%def>
+
+## errors in a form
+<%def name="form_errors()" filter="trim">
+    <div id="form_errors" style="display:none">
+        <img class="surround" src="${urls.build("images", dict(file='site/cross.png'))|h}" alt="Cross" /> You have errors in your form. Please correct them before proceeding.
+        <div class="clear"></div>
+    </div>
+</%def>
+
+## completed
+<%def name="complete()" filter="trim">
+    <div id="complete" style="display:none">
+        <img class="surround" src="${urls.build("images", dict(file='site/tick.png'))|h}" alt="Tick" /> Filter has been successfully added!
+        <div class="clear"></div>
+    </div>
+</%def>
+
+## errors in a form
+<%def name="form_errors_load(errors=None)" filter="trim">
+    % if errors:
+    <div id="form_errors">
+    % else:
+    <div id="form_errors" style="display:none">
+    % endif
+        % if errors:
+        <img class="surround" src="${urls.build("images", dict(file='site/cross.png'))|h}" alt="Next" /> ${errors.get('case', "There was an error loading your case. Please select another.")|h}
+        % else:
+        <img class="surround" src="${urls.build("images", dict(file='site/cross.png'))|h}" alt="Next" /> There was an error loading your case. Please select another.        
+        % endif
+        <div class="clear"></div>
+    </div>
+</%def>

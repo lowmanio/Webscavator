@@ -1,0 +1,887 @@
+
+body {
+	background-image: url('graph_paper.bmp');
+    margin:0px;
+    padding: 0px;
+    font-family: Century Gothic, Futura, Verdana, Tahoma;
+    font-size: 12pt;
+}
+
+.clear{
+    clear: both;
+}
+
+#wrapper{
+    background-color: white;
+    border: solid 5px #E7EFFE;
+    padding: 0px;
+    margin: 25px;
+}
+
+#header{
+    border-bottom: 5px solid #E7EFFE;
+}
+
+#logo{
+    float:left;
+    width: 519px;
+}
+
+#header_info{
+    background-color: white;
+    display:block;
+    width: 100%;
+    text-align:right;
+}
+
+#body{
+    clear: both;
+    padding: 10px;
+}
+
+#footer{
+    font-size: 9pt;
+    border-top: solid 5px #E7EFFE;
+    padding: 7px;
+    text-align: center;
+}
+
+.tooltip {
+	border:5px solid #EEE;
+	padding:10px 10px 10px 50px;
+	width:400px;
+	display:none;
+	color: black;
+	text-align:left;
+	font-size:12px;
+    background-image: url('textfield_rename.png');
+    background-repeat:no-repeat;
+    background-position: 5px; 
+    background-color: white;
+}
+
+div.waiting{
+    margin: 0px auto;
+    width: 300px;
+    height: 200px;
+    background-image: url('ajax-loader.gif');
+    background-repeat:no-repeat;
+    background-position: 130px 50px; 
+    background-color: white;  
+}
+
+div.left_col{
+    float:left;
+    width: 650px;
+    margin-top:-20px;
+}
+
+div.right_col{
+    margin-left: 660px;
+}
+
+div.information{
+    font-size: 80%;
+    border: solid #E7EFFE 5px;
+    padding: 10px;
+    margin: 10px;
+    background-color: white;
+    displaY:none;
+}
+
+div.information h4{
+    font-weight:bold!important;
+    color:#AAA!important;
+    text-transform: uppercase!important;
+    font-size: 15pt!important;
+    padding: 0px!important;
+    margin:0px!important;
+}
+
+div.information .hideinfo{
+    text-align: center;
+}
+
+a.help_info{
+    float:right;
+    position: relative;
+}
+
+/*
+*
+* Timeline Code
+* ======================================
+*/
+div#timegraph{
+    width:100%;
+    height:500px;
+}
+
+div#overview{
+    margin-top:30px;
+    width:100%;
+    height:150px;
+}
+
+div#filters{
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+
+div.filters{
+    border: solid 1px black;
+    float:left;
+    padding: 10px;
+    margin-bottom:0px;
+}
+
+div.filter_options{
+    float:left;
+    margin-left: 20px;
+}
+
+.filter_group{
+    float: left;
+    width: 200px;
+}
+
+.highlight_img, .remove_img{
+    margin-left: 5px;
+}
+
+div.graph_links{
+    position: relative;
+    top :-520px;
+    float:right;
+}
+div#zoom_link:hover{
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
+
+div#zoom_link{
+    color: #5D7B93;
+    text-decoration: underline;
+}
+
+#flot_tooltip{
+    position: absolute;
+    display: none;
+    border: 1px solid black;
+    padding: 2px;
+    background-image: url('transparent.png');
+    padding:5px;    
+    font-size: 80%;
+}
+
+#float_tooltip p{
+    padding: 0px;
+    margin: 0px;
+}
+
+#datainfo{
+    padding: 5px;
+    margin-top:20px;
+}
+
+/*
+*
+* Add Filter Forms
+* ======================================
+*/
+
+.field_filters input, .field_filters select, .submit_button{
+    font-family: Century Gothic, Futura, Verdana, Tahoma;
+    font-size: 13pt;
+    border: solid #AAA 1px;
+    padding:3px;
+}
+
+.field_filters{
+    margin-top:20px;
+}
+
+select.class{
+    width: 100px;
+    margin-right: 10px!important;
+}
+
+select.attribute{
+    width: 150px;
+    margin-right: 10px!important;
+}
+
+select.function{
+    width: 200px;
+    margin-right: 10px!important;
+}
+
+select.value, input.value{
+    width: 198px;
+    margin-right: 10px!important;
+}
+
+input.value{
+    width: 190px;
+}
+
+.hour, .min, .sec, .upload{
+   margin-right:10px;
+}
+
+.submit_button: hover{
+    cursor: hand;
+}
+
+img.cross{
+    width: 20px;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-bottom:-3px;
+}
+
+p.filter_line{
+    margin-left: 30px;
+}
+
+/*
+*
+* Word cloud stuff
+* ======================================
+*/
+
+div.wordcloud{
+    margin: 10px 10px;
+    padding: 3px;
+    float: left;
+    font-size: 90%;
+    width: 100%;
+}
+
+.word_tooltip {
+    border:5px solid #EEE;
+	padding:10px;
+	color: black;
+	text-align:left;
+	font-size:14px; 
+    background-color: white;
+    overflow : auto;
+    max-height: 250px;
+    min-width: 500px;
+    max-width: 900px;
+    -moz-box-shadow: 0 0 20px 5px #000;
+	-webkit-box-shadow: 0 0 20px #000;
+}
+
+.word{
+    float:left;
+    padding:0px 3px;
+    margin:-5px 6px;
+}
+
+.word:hover, .file_titles:hover{
+    cursor:pointer!important;
+}
+
+#wordCloudForm{
+    margin: 10px 0px;
+    padding:0px 10px 10px 10px;
+    border-bottom: solid black 1px;
+}
+
+label.hover{
+    width: 250px;
+	float: left;
+	text-align: right;
+	margin-right: 20px;
+	display: block;
+}
+
+/*
+*
+* Bar charts
+* ======================================
+*/
+
+.hbg-bar { 
+    padding: 3px 10px 3px 0px; 
+    background-color: #999; 
+    color: #999; 
+    font-weight: bold; 
+    font-size: 90%;
+    margin-bottom: 3px;
+}
+
+.hbg-bar:hover{
+    cursor:pointer!important;
+}
+
+.hbg-label{
+    text-align:right;
+}
+
+.hbg-bar .hbg-value{
+    float:right;
+    position:relative;
+    right: -50px;
+}
+  
+/*
+*
+* Javascript overlays for uploading data
+* ======================================
+*/
+.overlay {
+    display:none;
+    width:400px;
+    border:10px solid #666;
+    border:10px solid rgba(82, 82, 82, 0.698);
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    background-color: white;
+}
+
+.overlay_inner{
+    border: solid 1px black;
+    height: 100%;
+    padding: 10px;
+}
+
+/*
+*
+* Text
+* ====
+*/
+
+p.centre{
+    text-align: center;
+}
+
+p.indent{
+    text-indent: 20px;
+}
+
+p.indent_max{
+    text-indent: 50px;
+}
+
+p.shrunk{
+    padding: 4px 0px 0px 10px;
+    margin:0px;
+}
+
+p.file_struct{
+    padding:0px!important;
+    margin:0px!important;
+    float:left;
+    clear:both;
+}
+
+p.greyed{
+    background-color:#EEE;
+}
+
+span#reset_graph_span, span.showhide{
+    float: right;
+    font-size: 12pt;
+    font-weight:normal;
+}
+
+hr.break{
+    color: white;
+    height: 10px;
+    border: none;
+}
+
+span.lose_formatting{
+    font-weight: normal;
+    text-decoration: none;
+}
+
+span.fixedwidth, span.pre{
+    font-family: courier new;
+}
+
+span.fixed_width_250, span.fixed_width_100, span.fixed_width_300, span.fixed_width_70{
+    display:block;
+    float:left;
+}
+
+span.fixed_width_250{ width: 250px;}
+
+span.fixed_width_100{ width: 100px;}
+
+span.fixed_width_300{ width: 300px;}
+
+span.fixed_width_70{ width: 70px; }
+
+span.pre{
+    background-color:#F5F5F5;
+}
+
+span.dropdown{
+    font-size: 9pt;
+    font-weight: normal;
+}
+
+span.description{
+    font-size: 11pt;
+}
+
+pre.command_line{
+    background-color: black;
+    color: white;
+    padding: 5px;
+    overflow: auto;
+}
+
+.deleted {
+    text-decoration: line-through;
+}
+
+h2{
+    border-bottom: black 2px solid;
+    padding-bottom:5px;
+}
+
+h2.initial{
+    text-align: center;
+    border: none;
+}
+
+h3{
+    font-size: 15pt;
+    padding: 0px 0px 7px 0px;
+    margin: 0px;
+}
+
+p.small{
+    font-size: 9pt;
+}
+
+div.info_spacer{
+    width:62px;
+    border: solid 2px white;
+    float:right;
+    margin: -15px -22px 10px 22px;
+    font-size: 8pt;
+    text-align: center;
+    background-color: #EEE;
+}
+
+div.details{
+    margin: 10px 0px 10px 50px;
+    float:left;
+}
+
+div.case_grid{
+    float: left;
+    text-align: center;
+    width: 190px;
+    border: solid 1px white;
+}
+
+div.case_grid:hover, .load_selected{
+    background-color:#EEE;
+    border: solid 1px black!important;
+    cursor:pointer;
+}
+
+div.note{
+    margin: 0px 50px;
+    border: solid black 1px;
+    padding: 0px 10px 10px 10px;
+}
+
+/*
+*
+* Tables
+* ============
+*/
+
+table.data{
+    font-size: 70%;
+    width: 100%;
+}
+
+table.data th{
+    text-align: left;
+    font-size: 110%;
+    margin-top: 50px;
+}
+
+table.data td{
+    vertical-align: top;
+}
+
+table .browsername, table .access_time_str, table .type{
+    width: 10%;
+}
+
+table .url{
+    width: 70%;
+}
+
+table#heat_map_table{
+    border-collapse:collapse;
+}
+
+table#heat_map_table td, table#heat_map_table th{
+    width: 70px;
+    text-align: center;
+    padding: 3px 0px;
+    margin: 0px;
+    border: solid #CCC 1px;
+    background-color: white;
+}
+
+table#heat_map_table .toprow th{
+    border-bottom: solid black 1px!important;
+    border-top: none!important;
+}
+
+table#heat_map_table .toprow th#top_corner{
+    border-left:none!important;
+}
+
+table#heat_map_table .leftrow{
+    border-right: solid black 1px!important;
+    border-left: none!important;
+    width: 120px;
+}
+
+.hover_over_td{
+    font-weight:bold;
+    background-color: white!important;
+}
+
+/*
+*
+* Forms
+* ============
+*/
+
+.label_wizard{
+    width: 300px;
+	float: left;
+	text-align: right;
+	margin-right: 20px;
+	display: block;
+}
+
+label.wordcloud, label.domainname, label.browsers{
+    width: 100px;
+	float: left;
+	text-align: right;
+	margin-right: 20px;
+	display: block;
+    margin-bottom:10px;
+}
+
+label.browsers{
+    width: 180px;
+}
+
+input.wordcloud, input.domainname{
+    float:left;
+    margin-bottom: 10px;  
+}
+
+select.wordcloud, select.domainname{
+    margin-bottom: 10px;  
+    font-family: Century Gothic, Futura, Verdana, Tahoma;
+    font-size: 13pt;
+}
+
+select.shownumdomains, select.shownumsearches{
+    font-family: Century Gothic, Futura, Verdana, Tahoma;
+    font-size: 13pt;
+}
+
+select.shownumsearches{
+    float: left;
+    margin-right: 10px;
+}
+
+#search_tabs{   
+   margin-top: 20px;
+   float:left;
+}
+
+.timeselect_wordcloud, .timeselect_domainname{
+    float: left;
+    width: 304px;
+}
+
+div.word_fields, div.domain_fields{
+    float:left;
+}
+
+div.word_buttons, div.domain_buttons{
+    margin: 20px;
+    float:left;
+}
+
+.input_wizard, input.wordcloud, input.domainname{
+    width: 300px;
+    font-family: Century Gothic, Futura, Verdana, Tahoma;
+    font-size: 13pt;
+    border: solid #AAA 1px;
+    padding:3px;
+    margin:0px;
+}
+
+.input_wizard:focus, div.filter input:focus, div.filter select:focus, input.wordcloud:focus, input.domainname:focus{
+    background-color: #EEE;
+    border: solid black 1px;
+    padding: 3px;
+    margin:0px;
+}
+
+.input_wizard_radio{
+    width: 30px;
+    font-family: Century Gothic, Futura, Verdana, Tahoma;
+    font-size: 13pt;
+    border: solid #AAA 1px;
+    padding:3px;
+    margin:0px;
+}
+
+div.inputdiv_radio{
+    margin-left: 320px;
+}
+
+.label_header{ /* for step 3 */
+    width: 200px;
+	float: left;
+	text-align: right;
+	margin-right: 20px;
+	display: block;
+    font-weight: bold;
+}
+
+div.inputdiv{
+    margin-left: 280px;
+}
+
+div.inputdiv ul{
+    list-style-type: none;
+}
+
+div.inputdiv ul li{
+    padding-bottom: 5px;
+}
+
+/* 
+*
+* Information box
+* ===============
+*/
+
+div#information {
+    font-size: 70%;
+    width: 450px;
+    border: solid #336666 5px;
+    float:right;
+    background-color: white;
+    padding: 10px;
+    margin: -60px 0px 0px 0px;
+}
+
+/*
+*
+* Wizard Box
+* ===========
+*/
+
+#wizard{
+    margin: 0px auto;
+    border: solid #EEE 5px;
+    padding: 10px;   
+    width:300px;
+}
+
+#wizard h1{ /* Wizard header */
+    color: #EEE;
+    text-transform: uppercase;
+    padding: 0px;
+    margin: 0px;
+}
+
+#wizard p.wizard_info{ /* Wizard text */
+    font-size: 9pt;
+    
+}
+
+#step1{
+    text-align:left;
+}
+
+#step2{
+    text-indent: 60px;
+}
+
+#step3{
+    text-align: right;
+}
+
+
+#wizard_icons{
+    text-align:center;
+    font-weight: bold;
+    margin: 0px auto;
+}
+
+#wizard_icons .step{
+    float:left;
+    width:60px;
+    vertical-align:center;
+    min-height: 100px;
+    position: relative;
+}
+
+#wizard_icons .step .img_arrow{
+    position:absolute; 
+    top:40%;
+    left:20%;
+}
+
+/*
+*
+* Form Errors and complete boxes
+* =================================
+*/
+
+div#form_errors{
+    font-weight: bold;
+    color: #CC0000;
+    border: solid 5px #CC0000;
+    padding: 10px;
+    margin: 10px;
+}
+
+span.error{
+    padding-left: 10px;
+    color: #CC0000;
+    font-size: 10pt;
+}
+
+input.error{
+    border: solid 2px #CC0000;
+}
+
+input.error:focus{
+    border: solid 2px #CC0000;
+}
+
+div#complete{
+    font-weight: bold;
+    color: #669900;
+    border: solid 5px #669900;
+    padding: 10px;
+    margin: 10px;
+}
+
+/*
+*
+* Images
+* =======
+*/ 
+
+img.config{ /* for icons at the top right to help users */
+    padding:10px;
+    border: solid 5px #EEE;
+    margin: -30px -20px 0px 20px;
+    background-color: white;
+}
+
+img.initial{ /* for icons next to initial questions whether start new case or load old case */
+    margin: 5px 0px -5px 0px;
+}
+
+img.surround{ /* for images in the information box which need to have the text surround them */
+    float: left;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+img.surround_small{ /* for images in the information box which need to have the text surround them */
+    float: left;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    margin: -5px 0px;
+}
+
+img#bubble { /* especially for the image making the speech bubble effect for information */
+    float:left;
+    margin-top: -43px;
+    margin-left: 210px;
+}
+
+img.fitonline{
+    margin-top: -5px;
+    margin-bottom: -5px;
+    width: 20px;
+}
+
+.fitonline_arrow{
+    margin-top:3px;
+    margin-bottom:-3px;
+}
+
+.piechart_files{
+    margin: 0px auto;
+}
+
+/*
+*
+* Anchors
+* =======
+*/ 
+
+a{
+    color: #5D7B93;
+}
+
+a:hover{
+    color: #000;
+}
+
+.info_spacer a{
+    color: black;
+}
+
+.info_spacer a:hover{
+    text-decoration:none;
+}
+
+a.faded_out{    /* To fade out image sin wizard */
+    filter:alpha(opacity=20);
+	-moz-opacity:0.2;
+	-khtml-opacity: 0.2;
+	opacity: 0.2;
+}
+
+a.faded_out:hover{
+	filter:alpha(opacity=1);
+	-moz-opacity:1;
+	-khtml-opacity: 1;
+	opacity: 1;
+}
+
+a.no_link img{ /* To avoid border around linked images */
+    border: 0px;
+}
+
+a.forward_two{
+    font-size: 12pt;
+}
+
+a.back_two{
+    font-size: 12pt;
+}
+
+a.no_format{
+    text-decoration: none;
+}

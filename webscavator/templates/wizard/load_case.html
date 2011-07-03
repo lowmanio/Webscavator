@@ -1,0 +1,42 @@
+﻿<%inherit file="/base/base.html"/>
+<%namespace file="/utils/common.html" name="c" />
+
+<%def name="javascripts()" filter="trim">
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.form.js"))|h}"></script>
+     <script type="text/javascript" src="${urls.build("js", dict(file="jquery.tools.min.js"))|h}"></script>
+     
+    <script type="text/javascript">
+    
+    $(document).ready(function () {
+        $('.case_grid').click(function () {
+            $('.case_grid').removeClass('load_selected');
+            $(this).addClass('load_selected');
+            $('#case').val($('img', this).attr('id'));
+        });
+    });
+    </script>
+</%def>
+
+
+
+<h1>Load previous case</h1>
+
+<form action="${urls.build("case.loaded", dict())|h}" method="post">
+     ${c.form_errors_load(errors)}
+
+    % for x, case in enumerate(cases):
+        <div class="case_grid" id="case_grid_${x}" >
+            <p><img id="${case|h}" src="${urls.build("images", dict(file='site/table.png'))|h}" alt="case icon for ${case|h}" title="case icon for ${case|h}" />
+            <br />${case|h}</p>
+        </div>
+    % endfor
+    <div class="clear"></div>
+    
+    <input type="hidden" name="case" id="case" value="" />
+    
+    <p class="centre"><input type="image" src="${urls.build("images", dict(file='site/next.bmp'))|h}" alt="Next" /></p>
+
+</form>
+
+

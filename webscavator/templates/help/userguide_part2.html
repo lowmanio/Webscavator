@@ -1,0 +1,173 @@
+﻿<%inherit file="/base/base.html"/>
+
+<%def name="javascripts()" filter="trim">
+   
+</%def>
+
+<h1>User Guide Part 2: Using the Visualisations</h1>
+
+<h2><img src="${urls.build("images", dict(file='site/help.png'))|h}" alt="help icon" class="surround" /> Overview</h2>
+<p>The screenshot below shows the homepage of Webscavator once data has been loaded in. You can add, edit or load a case using
+the buttons in the top right corner. Below the logo is a filter box with a set of prebuilt filters. Below that are the 
+visualisation tabs, with a different visualisation on each. At the top of each tab on the right is a question icon. Clicking this
+will bring up information about that tab.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_overview.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_overview.png'))|h}" width="900px" />
+    </a>
+</p>
+
+<h2><img src="${urls.build("images", dict(file='site/filters.png'))|h}" alt="filter icon" class="surround" /> Filters</h2>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_filters.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_filters.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>There are two kinds of filters available: those that remove/hide data from the visualisations and those that highlight/show
+data. Each filter has three radio buttons associated with it. Clicking on the button underneath the 'tick' will highlight data
+that corresponds to the filter, and the background colour of the filter will turn green. Clicking the button underneath the 
+'cross' will remove data that corresponds to the filter, and the background colour of the filter will turn red. The changes in background
+colour happen so that it is obvious that filters have been applied to the data, as it is not always easy at a glance to see which radio buttons
+are selected. All filters can be reset by clicking the 'Reset filters' link at the right hand side of the filters.</p>
+<p>Removal filters always take preference over highlight filters. E.g. if a web history entry fits both a removal and highlight filter and they
+are both turned on, the entry will not be displayed as entries are removed first, then the remaining entries are highlighted.</p>
+
+<h3>Adding a new filter</h3>
+<p>To add a new filter, click on the 'Add New Filter' link on the right of the filter box. This will bring up a pop up box. Enter a 
+name for the filter and then you can choose what to filter on:</p>
+<ul>
+    <li>Entry: can filter on the access date & time, the full URL, page title, HTTP headers, content type etc.</li>
+    <li>Search Terms: can filter on the search engine used, search terms and term occurence.</li>
+    <li>URL parts: can filter on the different parts of the URL, e.g. the port, query strings, usernames, passwords etc.</li>
+    <li>Web files: can filter on the program used to extract web history or different files uploaded. This is irrelevant if only one file was uploaded.</li>
+    <li>Browser: can filter on browser name, version and profile used/IE location.</li>
+</ul>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_filter_form_first.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_filter_form_first.png'))|h}" width="900px" />
+    </a>
+</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_filter_form.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_filter_form.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>Some of the filters allow you to enter some text as the value, others you will select from a predefined list (e.g. 'browser name' will
+list all the browsers available to save you from typing), time values will ask you to select hours, minutes and seconds and date values have 
+a datepicker (see above screenshot). The operation 'is in list' or 'not in list' will allow you to select text files located in the 'case lists' 
+folder in Webscavator. These are simple files where each line is a value to compare to, e.g. a list of specific domain names you are interested in.
+You can add your own lists to this folder, and then select them in the select box. A few lists exist by default including a list of advert domains,
+social networking domains and online newspapers. <b>Note:</b> If you are adding your own list, please make sure they are less than 450 lines as this 
+is currently the maximum Webscavator allows. </p>
+<p>Currently Webscavator does not support the editing and deletion of filters.</p>
+
+<h2><img src="${urls.build("images", dict(file='site/overview.png'))|h}" alt="overview icon" class="surround" /> Overview Tab</h2>
+<p>The overview tab has a heatmap showing the amalgamated number of entries for each day of the week for each hour. The more entries, the lighter
+the colour. Black means there are no entries. To the right are some overview statistics and information about the current case.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_overview_tab.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_overview_tab.png'))|h}" width="900px" />
+    </a>
+</p>
+
+<h2><img src="${urls.build("images", dict(file='site/timeline.png'))|h}" alt="timeline icon" class="surround" /> Timeline Tab</h2>
+<p>The timeline shows the web history in two graphs. Along the x-axis is the time, and the date along the y-axis. Each point is a web history entry.
+The smaller, bottom graph is an overview graph, and does not zoom in or change colours like the larger graph. This is to keep a sense of context. 
+To move about, click and drag the top graph around, or click "move back 31 days". </p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_timeline_overview.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_timeline_overview.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>Hovering over a point gives the date, time and URL. Clicking on a point will produce more information below the graphs such as browser, page title etc.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_timeline_hover.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_timeline_hover.png'))|h}" />
+    </a>
+</p>
+<p>Applying a removal filter will make any points that correspond to that filter turn a very light grey. Points are not completely removed from sight to keep
+a sense of context. Applying a highlight filter will make any points that correspond to that filter turn orange.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_timeline_highlight.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_timeline_highlight.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>There are two ways to zoom in. To zoom in slowly, you can double click on the top graph. This will zoom in centred where you clicked. Otherwise, you can drag a blue
+rectangle over the overview graph, and the top graph will zoom in there. The overview graph will always display a blue rectangle showing where you are zoomed into.
+You can still pan around by dragging your mouse. Clicking on 'Zoom out' will zoom out a small amount. Clicking on 'Reset graph' will zoom out completely.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_timeline_zooming.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_timeline_zooming.png'))|h}" width="900px" />
+    </a>
+</p>
+<p>When you are zoomed in, you can check 'Show labels' which will show the URL beside the point.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_timeline_labels.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_timeline_labels.png'))|h}" width="900px" />
+    </a>
+</p>
+
+<h2><img src="${urls.build("images", dict(file='site/chart_bar.png'))|h}" alt="chart icon" class="surround" /> Websites visited Tab</h2>
+<p>This tab has a bar chart of the top domain names visited. You can change the amount viewed from Top 20 to Top 50, Top 100 or All. Clicking
+on a bar will bring up a pop-up with more information. The bar chart will not show data that corresponds to any removal filters that are active.
+If any highlight filters are active, only the data corresponding to those will be shown.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_domains_tab.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_domains_tab.png'))|h}" width="900px" />
+    </a>
+</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_domains_tab_popup.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_domains_tab_popup.png'))|h}" width="900px" />
+    </a>
+</p>
+
+
+<h2><img src="${urls.build("images", dict(file='site/magnifier.png'))|h}" alt="search icon" class="surround" /> Online Searches Tab</h2>
+<p>This tab shows the online search terms queried using search engines. Click on a search engine name to see the search terms queried. 
+You can change the amount viewed from Top 20 to Top 50, Top 100 or All. The word cloud will not show data that corresponds to any 
+removal filters that are active. If any highlight filters are active, only the data corresponding to those will be shown.</p>
+<p>The larger the word, the more it has been searched for. Clicking on a word will show a pop-up with more details such as
+all the searches this word appeared in with the date and time.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_wordcloud.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_wordcloud.png'))|h}" width="900px" />
+    </a>
+</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_wordcloud_popup.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_wordcloud_popup.png'))|h}" width="900px" />
+    </a>
+</p>
+<h3>Adding new search engines</h3>
+<p>It is possible to add more search engines by editing the config file located in the webscavator/config folder. Let's assume 
+a typical search with the new search engine is http://search.foo.com/?terms=search+terms, and this search engine is called "Foo Search".
+All Foo Searches contain <span class="pre">'search.foo'</span> in the URL, and <span class="pre">'terms'</span> is always followed 
+by the search terms. Add an entry underneath the <span class="pre">[search_engines]</span> and <span class="pre">[search]</span> titles like so:</p>
+<p><span class="pre">[search_engines]</span></p>
+<p><span class="pre">search.foo = terms</span></p>
+<p><span class="pre">[search]</span></p>
+<p><span class="pre">search.foo = Foo Search</span></p>
+
+
+<h2><img src="${urls.build("images", dict(file='site/drive.png'))|h}" alt="drive icon" class="surround" /> Files Tab</h2>
+<p>This tab shows all the local file accesses divided up by drive. You can click 'show details' to show a pie chart of the file types
+on this drive, followed by a breakdown of the files accessed. Click on a file to pop-up details about when the file was accessed.</p>
+<p>Currently only Windows drives are supported.</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_files.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_files.png'))|h}" width="900px" />
+    </a>
+</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_files_drive.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_files_drive.png'))|h}" width="900px" />
+    </a>
+</p>
+<p class="centre">
+    <a href="${urls.build("images", dict(file='userguide/vis_files_drive_popup.png'))|h}" title="click to enlarge">
+        <img src="${urls.build("images", dict(file='userguide/vis_files_drive_popup.png'))|h}" />
+    </a>
+</p>
+
+

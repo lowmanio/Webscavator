@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fox Analysis Converter &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="csvConverter" href="csvConverter.html" />
+    <link rel="next" title="Pasco Converter" href="pasco.html" />
+    <link rel="prev" title="Chrome Cache Viewer Converter" href="chromecacheviewer.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="pasco.html" title="Pasco Converter"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="chromecacheviewer.html" title="Chrome Cache Viewer Converter"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="converters.html" >Converters</a> &raquo;</li>
+          <li><a href="csvConverter.html" accesskey="U">csvConverter</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="chromecacheviewer.html"
+                                  title="previous chapter">Chrome Cache Viewer Converter</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="pasco.html"
+                                  title="next chapter">Pasco Converter</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/foxanalysis.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.converters.foxanalysis">
+<h1>Fox Analysis Converter<a class="headerlink" href="#module-webscavator.converters.foxanalysis" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="webscavator.converters.foxanalysis.FoxanalysisConverter">
+<em class="property">
+class </em><tt class="descclassname">webscavator.converters.foxanalysis.</tt><tt class="descname">FoxanalysisConverter</tt><big>(</big><em>csv_file</em><big>)</big><a class="headerlink" href="#webscavator.converters.foxanalysis.FoxanalysisConverter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts Fox Analysis CSV output to normalised format.</p>
+<p>To obtain CSV data from Fox Analysis click on <cite>File &gt; Export to &gt; CSV File</cite>. Please load in 
+the <cite>Website.csv</cite> file produced.</p>
+<p>This is comma delimited by default and has 1 line at the top for titles and headers.</p>
+<dl class="method">
+<dt id="webscavator.converters.foxanalysis.FoxanalysisConverter.process_row">
+<tt class="descname">process_row</tt><big>(</big><em>row</em><big>)</big><a class="headerlink" href="#webscavator.converters.foxanalysis.FoxanalysisConverter.process_row" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>process_row</cite> takes in a row from the CSV file, and returns a normalised dictionary as output.</p>
+<p>One row of Fox Analysis CSV data looks like so:</p>
+<p>id, fromvisit, datevisited, url, host, totalvisitcount, type, frecency, title</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

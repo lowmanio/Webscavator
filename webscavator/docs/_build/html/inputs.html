@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Forms and Validators &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Forms" href="forms.html" />
+    <link rel="prev" title="Net Analysis Converter" href="netanalysis.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="netanalysis.html" title="Net Analysis Converter"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="netanalysis.html"
+                                  title="previous chapter">Net Analysis Converter</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="forms.html"
+                                  title="next chapter">Forms</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/inputs.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.forms">
+<h1>Forms and Validators<a class="headerlink" href="#module-webscavator.forms" title="Permalink to this headline">¶</a></h1>
+<p>Package Contents:</p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="forms.html">Forms</a></li>
+<li class="toctree-l1"><a class="reference external" href="validators.html">Validators</a></li>
+</ul>
+<div class="section" id="id1">
+<h2>Forms and Validators<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Forms and Validators use the <a class="reference external" href="http://formencode.org/">FormEncode library</a>.</p>
+<p>Every HTML form in Webscavator is validated using <a class="reference external" href="forms.html"><em>Forms</em></a> and <a class="reference external" href="validators.html"><em>Validators</em></a>. Form
+data is kept in <cite>self.request.form</cite>, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;1/1/2010&#39;</span>
+</pre></div>
+</div>
+<p>Each endpoint that wants to validate a form 
+calls <cite>self.validate_form(schema)</cite> defined in <a class="reference external" href="baseController.html"><em>baseController</em></a>, where <cite>schema</cite> is one of the 
+classes in <a class="reference external" href="forms.html"><em>Forms</em></a>.</p>
+<p>The data is validated according to the schemas validators, most
+of which come from FormEncode, but others are defined in <a class="reference external" href="validators.html"><em>Validators</em></a>. If there is an error,
+the validator will raise an exception which gets stored in <cite>self.form_errors</cite>, a dictionary
+of form names and their error messages, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">form_errors</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;The date must be in dd/mm/yyyy format.&quot;</span>
+</pre></div>
+</div>
+<p>If there are no errors, <cite>self.form_result</cite> gets populated with the validated results, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">form_result</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mf">2010</span><span class="p">,</span> <span class="mf">1</span><span class="p">,</span> <span class="mf">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

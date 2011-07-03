@@ -1,0 +1,524 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Validators &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Forms and Validators" href="inputs.html" />
+    <link rel="next" title="Models" href="model.html" />
+    <link rel="prev" title="Forms" href="forms.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="model.html" title="Models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="inputs.html" accesskey="U">Forms and Validators</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="forms.html"
+                                  title="previous chapter">Forms</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="model.html"
+                                  title="next chapter">Models</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/validators.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.forms.validators">
+<h1>Validators<a class="headerlink" href="#module-webscavator.forms.validators" title="Permalink to this headline">¶</a></h1>
+<p>Each class validates a certain field or group of fields within a form.</p>
+<p>If the field(s) have errors, the validator will throw an <cite>Invalid</cite> exception and add the 
+name of the form field and the error message to a dictionary, which is passed back to the 
+web page for the user to correct.</p>
+<p>If the field is valid, the validator will return the value. 
+The validators may also process the value
+and return the processed value, e.g. the value is a Case id, and the processor returns the 
+Case object.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Most of these forms were created before it was realised that files other than CSV were needed
+(such as XML). 
+Therefore a lot of form field names are &#8216;csv_file&#8217; rather than just generic &#8216;file&#8217;. Also, since
+XML (and any other added convertor) files are allowed, the uploaded file is no longer checked
+to see if it ends with CSV. This should be fixed to check against the type of file it expects.</p>
+<p><strong>ToDo</strong>: Change any field names that refer to csv data to be more generic. Applies to Mako
+templates too.</p>
+<p><strong>ToDo</strong>: Validate the uploaded data against what it should be. E.g Webscavator = XML and 
+Net Analysis = CSV. PErhaps add a column to <cite>program_lookup</cite> or <cite>program_info</cite> in 
+<a class="reference external" href="converters.html"><em>Converters</em></a>.</p>
+<p class="last"><strong>ToDo</strong>: Add more checks for duplication, e.g. not allowing groups or filters with same name.</p>
+</div>
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckAllowed">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckAllowed</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckAllowed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the value is within a set of predefined values.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckAllowedAttributes">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckAllowedAttributes</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckAllowedAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the attribute belongs to the class in the same filter.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckAllowedClass">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckAllowedClass</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckAllowedClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if the class is one of a predefined set of allowed classes.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>You have chosen an invalid selection</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckAllowedFunctions">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckAllowedFunctions</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckAllowedFunctions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the operation is allowed on the attribute in the same filter.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckAllowedProgram">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckAllowedProgram</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckAllowedProgram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the web history program selected is within a set of predefined programs.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>You have chosen an invalid program</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckAllowedValues">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckAllowedValues</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckAllowedValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the value is allowed for the attribute in the same filter.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckCaseDoesntExist">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckCaseDoesntExist</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckCaseDoesntExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that case database files do not already exist on disk.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">duplication</span></tt>:</dt>
+<dd>This database file has already been used</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckCaseExists">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckCaseExists</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckCaseExists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that case database files does exist.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>You have chosen a case that does not exist</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.CheckHasItems">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">CheckHasItems</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.CheckHasItems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the value is not empty / <cite>None</cite> / <cite>false</cite> etc.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>Please select an item.</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.File">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">File</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether an uploaded file is empty or not.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.GroupInDatabase">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">GroupInDatabase</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.GroupInDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that when editing a group of data, that the group is the correct one.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>An invalid id for these web browser files has been given</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.NoDuplicates">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">NoDuplicates</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.NoDuplicates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks there are no duplicates in the inputed list.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>You selected the same value more than once.</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.NonAscii">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">NonAscii</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.NonAscii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks value is alpha numeric.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>Please remove any spaces and non ASCII characters.</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.NotInDatabase">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">NotInDatabase</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.NotInDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the data supplied is not already in database when adding a new object. 
+If editing an object, then it will already be in the database, so must supply 
+<cite>currentObj</cite> in <cite>state</cite>. If they match then allowed.</p>
+<p><cite>state</cite> is a <cite>FormState</cite> object which is populated in <cite>validate_form</cite> in
+<a class="reference external" href="baseController.html"><em>baseController</em></a>.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">duplication</span></tt>:</dt>
+<dd>This has already been used</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+<dl class="method">
+<dt id="webscavator.forms.validators.NotInDatabase.valueNotAllowed">
+<tt class="descname">valueNotAllowed</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.NotInDatabase.valueNotAllowed" title="Permalink to this definition">¶</a></dt>
+<dd>Override to check if values are not in a list of disallowed values.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.RemoveEmpties">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">RemoveEmpties</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.RemoveEmpties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes empty items from a list.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.RequireIfCondition">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">RequireIfCondition</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.RequireIfCondition" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>RequireIfCondition</cite> requires &#8216;requireds&#8217; fields if &#8216;field&#8217; [condition] &#8216;value&#8217;. [condition] is 
+defined by <cite>RequireIfCondition</cite>&#8216;s children as can be equals or not equals.</p>
+<p>E.g. if a user selects the option &#8216;other&#8217; in a select box, then it is required that they
+fill in a value in a text input called &#8216;Other&#8217;.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.RequireIfEquals">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">RequireIfEquals</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.RequireIfEquals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Child of <cite>RequireIfCondition</cite>, the condition is <cite>==</cite></p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+<dl class="method">
+<dt id="webscavator.forms.validators.RequireIfEquals.condition">
+<tt class="descname">condition</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.forms.validators.RequireIfEquals.condition" title="Permalink to this definition">¶</a></dt>
+<dd>eq(a, b) &#8211; Same as a==b.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.RequireIfNotEquals">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">RequireIfNotEquals</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.RequireIfNotEquals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Child of <cite>RequireIfCondition</cite>, the condition is <cite>!=</cite></p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+<dl class="method">
+<dt id="webscavator.forms.validators.RequireIfNotEquals.condition">
+<tt class="descname">condition</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.forms.validators.RequireIfNotEquals.condition" title="Permalink to this definition">¶</a></dt>
+<dd>ne(a, b) &#8211; Same as a!=b.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.StringNone">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">StringNone</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.StringNone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if value has a string value &#8216;None&#8217;, if so, convert this to a Python
+<cite>None</cite>.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>The text you have entered is invalid</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.Upload">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">Upload</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.Upload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a file. The value returned is the file stream.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.UploadData">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">UploadData</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.UploadData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the file uploaded is a CSV file.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">invalid</span></tt>:</dt>
+<dd>You did not upload a CSV file</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.forms.validators.ValidCSVData">
+<em class="property">
+class </em><tt class="descclassname">webscavator.forms.validators.</tt><tt class="descname">ValidCSVData</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#webscavator.forms.validators.ValidCSVData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the data in a CSV file can be processed correctly</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

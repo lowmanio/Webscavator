@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web Historian Converter &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="xmlConverter" href="xmlConverter.html" />
+    <link rel="next" title="csvConverter" href="csvConverter.html" />
+    <link rel="prev" title="xmlConverter" href="xmlConverter.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="csvConverter.html" title="csvConverter"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="xmlConverter.html" title="xmlConverter"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="converters.html" >Converters</a> &raquo;</li>
+          <li><a href="xmlConverter.html" accesskey="U">xmlConverter</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="xmlConverter.html"
+                                  title="previous chapter">xmlConverter</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="csvConverter.html"
+                                  title="next chapter">csvConverter</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/webhistorian.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.converters.webhistorian">
+<h1>Web Historian Converter<a class="headerlink" href="#module-webscavator.converters.webhistorian" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="webscavator.converters.webhistorian.WebhistorianConverter">
+<em class="property">
+class </em><tt class="descclassname">webscavator.converters.webhistorian.</tt><tt class="descname">WebhistorianConverter</tt><big>(</big><em>xml_file</em><big>)</big><a class="headerlink" href="#webscavator.converters.webhistorian.WebhistorianConverter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts Web Historian XML output to normalised format. The toplevel element for a web history
+entry is <cite>UrlHistoryItem</cite>.</p>
+<dl class="method">
+<dt id="webscavator.converters.webhistorian.WebhistorianConverter.process_element">
+<tt class="descname">process_element</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#webscavator.converters.webhistorian.WebhistorianConverter.process_element" title="Permalink to this definition">¶</a></dt>
+<dd><cite>process_row</cite> takes in an xml element that contains one web history entry, 
+and returns a normalised dictionary as output.</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

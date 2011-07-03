@@ -1,0 +1,257 @@
+﻿<%inherit file="/base/base_popup.html"/>
+<%namespace file="/utils/forms.html" name="f" />
+<%namespace file="/utils/common.html" name="c" />
+<%namespace file="/utils/format.html" name="u" />
+
+<%def name="javascripts()" filter="trim">
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.form.js"))|h}"></script>
+    
+    <link rel="StyleSheet" href="${urls.build("css", dict(file='dateinput.css'))|h}" type="text/css" />
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.tools.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.autofocus-min.js"))|h}"></script>
+ 
+    <script type="text/javascript">
+    $(document).ready(function () {
+		
+        $("[autofocus='']").autofocus();
+        
+        //${c.tooltips('filters')}
+
+        var options = ${options};
+
+        function createSelect(name, cls) {
+            return $('<select name="' + name + '" class="' + cls + '"><option value="None">Pick...</option></select>');
+        }
+        
+        ${u.createTime()}
+                
+        function createText() {
+            return $('<input type="text" name="filter.value" class="value" />');
+        }
+        
+        function createList() {
+            var input = $('<select name="filter.value_list" class="value"><option value="None">Pick...</option></select>');
+            % for file in list_files:
+            input.append($('<option />').append('${file}').val('${file}'));
+            % endfor
+            return input;
+        }
+        
+        function createDate() {
+            var input = $('<input type="text" name="filter.value" class="value" />').one('focus', function () {
+                $(this).dateinput({format: 'dd/mm/yyyy'});
+                $(this).focus();
+            });
+            return input;
+        }
+
+        
+        function addVals(row, cls, attr, op) {
+            var vals = options[cls][attr][1];
+            var type = options[cls][attr][2];
+
+            var input;
+            if (op == "Is in list" || op == "Is not in list"){
+                input = createList();
+                var hidden = $('<input type="hidden" name="filter.value" value="None" />');
+                
+                row.append(input);
+                row.append(hidden);
+            }
+            else{
+                if (type == 'select') {
+                    input = createSelect('filter.value', 'value');
+                    if (vals.length == 0) {
+                        input.attr('disabled', 'disabled').html('<option>No Values</option>');
+                    }
+                    else {
+                        jQuery.each(vals, function (i, op) {
+                            input.append($('<option />').append(op));
+                        });
+                    }
+                } 
+                else if (type == 'text' | type == 'number') {
+                    input = createText();
+                } 
+                else if (type == 'time') {
+                    input = createTime();
+                } 
+                else if (type == 'date') {
+                    input = createDate();
+                }
+                
+                var hidden = $('<input type="hidden" name="filter.value_list" value="None" />');
+                row.append(input);
+                row.append(hidden);
+            }
+            
+            var and_link = $('<a href="#" class="and">AND</a>').click(function () {
+                createRow(true);
+                return false;
+            });
+            row.append(and_link);
+        }
+        
+        function addOps(row, cls, attr) {
+            var ops = options[cls][attr][0];
+            var sel = createSelect('filter.function', 'function');
+            jQuery.each(ops, function (i, op) {
+                sel.append($('<option />').append(op));
+            });
+            sel.change(function () { 
+                $(this).nextAll().remove();
+                if ($(this).val() != 'None') {
+                    addVals(row, cls, attr, $(this).val());
+                }
+            });
+            row.append(sel);
+        }
+        
+        function addAttrs(row, cls) {
+            var attrs = options[cls];
+            var sel = createSelect('filter.attribute', 'attribute');
+            jQuery.each(attrs, function (attr, v) {
+                sel.append($("<option />").append(attr));
+            });
+            sel.change(function () { 
+                $(this).nextAll().remove();
+                if ($(this).val() != 'None') {
+                    addOps(row, cls, $(this).val());
+                }
+            });
+            row.append(sel);
+        };
+        
+        function createRow(add_delete) {
+            var sel = createSelect('filter.cls', 'class');
+            jQuery.each(options, function (cls, opts) {
+                sel.append($("<option />").append(cls));
+            });
+
+            var remover = $('<a class="no_link" href=""><img class="remover cross" src="${urls.build("images", dict(file="site/cross.png"))|h}" alt="Remove this filter" title="Remove this filter" /></a>');
+            var row = $('<p />');
+            if (add_delete) {
+                row.append(remover);
+            }
+            else {
+                row.addClass('filter_line');
+            }
+            row.append(sel);
+            remover.click(function () {
+                row.remove();
+                return false;
+            });
+            sel.change(function() {
+                $(this).nextAll().remove();
+                if ($(this).val() != 'None') {
+                    addAttrs(row, $(this).val());
+                }
+            });            
+            $('fieldset.field_filters').append(row);            
+            return false;
+        }
+        createRow(false);
+        
+        
+        function renum() {
+            $('form fieldset.field_filters p').each(function (i) {
+                $(":input[name$=.attribute]", this).attr('name', 'filter-' + i + '.attribute');
+                $(":input[name$=.function]", this).attr('name', 'filter-' + i + '.function');
+                $(":input[name$=.cls]", this).attr('name', 'filter-' + i + '.cls');
+                $(":input[name$=.value]", this).attr('name', 'filter-' + i + '.value');     
+                $(":input[name$=.value_list]", this).attr('name', 'filter-' + i + '.value_list');     
+            });
+        }
+        renum();
+
+        $('#filters').ajaxForm({
+            dataType: 'json', 
+            beforeSerialize: function (f, o) {
+                $('#form_errors').hide();                  
+                $('#complete').hide();                  
+                
+                renum();
+                $('.class').each( function(index) {
+                    if ($(this).val() == "None"){
+                        $(this).parent().remove(); 
+                    }
+                });
+
+                $('span.error').remove();
+            },
+            success: function (obj) {
+                if (obj == true){
+                     $('#complete').show();     
+                     
+                     var parent = $(window.opener.document);    
+                     var label = $('[name="name"]').val();
+                     var text = $('[name="name"]').val().toLowerCase();
+                     text = text.replace(/\s/g, "");
+
+                     var normal_input = $('<input/>').attr('type','radio').addClass('normal_checkbox').val('normal').attr('name',text).attr('checked',true);
+                     var highlight_input = $('<input/>').attr('type','radio').addClass('highlight_checkbox').val('highlight').attr('name',text).attr('checked',false);
+                     var remove_input = $('<input/>').attr('type','radio').addClass('remove_checkbox').val('remove').attr('name',text).attr('checked',false);
+                     
+                     var count = 0;
+                     $('.filter_group', parent).each(function(i){
+                        count += 1;
+                     });
+                     if ((count % 5) == 0){
+                        $('.filters', parent).append($('<div/>').addClass('clear'));
+                     }
+                     
+                     $('.filters', parent).append($('<div/>').addClass('filter_group'));
+                     $('.filter_group:last', parent).append(normal_input);
+                     $('.filter_group:last', parent).append(highlight_input);
+                     $('.filter_group:last', parent).append(remove_input);
+                     $('.filter_group:last', parent).append($('<span/>').addClass('filterText').html(label));
+                }    
+                else{
+                    jQuery.each(obj, function (key, value) {
+                        $('[name=' + key + ']').after('<span class="error">' + value + '</span>');
+                        $('[name=' + key + ']').addClass('error');
+                    });
+                    $('#form_errors').show();                   
+                }
+                
+        }});
+        
+        $('.help_info').click(function(){
+            $(this).parent().children('.information').slideToggle();
+            return false;
+        });
+        
+    });
+    
+    </script>
+    
+</%def>
+
+<a class="help_info no_link" href="#"><img src="${urls.build("images", dict(file='site/help.png'))|h}" alt="help icon" title="click for information about adding filters" /></a>
+<h1>Add a new filter</h1>
+<div class="information">
+     <h4>Information</h4>
+    <p>Filters can be used to highlight or remove data from the timegraph, websites visited and online searches.</p>
+    <p>To create your own, select options below. For some of the fields you will be able to add regular expressions or choose to do a fuzzy search. 
+    Fuzzy searches mean words similar to the word entered will be highlighted too to spot spelling mistakes.</p>
+    <p>Other fields such as page title, full url, domain name and host name can be filtered whether they are in a pre-defined list or not. Lists can be made by adding
+    a text file to the folder 'case lists' where each line of the file is a word/domain name etc. you want to compare the field to. You can then select this text file 
+    in the filter.</p>
+</div>
+
+
+ ${c.form_errors()}
+ 
+ ${c.complete()}
+
+<form id="filters" action="${urls.build("visual.jsonAddFilter", dict())|h}" method="post" enctype="multipart/form-data">
+    <fieldset class="field_details"><legend class="legend">Filter Details</legend>
+        <p>${f.input("Filter quick name", "name", "name", "Please pick a short name for this filter e.g. Yahoo! visits.", autofocus=True)|h}</p>
+    </fieldset>
+
+    <fieldset class="field_filters"><legend class="legend">Create Filters</legend>    
+    </fieldset>
+    
+    <p class="centre"><input type="submit" value="Submit" class="submit_button" /></p>
+</form>

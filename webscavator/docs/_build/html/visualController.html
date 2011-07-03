@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>visualController &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Controllers" href="controllers.html" />
+    <link rel="next" title="Converters" href="converters.html" />
+    <link rel="prev" title="generalController" href="generalController.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="converters.html" title="Converters"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="generalController.html" title="generalController"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="controllers.html" accesskey="U">Controllers</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="generalController.html"
+                                  title="previous chapter">generalController</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="converters.html"
+                                  title="next chapter">Converters</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/visualController.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.controllers.visualController">
+<h1>visualController<a class="headerlink" href="#module-webscavator.controllers.visualController" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>visualController<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Contains the class for the visualisation AJAX endpoints and the add filter form, as 
+well as some helper functions.</p>
+<dl class="class">
+<dt id="webscavator.controllers.visualController.VisualController">
+<em class="property">
+class </em><tt class="descclassname">webscavator.controllers.visualController.</tt><tt class="descname">VisualController</tt><big>(</big><em>request</em>, <em>urls</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.VisualController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for filter pages and AJAX visualisation calls</p>
+<dl class="method">
+<dt id="webscavator.controllers.visualController.VisualController.addFilter">
+<tt class="descname">addFilter</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.VisualController.addFilter" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the add filter pop-up page.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.visualController.VisualController.jsonAddFilter">
+<tt class="descname">jsonAddFilter</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.VisualController.jsonAddFilter" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the AJAX request to validate and add a new filter. If valid, the filter
+is added and a new hash is created and appended to the database file with the current 
+date and time, returning <cite>True</cite>. Otherwise <cite>self.form_error</cite> is returned.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.visualController.VisualController.jsonGetDomains">
+<tt class="descname">jsonGetDomains</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.VisualController.jsonGetDomains" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the AJAX request to get the domain names.
+Calls <cite>URL.getTop()</cite> in <a class="reference external" href="models.html"><em>Database Models</em></a> which returns a list of domain name tuples 
+in ascending order of number of visits.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.visualController.VisualController.jsonGetEntries">
+<tt class="descname">jsonGetEntries</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.VisualController.jsonGetEntries" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the AJAX request to get the timegraph. Calls <cite>Case.getTimeGraph()</cite>
+in <a class="reference external" href="models.html"><em>Database Models</em></a> with the date, time and filter options and returns a list of 
+dictionaries that Flot can understand to plot. 
+The dictionaries are those points to be highlighted, removed and visible.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.visualController.VisualController.jsonGetWordClouds">
+<tt class="descname">jsonGetWordClouds</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.VisualController.jsonGetWordClouds" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the AJAX request to get the search terms in the word cloud.
+Calls <cite>Filter.onlineSearches()</cite> in <a class="reference external" href="filters.html"><em>Filters</em></a> for each search engine in the config file.
+Returns a dictionary of terms.</dd></dl>
+
+<dl class="staticmethod">
+<dt id="webscavator.controllers.visualController.VisualController.processOptions">
+<em class="property">
+static </em><tt class="descname">processOptions</tt><big>(</big><em>opts</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.VisualController.processOptions" title="Permalink to this definition">¶</a></dt>
+<dd>Process the options for each filterable table in <a class="reference external" href="models.html"><em>Database Models</em></a>. 
+Returns a dictionary with the table attribute as keys and the operations, 
+values and value type as the value tuple.</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.controllers.visualController.convertDates">
+<tt class="descclassname">webscavator.controllers.visualController.</tt><tt class="descname">convertDates</tt><big>(</big><em>dates</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.convertDates" title="Permalink to this definition">¶</a></dt>
+<dd>Given a list of dates in JavaScript date format, returns a list of Python dates.
+JavaScript stores dates in milliseconds since the Epoch.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.controllers.visualController.convertFilters">
+<tt class="descclassname">webscavator.controllers.visualController.</tt><tt class="descname">convertFilters</tt><big>(</big><em>request_args</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.convertFilters" title="Permalink to this definition">¶</a></dt>
+<dd>For each request argument, if it is a filter, than put it in the appropriate filter list.
+The request arguments will either be &#8220;highlight&#8221; or &#8220;remove&#8221; and will subsequently be put
+in either <cite>highlight_funcs</cite> or <cite>remove_funcs</cite>. Returns those lists.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.controllers.visualController.convertTimes">
+<tt class="descclassname">webscavator.controllers.visualController.</tt><tt class="descname">convertTimes</tt><big>(</big><em>times</em><big>)</big><a class="headerlink" href="#webscavator.controllers.visualController.convertTimes" title="Permalink to this definition">¶</a></dt>
+<dd>Given a list of times stored as a fraction e.g. 15.5 is 3:30pm, returns a list
+of Python times.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

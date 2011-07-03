@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>csvConverter &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Converters" href="converters.html" />
+    <link rel="next" title="Chrome Cache Viewer Converter" href="chromecacheviewer.html" />
+    <link rel="prev" title="Web Historian Converter" href="webhistorian.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="chromecacheviewer.html" title="Chrome Cache Viewer Converter"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="webhistorian.html" title="Web Historian Converter"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="converters.html" accesskey="U">Converters</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="webhistorian.html"
+                                  title="previous chapter">Web Historian Converter</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="chromecacheviewer.html"
+                                  title="next chapter">Chrome Cache Viewer Converter</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/csvConverter.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.converters.csv_converter">
+<h1>csvConverter<a class="headerlink" href="#module-webscavator.converters.csv_converter" title="Permalink to this headline">¶</a></h1>
+<p>Children:</p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="chromecacheviewer.html">Chrome Cache Viewer Converter</a></li>
+<li class="toctree-l1"><a class="reference external" href="foxanalysis.html">Fox Analysis Converter</a></li>
+<li class="toctree-l1"><a class="reference external" href="pasco.html">Pasco Converter</a></li>
+<li class="toctree-l1"><a class="reference external" href="netanalysis.html">Net Analysis Converter</a></li>
+</ul>
+<div class="section" id="csv-converters">
+<h2>CSV Converters<a class="headerlink" href="#csv-converters" title="Permalink to this headline">¶</a></h2>
+<p>Module contains abstract class that all web history programs that output CSV data must inherit from.</p>
+<p>All children must return in <cite>process_row(row)</cite>:</p>
+<div class="highlight-python"><pre>return {
+    'type': type of entry, 
+    'url': URL entry, 
+    'modified_time': modified time of entry,
+    'access_time': access time of entry,
+    'filename': entry file name, 
+    'directory': entry directory,
+    'http_headers': HTTP headers of entry,
+    'title': entry page title,
+    'deleted': if entry is deleted,
+    'content_type': entry content type,
+    'browser_name': browser used, one of 'Firefox', 'Internet Explorer', 'Safari', 'Chrome', 'Opera',
+    'browser_version': browser version,
+    'source_file': profile or location/name of file
+}  </pre>
+</div>
+<p>All entries in the dictionary may be <cite>None</cite> apart from <cite>url</cite> and <cite>access_time</cite>.</p>
+<dl class="class">
+<dt id="webscavator.converters.csv_converter.CSVConverter">
+<em class="property">
+class </em><tt class="descclassname">webscavator.converters.csv_converter.</tt><tt class="descname">CSVConverter</tt><big>(</big><em>csv_file</em><big>)</big><a class="headerlink" href="#webscavator.converters.csv_converter.CSVConverter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Children classes must override delimiter and skip:</p>
+<dl class="docutils">
+<dt><cite>delimiter</cite></dt>
+<dd>the CSV file delimiter.</dd>
+<dt><cite>skip</cite></dt>
+<dd>how many lines to skip at the top of the CSV file (including header lines).</dd>
+</dl>
+<dl class="method">
+<dt id="webscavator.converters.csv_converter.CSVConverter.process">
+<tt class="descname">process</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.converters.csv_converter.CSVConverter.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in the CSV file, skips <cite>skip</cite> number of lines and then for each line in the CSV file calls
+<cite>self.process_row()</cite> in the child class.</p>
+<p>Returns a generator which can be looped over to get the normalised row.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

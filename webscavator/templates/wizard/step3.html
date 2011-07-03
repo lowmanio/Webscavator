@@ -1,0 +1,106 @@
+﻿<%inherit file="/base/base.html"/>
+<%namespace file="/utils/common.html" name="c" />
+
+<%def name="javascripts()" filter="trim">
+    <link rel="StyleSheet" href="${urls.build("css", dict(file='demo_page.css'))|h}" type="text/css" />
+    <link rel="StyleSheet" href="${urls.build("css", dict(file='demo_table.css'))|h}" type="text/css" />
+
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.dataTables.js"))|h}"></script>
+    
+    <script type="text/javascript">
+    
+    $(document).ready(function () {
+        ${c.wizard_hover('3', '1', '2')};   
+          
+        var i = ${len(case.groups)};
+        for (x=0; x<i; x++){
+          $('#csv_data_' + x).dataTable();
+        };
+        
+        $('.displaytable').click(function (){
+            if ($(this).hasClass("shown")) {          
+                $('#group_' + $(this).attr('id')).slideUp();
+                $(this).removeClass('shown').html('View added data');
+            }
+            else {
+                $('#group_' + $(this).attr('id')).slideDown();
+                $(this).addClass('shown').html('Hide added data');
+            }
+            return false;
+        });        
+        
+    });
+    </script>
+</%def>
+
+${c.wizard(3, edit)}
+
+<h1>Step 3: Check data is correct</h1>
+
+% if edit:
+<form action="${urls.build("case.edit4", dict())|h}" method="post">
+% else:
+<form action="${urls.build("case.wizard4", dict())|h}" method="post">
+% endif
+
+    <input type="hidden" value="" />
+    
+    <p><label class="label_header">Case:</label> <span class="lose_formatting">${case.name|h}</span></p>
+    <p><label class="label_header">Date case added:</label> ${case.formatted_date|h}</p>
+    <p><label class="label_header">File data saved to:</label> <span class="fixedwidth">${dbfile|h}</span> (Sqlite database)</p>
+    <p><label class="label_header">File location:</label> <span class="fixedwidth">${dblocation|h}</span></p>
+    
+    % for i, g in enumerate(case.groups):
+    
+    <h2><img src="${urls.build("images", dict(file='programs/' + g.program_icon))|h}" alt="${g.program_name|h} icon" class="surround" width="50px" />
+    
+    ${g.name|h} web history:
+    
+    % if len(case.groups) == 1:
+    </h2>
+    % else:
+    <span class="dropdown"><a class="displaytable" id="${i|h}" href="#">View added data</a></span></h2>
+    % endif
+    
+    <div class="clear"></div>
+    
+    % if len(case.groups) == 1:
+    <div id="group">
+    % else:
+    <div id="group_${i|h}" style="display:none">
+    % endif
+    
+        % if g.description:
+        <p><label class="label_header">Description:</label> ${g.description|h}</p>
+        % endif
+        <p><label class="label_header">File uploaded:</label> ${g.csv_name|h}</p>
+        
+        <table cellpadding="0" cellspacing="0" border="0" class="display data" id="csv_data_${i|x}">
+        <thead>
+            <tr>
+            % for h in headers:
+                <th class="${h[0]|h}">${h[1]|h}</th>
+            % endfor
+            </tr>
+        </thead>
+        <tbody>
+            % for entry in g.entries:
+            <tr>
+                % for h in headers:
+                <td class="${h[0]|h}">${getattr(entry, h[0], '')|h}</td>
+                % endfor
+            </tr>
+            % endfor
+        </tbody>
+        </table>
+        <div class="clear"></div>
+    </div>
+    % endfor
+    
+    <p class="centre">
+        <a class="no_link" href="${urls.build("case.edit2", dict())|h}"><img src="${urls.build("images", dict(file='site/previous.bmp'))|h}" alt="Previous" /></a>
+        <input type="image" src="${urls.build("images", dict(file='site/next.bmp'))|h}" alt="Next" />
+    </p>
+
+</form>

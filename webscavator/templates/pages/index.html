@@ -1,0 +1,638 @@
+﻿<%inherit file="/base/base.html"/>
+<%namespace file="/utils/forms.html" name="f" />
+<%namespace file="/utils/javascripts.html" name="j" />
+<%namespace file="/utils/common.html" name="c" />
+<%namespace file="/utils/format.html" name="u" />
+
+<%def name="javascripts()" filter="trim">
+    
+    
+    <!--[if IE]><script language="javascript" type="text/javascript" src='${urls.build("js", dict(file="flot/excanvas.min.js"))|h}'></script><![endif]-->
+    
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.min.js"))|h}"></script>   
+    
+    <!-- For Flot -->
+    <script type="text/javascript" src='${urls.build("js", dict(file="flot/jquery.flot.js"))|h}'></script>
+    <script type="text/javascript" src='${urls.build("js", dict(file="flot/jquery.flot.selection.js"))|h}'></script>
+    <script type="text/javascript" src='${urls.build("js", dict(file="flot/jquery.flot.navigate.js"))|h}'></script>    
+    
+    <link rel="StyleSheet" href="${urls.build("css", dict(file='plot.css'))|h}" type="text/css" />
+    <script type="text/javascript" src='${urls.build("js", dict(file="flot/jquery.flot.valuelabels.js"))|h}'></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="date.format.js"))|h}"></script>
+    
+    <!-- For the Tabs and Forms-->
+    <link rel="StyleSheet" href="${urls.build("css", dict(file='tabs.css'))|h}" type="text/css" />
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.form.js"))|h}"></script>
+    <link rel="StyleSheet" href="${urls.build("css", dict(file='dateinput.css'))|h}" type="text/css" />
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.tools.min.js"))|h}"></script>
+    <link rel="StyleSheet" href="${urls.build("css", dict(file='overlay.css'))|h}" type="text/css" />
+    
+    <!-- for the Barcharts -->
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.horiz-bar-graph.js"))|h}"></script>
+    
+    <!-- for the Piechart -->
+    <script type="text/javascript" src="${urls.build("js", dict(file="jsapi.js"))|h}"></script>
+    ${j.pieChart()|h}
+   
+   <script type="text/javascript">
+   $(document).ready(function () {        
+        var timegraph = $("#timegraph");
+        var overviewgraph = $("#overview");    
+        var choiceContainer = $("#choices");
+        
+        var orig_options = ${j.options(start, end)};
+        var options = $.extend(true, {}, orig_options);
+        var orig_overview_options = ${j.overview_options()};
+        var overview_options = $.extend(true, {}, orig_overview_options);
+        
+        var datasets = null;
+        var plot = null;
+        var overview = null;
+        
+        ${j.weekends()}
+        ${j.checkarrows()}
+        ${u.createTime()}
+              
+        ${j.loadJSON_timeline()|h}
+        ${j.loadJSON_domains()|h}
+        ${j.loadJSON_searches()|h}
+
+        ${j.tab_functions()|h}
+        
+        loadJSON_timeline();
+        loadJSON_domains();
+        loadJSON_searches();
+    
+        function showTooltip(x, y, colour, contents) {
+            $('<div id="flot_tooltip">' + contents + '</div>').css( {
+                top: y + 5,
+                left: x + 5,
+                'background-color': colour
+            }).appendTo("body").fadeIn(200);
+        }
+
+        function getText(item, longer){
+            var x = item.datapoint[0], y = item.datapoint[1];
+            
+            var d = new Date(parseFloat(x)); 
+            d.setUTCSeconds(y * 3600); 
+            time = d.format("HH:MM:ss");
+            date = d.format('dd/mm/yyyy');
+            
+            url = item.series.data[item.dataIndex][2];
+            if (longer == false){
+                var text = "<p><b>" + date + " - " + time + "</b></p><p>" + unescape(url) + "</p>";
+            }
+            else{
+                browser = item.series.data[item.dataIndex][3];
+                version = item.series.data[item.dataIndex][4];
+                source = item.series.data[item.dataIndex][5];
+                program = item.series.data[item.dataIndex][6];
+                title = item.series.data[item.dataIndex][7];
+                var text = "<p><b>" + date + " - " + time + "</b></p>";
+                text += "<p><label class='wordcloud'>URL:</label>" + unescape(url) + "</p>";
+                text += "<p><label class='wordcloud'>Browser:</label>" + browser + " (version " + version + ") [" + source + "]</p>";
+                text += "<p><label class='wordcloud'>Page Title:</label>" + title + "</p>";
+                text += "<p><label class='wordcloud'>Program:</label>" + program + "</p>";
+            }
+            return text;
+        }
+        
+        var previousPoint = null;
+        timegraph.bind("plothover", function (event, pos, item) {
+            if (item) {
+                if (previousPoint != item.datapoint) {
+                    previousPoint = item.datapoint;
+                    $("#flot_tooltip").remove();
+                    text = getText(item, false);
+                    showTooltip(item.pageX, item.pageY, item.series.color, text);
+                }
+            }
+            else {
+                $("#flot_tooltip").remove();
+                previousPoint = null;            
+            }
+            
+        });
+        
+       timegraph.bind("plotclick", function (event, pos, item) {
+            if (item) {
+                text = getText(item);
+                $("#datainfo").show();
+                $("#clickdata").html(text, true);
+                plot.highlight(item.series, item.datapoint);
+            }
+        });
+
+        function adjustAxes(event, plot) {
+            var xaxis = plot.getAxes().xaxis;
+            var yaxis = plot.getAxes().yaxis;
+            
+            if (yaxis.max - yaxis.min > 23.999) {
+                yaxis.min = 0;
+                yaxis.max = 23.999;
+            }
+            
+            <% diff = end - start %>
+            if (xaxis.max - xaxis.min > ${diff}) {
+                xaxis.min = Math.round((xaxis.max + xaxis.min - ${diff})/2);
+                xaxis.max = xaxis.min + ${diff};
+            }
+        
+            if (yaxis.max > 23.999) {
+                var diff = yaxis.max - 23.999;
+                yaxis.min = yaxis.min - diff;
+                yaxis.max = 23.999;
+            }
+            
+            if (yaxis.min < 0) {
+                yaxis.max = yaxis.max - yaxis.min;
+                yaxis.min = 0;
+            }            
+        
+            $.extend(true, options, {
+                xaxis: {min: xaxis.min, max: xaxis.max},
+                yaxis: {min: yaxis.min, max: yaxis.max}
+            });
+            loadJSON_timeline();
+        }        
+
+        timegraph.bind('plotpan', adjustAxes);
+        timegraph.bind('plotzoom', adjustAxes);
+        
+        overviewgraph.bind("plotselected", function (event, ranges) {
+                if (ranges.xaxis.to - ranges.xaxis.from < 0.00001){
+                    ranges.xaxis.to = ranges.xaxis.from + 0.00001;
+                };
+                if (ranges.yaxis.to - ranges.yaxis.from < 0.00001){
+                    ranges.yaxis.to = ranges.yaxis.from + 0.00001;
+                };
+                
+                $.extend(true, options, {
+                    xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
+                    yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
+                });
+
+                options.dup_remove = 0;
+                loadJSON_timeline();
+        });
+          
+        $('#show_labels_checkbox').change(function(){
+            if ($(this).attr('checked') == true){
+                $.extend(true, options, {
+                    valueLabels: {show: true, showAsHtml: true}
+                });
+                plotGraph();
+            }
+            else {
+                $.extend(true, options, {
+                    valueLabels: {show: false, showAsHtml: false}
+                });
+                plotGraph();            
+            }
+            return false;
+        });
+            
+        function reset_filters(id){
+            $('#' + id + ' input:checked').attr('checked', false);
+            $('#' + id + ' input[value=normal]').attr('checked', true);
+            $('.filterText').css({'background-color':'white','color':'black'});
+        };
+        
+        $('#zoom_out').click(function (e) {
+            plot.zoomOut();
+            return false;
+        });
+        $('#reset_graph').click(function (e) {
+            reset_options();
+            loadJSON_timeline();
+            return false;
+        });
+        
+        $(".reset_filters").click(function (){
+            var id = $(this).parent().parent().parent().attr('id');
+            reset_filters(id);
+            
+            options.filters = [];            
+            loadJSON_timeline();
+            loadJSON_domains();
+            loadJSON_searches();
+
+            return false;
+        });
+
+        ${j.reset_options()}
+           
+        ${j.move_dates()}
+        $(".back_two").click(function (){ return moveDate(-31); });
+        $(".forward_two").click(function (){ return moveDate(31); });        
+        
+        $('#filters input').live('change', function(){
+            var filters = []
+            $('#filters input:checked').each(function(i){
+                filters.push([$(this).attr('name'), $(this).val()]);
+                if ($(this).val() == "normal"){
+                    $(this).parent().children('.filterText').css({'background-color':'white','color':'black'});
+                }
+                else if ($(this).val() == "highlight"){
+                    $(this).parent().children('.filterText').css({'background-color':'#99FF66','padding':'3px','color':'black'});
+                }
+                else{
+                    $(this).parent().children('.filterText').css({'background-color':'#CC0000', 'padding':'3px', 'color':'white'});
+                }
+            });
+            options.filters = filters;
+            loadJSON_timeline();
+            loadJSON_searches();
+            loadJSON_domains();
+            
+        });
+        
+        $('.shownumdomains').change(function(){
+            loadJSON_domains();            
+        });
+        
+        $('.shownumsearches').change(function(){
+            loadJSON_searches();
+        });
+
+        ${j.popup()}
+        $('.add_filter').click(function () {
+            popUp('${urls.build("visual.addFilter", dict())|h}');            
+            return false;
+        });
+        
+        $(":date").dateinput({format: 'dd/mm/yyyy'});
+
+        $('select').change(function () {
+            var hour = $(this).parent().children('.hour').val();
+            var min = $(this).parent().children('.min').val();
+            var sec = $(this).parent().children('.sec').val();
+            $(this).parent().children('input').val(hour + ':' + min + ':' + sec);
+        });
+        
+        ${j.heatmap_functions()|h}
+        
+        ${j.file_functions()|h}
+        
+        $('.help_info').click(function(){
+            $(this).parent().children('.information').slideToggle();
+            return false;
+        });       
+        
+        $("p.file_titles[title]").tooltip({
+                                            events: {def: "click,mouseout"},
+                                            position: 'top center',
+                                            offset: [0, 100],
+                                            tipClass:'word_tooltip'
+        });
+    }); 
+    </script>
+        
+</%def>
+
+
+<!-- filters -->
+<div id="filters">
+    ${filterbox()|h}
+</div>
+        
+<!-- the tabs -->
+<ul class="tabs">
+	<li><a id="t1" href="#overview"><span class="tab_title">Overview</span></a></li>
+    <li><a id="t2" href="#timeline"><span class="tab_title">Timeline</span></a></li>
+	<li><a id="t3" href="#websites"><span class="tab_title">Websites visited</span></a></li>
+	<li><a id="t4" href="#searches"><span class="tab_title">Online Searches</span></a></li>
+    <li><a id="t5" href="#files"><span class="tab_title">Files</span></a></li>
+</ul>
+
+<!-- tab "panes" -->
+<div class="panes">
+
+	<div class="interior">
+        ${tab_overview()|h}
+    </div>
+    <div class="interior">
+        ${tab_timeline()|h}
+    </div>
+	<div class="interior">
+        ${tab_websites()|h}
+    </div>
+    
+	<div class="interior">
+        ${tab_searchengines()|h}
+    </div>
+    <div class="interior">
+        ${tab_files()|h}
+    </div>
+    
+</div>
+
+<%def name="filterbox()" filter="trim">
+    <div class="filters">
+        <h3>Filters</h3>
+        
+        % for i in range(0,5):
+        <div class="filter_group">
+            <img class="highlight_img" src="${urls.build('images', dict(file='site/nothing.png'))|h}" alt="normal" title="Turn off filter" width="15px" /> 
+            <img class="highlight_img" src="${urls.build('images', dict(file='site/tick.png'))|h}" alt="highlight" title="Highlight entries" width="15px" /> 
+            <img class="remove_img" src="${urls.build('images', dict(file='site/cross.png'))|h}" alt="remove" title="Remove entries" width="15px" />
+        </div>
+        % endfor
+         
+        % for i, f in enumerate(allfilters):
+            % if i % 5 == 0:
+            <div class="clear"></div>
+            % endif
+        <div class="filter_group">
+            <input type="radio" name="${f.label}" value="normal" class="normal_checkbox" checked />
+            <input type="radio" name="${f.label}" value="highlight" class="highlight_checkbox" />
+            <input type="radio" name="${f.label}" value="remove" class="remove_checkbox" /><span class="filterText">${f.text}</span>
+        </div>
+        % endfor
+    </div>
+    <div class="filter_options">
+        <p><a href="#" class="reset_filters">Reset Filters</a></p>
+        <p><a href="#" class="add_filter">Add New Filter</a></p>
+    </div>
+    <div class="clear"></div>
+</%def>
+
+<%def name="tab_overview()" filter="trim">
+
+    <a class="help_info no_link" href="#"><img src="${urls.build("images", dict(file='site/help.png'))|h}" alt="help icon" title="click for information about this tab" /></a>
+   
+    <h1>Overview for ${case.name|h}</h1>
+    <div class="information">
+         <h4>Information</h4>
+        <p>The heatmap below shows the total number of entries for each day of the week at every hour. The lighter the colour, the more entries there are. Black means
+        there are no entries for that hour.</p>
+    </div>
+    
+    <div class="left_col">
+        <h2>Heat Map of Internet Usage</h2>
+        <table id="heat_map_table">
+            <tr class="toprow">
+                <th id="top_corner"></th>
+                % for header in heatmap_headers:
+                <th>${header|h}</th>
+                % endfor
+            </tr>
+            % for heading, columns in heatmap_rows:
+                <tr>
+                    <th class="leftrow">${heading|h}</th>
+                    % for col in columns:
+                    <td>${col|h}</td>
+                    % endfor
+                </tr>
+            % endfor
+        </table>
+    </div>
+    
+    <div class="right_col">
+        <h2>Browser Statistics</h2>
+        % for browser,count in browser_stats:
+            <p><label class="browsers">${browser|h}:</label><b>${'%.2f' %(count * 100)|h}%</b></p>
+        % endfor
+        
+        <h2>Internet Usage Statistics</h2>
+        <p>Average amount of web pages visited daily: <b>${average_pages|h}</b></p>
+        <p>Peak time of usage: <b>${peak_time}</b></p>
+        
+        <h2>Case Information</h2>
+        <p><label class="browsers">Case name:</label><b>${case.name|h}</b></p>
+        <p><label class="browsers">Date created:</label><b>${case.formatted_date|h}</b></p>
+        <h3>Web Files</h3>
+        <% last = len(case.groups) - 1 %>
+        % for i, group in enumerate(case.groups):
+        <p><label class="browsers">Name:</label><b>${group.name|h}</b></p>
+            % if group.description:
+            <p><label class="browsers">Description:</label><b>${group.description|h}</b></p>
+            % endif
+        <p><label class="browsers">Program used:</label><b>${group.program_name|h}</b></p>
+        <p><label class="browsers">File uploaded:</label><b>${group.csv_name|h}</b></p>
+        % if i != last:
+        <hr/>
+        % endif
+        % endfor
+    </div>
+    <div class="clear"></div>
+</%def>
+
+<%def name="tab_timeline()" filter="trim">
+    <a class="help_info no_link" href="#"><img src="${urls.build("images", dict(file='site/help.png'))|h}" alt="help icon" title="click for information about this tab" /></a>
+    
+    <h1>Timeline for ${case.name|h}</h1>
+    <div class="information">
+        <h4>Information</h4>
+        <p>Click on 'previous month' and 'next month' to navigate through each month. You can <u>hover over</u> any of the points on the timeline
+        to see some more information. Complete information can be obtained by <u>clicking the point</u> and scrolling down the the bottom of this page. 
+        Details are given under the title 'Entry Information'.
+        The second, smaller timeline at the bottom will remain unhighlighted and zoomed out.</p>
+        <p>Press the <u>reset graph</u> link to reset the graph to show the latest two months worth of data. To <u>zoom in</u> - double click an area of the graph you want to
+        zoom into. You can zoom back out by pressing the <u>zoom out</u> link. Once you have only a few points of the timeline, you may find you want to see what
+        websites the user has visited without hovering over each point. Press the <u>show labels checkbox</u>, and all the URLs will appear next to the point. This may
+        be quite cluttered if you are viewing many points at once. Uncheck the checkbox to remove the labels.</p>
+        <p>You can apply the filters above to this tab. Clicking a  
+        <img src="${urls.build('images', dict(file='site/cross.png'))|h}" alt="highlight" width="15px" /> 
+        filter will remove entries
+        from the results - they will appear on the timeline as a faint grey. Clicking a 
+        <img src="${urls.build('images', dict(file='site/tick.png'))|h}" alt="highlight" width="15px" />  
+        will highlight those entries in orange. For example, removing 'Internet Explorer' and highlighting 'Work Hours' will fade out
+        all Internet Explorer entries, and highlight in orange any work hour entries that were not made using Internet Explorer. 
+        </p>
+    </div>
+
+    <div id="timegraph_controls">
+        <a href="#" id="reset_graph">Reset Graph</a> |
+        <a href="#" id="zoom_out" >Zoom Out</a> |
+        Show Labels <input type="checkbox" value="false" name="show_labels" id="show_labels_checkbox" />
+    </div>
+
+    
+    <div id="helper">
+        <p class="centre">
+            <a class="no_link back_two" href="#"><img class="fitonline_arrow" src="${urls.build("images", dict(file='site/arrow-left.gif'))|h}" /></a> 
+            <a class="back_two" href="#">Move back 31 days</a> <a class="forward_two" style="display:none" href="#">Move forward 31 days</a>
+            <a class="no_link forward_two" style="display:none" href="#"><img class="fitonline_arrow" src="${urls.build("images", dict(file='site/arrow-right.gif'))|h}" /></a>
+        </p>
+    </div>
+    
+    <div id="timegraph"></div>
+    <div id="overview"></div>
+    <div class="clear"></div>
+    <div id="datainfo" style="display:none;">
+        <h2>Entry Information</h2>
+        <div id="clickdata"></div>
+    </div>
+</%def>
+
+<%def name="tab_websites()" filter="trim">
+    <a class="help_info no_link" href="#"><img src="${urls.build("images", dict(file='site/help.png'))|h}" alt="help icon" title="click for information about this tab" /></a>
+    
+    <h1>Websites visited for ${case.name|h}</h1>
+    <div class="information">
+        <h4>Information</h4>
+        <p>Click on a bar in the bar chart to view a breakdown of the subdomains visited for that domain.</p>
+        <p>You can apply the filters above to this tab. Clicking a  
+        <img src="${urls.build('images', dict(file='site/cross.png'))|h}" alt="highlight" width="15px" /> 
+        filter will remove entries
+        from the results. Clicking a 
+        <img src="${urls.build('images', dict(file='site/tick.png'))|h}" alt="highlight" width="15px" />  
+        will show only those highlighted. For example, removing 'Internet Explorer' and highlighting 'Work Hours' will show <i>only</i> the
+        domains visited during work hours using a browser that was not Internet Explorer.</p>
+    </div>
+    
+    <h2>
+        <span class="smaller">
+            <select name="shownumdomains" class="shownumdomains">
+                <option value="20">Top 20</option>
+                <option value="50">Top 50</option>
+                <option value="100">Top 100</option>
+                <option value="all">All</option>
+            </select>
+        </span> 
+        Domain Names Visited
+    </h2>
+    <div class="waiting" id="waiting_for_domains" style="display:none"></div>
+    <dl class="domain_data" title=""></dl>
+    <div class="clear"></div>
+</%def>
+
+<%def name="tab_searchengines()" filter="trim">  
+    <a class="help_info no_link" href="#"><img src="${urls.build("images", dict(file='site/help.png'))|h}" alt="help icon" title="click for information about this tab" /></a>
+    
+    <h1>Search Engine Usage for ${case.name|h}</h1>
+    
+    <div class="information">
+        <h4>Information</h4>
+        <p>Click on a search engine listed below to view the searches made. Click on a search term to show a list of all the searches made with that search term.</p>
+        <p>You can apply the filters above to this tab. Clicking a  
+        <img src="${urls.build('images', dict(file='site/cross.png'))|h}" alt="highlight" width="15px" /> 
+        filter will remove entries
+        from the results. Clicking a 
+        <img src="${urls.build('images', dict(file='site/tick.png'))|h}" alt="highlight" width="15px" />  
+        will show only those highlighted. For example, removing 'Internet Explorer' and highlighting 'Work Hours' will show <i>only</i> the
+        searches that were done in work hours using a browser that was not Internet Explorer.</p>     
+    </div>
+    
+    <!-- the tabs -->
+    <div id="search_tabs">
+        <select name="shownumsearches" class="shownumsearches">
+            <option value="20">Top 20</option>
+            <option value="50">Top 50</option>
+            <option value="100">Top 100</option>
+            <option value="all">All</option>
+        </select>
+            
+        <ul class="in_tabs">
+        </ul>
+    </div>
+        
+        <div class="clear"></div>
+        
+        <!-- tab "panes" -->
+        <div class="waiting" id="waiting_for_searches" style="display:none"></div>
+        <div class="in_panes">          
+        </div>
+</%def>
+
+<%def name="getTitleFiles(name, dates, file_type)">
+    <h3><img src='${urls.build('images', dict(file='site/'+file_type+'.png'))|h}' class='surround' />File: ${name}</h3>
+    <p>This file has been accessed at these times:</p>
+    <% d = None %>
+    % for date, time in dates:
+    % if date == d:
+    <p class='indent' style='margin-left:80px'>${u.format_datetime(None, time)}</p>
+    % else:
+    <p class='indent'>${u.format_datetime(date, time)}</p>
+    <% d = date %>
+    % endif
+    % endfor
+</%def>
+
+<%def name="iter_tree(tree, depth, file_type)">
+    % for name, children in tree.iteritems():
+        % if isinstance(children, tuple):
+        <% count, dates = children %>
+        <p class="file_struct file_titles" style="margin-left:${depth * 25}px!important;" title="${getTitleFiles(name, dates, file_type)}">
+             <img src="${urls.build("images", dict(file='site/'+file_type+'.png'))|h}" class="surround" width="25px" />
+             ${name|h}
+             % if count == 1:
+                [${count} access]
+            % else:
+                [${count} accesses]
+            % endif
+        </p>
+
+        % else:
+            <p class="file_struct" style="margin-left:${depth * 25}px!important;">
+                 <img src="${urls.build("images", dict(file='site/folder.png'))|h}" class="surround" width="25px" />
+                 ${name|h}  
+            </p>
+            ${iter_tree(children, depth + 1, file_type)}
+        % endif
+    % endfor
+</%def>
+
+<%def name="tab_files()" filter="trim">
+    <a class="help_info no_link" href="#"><img src="${urls.build("images", dict(file='site/help.png'))|h}" alt="help icon" title="click for information about this tab" /></a>
+
+    <h1>Files Accessed for ${case.name}</h1>
+    
+    <div class="information">
+         <h4>Information</h4>
+        <p>Click on 'show details' on the right hand side to see a pie chart of the different file types accessed on that particular drive. 
+        To see what files were accessed, click 'show details' on the file type of your choice. This will show a tree structure of the files accessed.
+         Click on a file to see the times and dates the file was accessed.</p>
+    </div>
+    
+    <p>In total, 
+    % if file_amount != 1:
+    <b>${file_amount}</b> files were accessed 
+    % else:
+    <b>${file_amount}</b> file was accessed 
+    % endif
+    
+    <% total = sum(drive[1] for drive in files_accessed.itervalues()) %>
+    % if total != 1:
+    <b>${total}</b> times 
+    % else:
+    <b>${total}</b> time 
+    % endif
+
+    % if len(files_accessed) != 1:
+        on <b>${len(files_accessed)}</b> drives.</p>
+    % else:
+        on <b>${len(files_accessed)}</b> drive.</p>
+    % endif
+
+    % for drive, (file_types, drive_count) in files_accessed.iteritems():
+        <h2><img src="${urls.build("images", dict(file='site/drive.png'))|h}" class="surround" /> 
+        % if drive_count == 1:
+            ${drive}:/ Drive [${drive_count} access] <span class="showhide"><a href="#" class="showhidefiles">show details</a></span></h2>
+        % else:
+            ${drive}:/ Drive [${drive_count} accesses] <span class="showhide"><a href="#" class="showhidefiles">show details</a></span></h2>
+        % endif
+        <div class="showhidefile_div" style="display:none">
+            <h3>Pie Chart of the different file types accessed</h3>
+            <div class="piechart_files" id="chart_div_${drive}"></div>
+           % for file_type, (tree, count) in file_types.iteritems():
+                % if count == 1:
+                    <h3>${file_type.title()}s [${count} access] <span class="showhide"><a href="#" class="showhidefiles">show details</a></span></h3>
+                % else:
+                    <h3>${file_type.title()}s [${count} accesses] <span class="showhide"><a href="#" class="showhidefiles">show details</a></span></h3>
+                % endif
+                
+                <div class="showhidefile_div paths" style="display:none">
+    
+                    ${iter_tree(tree, 0, file_type)}                        
+                
+                    <div class="clear"></div>
+                </div>
+            % endfor
+            <div class="clear"></div>
+        </div>
+    % endfor    
+   
+</%def>

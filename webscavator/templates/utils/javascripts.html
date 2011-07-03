@@ -1,0 +1,533 @@
+## options for Flot graph on index page
+<%def name="options(start, end)" filter="trim">
+    {   
+        xaxis: {   
+                mode: "time", 
+                ticks: ${ticksize}, 
+                min: ${start},
+                max: ${end},
+                minTickSize: [1, "day"], 
+                tickFormatter: function (val, axis, ticks) {
+                    var d = new Date(val);
+                    var m = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                    day = d.getDate()
+                    if (day == 1 || ticks.length == 1) { 
+                        return day + " " + (m[d.getMonth()])
+                    }
+                    else { 
+                        return day 
+                    };
+                },
+                panRange: [${backward_limit}, ${forward_limit}],
+        }, 
+        ${yaxis()}
+        grid: {markings: weekendAreas, hoverable: true, clickable: true },
+        legend: {show: false},
+        filters: [],
+        dup_remove: 0,
+        pan: {interactive: true},
+        zoom: {interactive: true}
+    }
+</%def>
+
+<%def name="yaxis()" filter="trim">
+yaxis:  {                              
+                ticks: 24,
+                
+                tickFormatter: function (val, axis, ticks) {
+                    var hours = Math.floor(val);
+                    var allseconds = 3600 * (val - hours);
+                    var mins = Math.floor(allseconds / 60);
+                    var seconds = Math.floor(allseconds % 60);
+                    var time_str = ('0' + hours).substr(-2) + ':' + ('0' + mins).substr(-2);
+                    if (seconds > 0) {
+                        time_str += ':' + ('0' + seconds).substr(-2);
+                    }
+                    return time_str;
+                },
+                minTickSize: 1/3600,
+                
+                min: 0, 
+                max: 23.999,
+                panRange: [0, 24]
+        },
+</%def>
+
+## options for the overview Flot graph of index page
+<%def name="overview_options()" filter="trim">
+    {
+        xaxis: {    
+            mode: "time" , 
+            ticks: ${ticksize},
+            min: ${start},
+            max: ${end},            
+            minTickSize: [1, "day"],
+            tickFormatter: function (val, axis) {
+                var d = new Date(val);
+                var m = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                day = d.getDate()
+                if (day == 1){return day + " " + (m[d.getMonth()])}
+                else { return day };
+            }
+        },
+        yaxis: {    
+            ticks:  [[0, "12 AM"], [6, "6 AM"], [12, "12 PM"],[18, "6 PM"], [23.99, "12 AM"]], 
+            min: 0, 
+            max: 23.999
+        },
+        selection: {mode: "xy", color: 'blue'},
+        grid: {markings: weekendAreas},
+        legend: {show: false}
+    }
+</%def>
+
+<%def name="weekends()" filter="trim">
+    function weekendAreas(axes) {
+        var markings = [];
+        var d = new Date(axes.xaxis.min);
+        d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 2) % 7))
+        d.setUTCSeconds(0);
+        d.setUTCMinutes(0);
+        d.setUTCHours(12);
+        var i = d.getTime();
+        do {
+            markings.push({ xaxis: { from: i, to: i + 2 * 24 * 60 * 60 * 1000 }, color: "#EEE" });
+            i += 7 * 24 * 60 * 60 * 1000;
+        } while (i < axes.xaxis.max);
+        return markings;
+    }
+</%def>
+
+<%def name="checkarrows()" filter="trim">
+    function checkarrows() {
+        var xaxis = overview.getAxes().xaxis;
+        if (xaxis.max >= ${forward_limit}){
+            $('.forward_two').hide();
+        }
+        else{
+            $('.forward_two').show();
+        }
+        if (xaxis.min <= ${backward_limit}){
+            $('.back_two').hide();
+        }
+        else{
+            $('.back_two').show();
+        }
+    }
+</%def>
+
+<%def name="reset_options()" filter="trim">
+    function reset_options() {
+        var filters = options.filters;
+        options = $.extend(true, {}, orig_options);
+        options.filters = filters;
+    }
+</%def>
+       
+<%def name="move_dates()" filter="trim">
+    function moveDate(amount) {
+        var xaxis = overview.getAxes().xaxis;
+
+        var start = null;
+        var end = null;
+                
+        if (amount > 0) {
+            end = new Date(xaxis.max);
+            end.setDate(end.getDate() + amount);
+            if (end.getTime() > ${forward_limit}) {
+                end = new Date(${forward_limit});
+            }
+            start = new Date(end.getTime());
+            start.setDate(start.getDate() - 62);
+        }
+        else {
+            start = new Date(xaxis.min);
+            start.setDate(start.getDate() + amount);
+            if (start.getTime() < ${backward_limit}) {
+                start = new Date(${backward_limit});
+            }
+            end = new Date(start.getTime());
+            end.setDate(end.getDate() + 62);
+        }        
+
+        $.extend(true, options, {
+            xaxis: { min: start.getTime(), max: end.getTime() }
+        });
+
+        loadJSON_timeline(true);
+        return false;
+    }
+</%def>
+
+<%def name="popup()" filter="trim">
+    function popUp(URL) {
+        page = window.open(URL, 'AddFilter', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=1000,height=600');
+    }
+</%def>
+
+<%def name="loadJSON_timeline()" filter="trim">
+    var flotData = null;
+    var overviewData = null;
+    
+    function plotOverview() {
+        if (overviewData != null) {
+            overview = $.plot(overviewgraph, overviewData, $.extend(true, {}, overview_options));
+        }
+    }
+    
+    function setSelection() {
+        var ranges = {
+            xaxis: { from: options.xaxis.min, to: options.xaxis.max },
+            yaxis: { from: options.yaxis.min, to: options.yaxis.max }
+        };
+        var xaxis = overview.getAxes().xaxis;
+        var yaxis = overview.getAxes().yaxis;
+        if (ranges.xaxis.from > xaxis.min ||
+            ranges.xaxis.to < xaxis.max ||
+            ranges.yaxis.from > yaxis.min ||
+            ranges.yaxis.to < yaxis.max) {
+            overview.setSelection(ranges, true);
+        }
+        else {
+            overview.clearSelection();
+        }
+                
+    }
+    
+    function reload_overview() {
+        var min = null;
+        var max = null;
+    
+        if (options.xaxis.min < overview_options.xaxis.min) {
+            min = options.xaxis.min;
+            var max_date = new Date(min);
+            max_date.setDate(max_date.getDate() + 62);
+            max = max_date.getTime();
+        }
+        else if (options.xaxis.max > overview_options.xaxis.max) {
+            max = options.xaxis.max;
+            var min_date = new Date(max);
+            min_date.setDate(min_date.getDate() - 62);
+            min = min_date.getTime();
+        }
+
+        if (min != null && max != null) {
+            $.extend(true, overview_options, {'xaxis': {'min': min, 'max': max}});
+        }
+        
+        if (min && max || overviewData == null || overview == null) {
+            var args = {xmin: overview_options.xaxis.min, xmax: overview_options.xaxis.max, ymin: overview_options.yaxis.min, ymax: overview_options.yaxis.max};
+            $.getJSON('${urls.build("visual.jsonGetEntries")|h}', args, function (obj) {
+                overviewData = obj;                
+                plotOverview();
+                checkarrows();
+                setSelection();
+            });
+        } else {
+            setSelection();
+        }
+    }
+
+    function plotGraph() {
+        if (flotData != null) {
+            plot = $.plot(timegraph, flotData, $.extend(true, {}, options));
+        }
+    }
+    
+    function loadJSON_overview() {
+        overview = $.plot(overviewgraph, flotData, overview_options);
+    }
+
+    function loadJSON_timeline() {
+        var args = {xmin: options.xaxis.min, xmax: options.xaxis.max, 
+                    ymin: options.yaxis.min, ymax: options.yaxis.max,
+                    dup_remove: options.dup_remove};
+                    
+        if (options.dup_remove != 0) {
+            args.dup_remove = options.dup_remove;
+        }
+        
+        if (options.filters.length != 0){
+            for (var i = 0; i < options.filters.length; i++){
+                args[options.filters[i][0]] = options.filters[i][1];
+            }
+        }
+    
+        reload_overview();
+    
+        $.getJSON('${urls.build("visual.jsonGetEntries")|h}', args, function (obj) {              
+            flotData = obj;
+            plotGraph();
+        });
+    }
+</%def>
+
+<%def name="barchart()" filter="trim">
+    <% interval = top_domains[0][1]/900.00 %>
+    $(".domain_data").horizontalBarGraph({
+            colors: ["#999", "#BBB"], 
+			hoverColors: [ "#C3E4ED"], 
+			interval: ${interval}
+    });
+</%def>
+
+<%def name="loadJSON_domains()" filter="trim">
+    function getDomainTitleText(title, amount, sub_domain_details){
+        var text = "\n<h3><img src='${urls.build('images', dict(file='site/chart_bar.png'))|h}' class='surround' /> Domain: "+title+"</h3>";
+        text += '<p>Total amount of visits: ' + amount + '</p><p>Visit breakdown:</p>';
+        $.each(sub_domain_details, function(i, details){
+            if (details[1] == 1){
+                text += "<p class='shrunk'><label class='hover'>" + details[0] + ":</label>" + details[1] + " visit</p>";
+            }
+            else{
+                text += "<p class='shrunk'><label class='hover'>" + details[0] + ":</label>" + details[1] + " visits</p>";
+            }
+            text += '<div class="clear"></div>';
+        });
+
+        return text;
+    }
+    
+    var domainData = null;
+    
+    function plotDomains() {    
+    
+        if (domainData != null) {
+            $('.domain_data').empty();
+            $('.no_websites').remove();
+
+            if (domainData.length != 0){
+                $.each(domainData, function(i, val){
+                    var title = val[0];
+                    var amount = val[1];
+                    var sub_domain_details = val[2];
+                    
+                    $('.domain_data').append($('<dt/>').html(title));
+
+                     $('.domain_data dt:last').after($('<dd />').html(amount).attr('title',getDomainTitleText(title, amount, sub_domain_details)));
+                });
+            
+                var interval = domainData[0][1]/800.00;
+            
+                $(".domain_data").horizontalBarGraph({
+                    colors: ["#999", "#BBB"], 
+                    hoverColors: [ "#C3E4ED"], 
+                    interval: interval
+                });
+                
+                $(".domain_data dd[title]").tooltip({
+                                                    events: {def: "click,mouseout"},
+                                                    position: 'top center',
+                                                    offset: [0, 100],
+                                                    tipClass:'word_tooltip'
+                });
+            }
+            else {
+                $('.domain_data').after($('<p/>').addClass('no_websites').html('No websites were visited.'));
+            }
+
+        }
+    }
+    
+    function loadJSON_domains(){
+        $('.domain_data').empty();
+        $('.no_websites').remove();
+        $('#waiting_for_domains').show();
+        
+        var filters = {};
+        $('#filters input:checked').each(function(i){
+            filters[$(this).attr('name')] = $(this).val();
+        });
+        filters['amount'] = $('.shownumdomains').val();
+            
+        $.getJSON('${urls.build("visual.jsonGetDomains")|h}', filters, function (obj) {
+            domainData = obj;       
+            $('#waiting_for_domains').hide();
+            plotDomains();
+        });
+      
+    }
+</%def>
+
+<%def name="tab_functions()" filter="trim">
+    $.tools.tabs.addEffect("redrawGraphs", function (tabIndex, done) {
+        this.getPanes().hide().eq(tabIndex).show();
+        
+        if (tabIndex == 1) {
+            plotGraph();
+            plotOverview();
+        } else if (tabIndex == 2) {
+            plotDomains();
+        }
+        done.call();
+    });        
+    
+    $("ul.tabs").tabs("div.panes > div", {history: true, effect: "redrawGraphs"});
+    $("ul.in_tabs").tabs("div.in_panes > div");
+</%def>
+
+
+<%def name="heatmap_functions()" filter="trim">
+    var low = ${low|h} - ${low};
+    var high = ${high|h} - ${low};
+    var current = 0, hex = 0, percent = 0;
+    $('#heat_map_table td').each(function(i){
+        current = parseFloat($(this).html()) - low;
+        percent = current/high;
+        hex = Math.floor(255 * percent);
+        
+        if (current == 0){
+            $(this).css({backgroundColor: 'black'});
+        }
+        else{
+            $(this).css({backgroundColor: 'rgb('+hex+','+hex+',204)'});
+        }
+    });
+    
+   $("#heat_map_table td").hover(
+        function () {
+            $(this).addClass('hover_over_td');
+        },
+        function () {
+            $(this).removeClass('hover_over_td');
+        }
+    );
+</%def>
+
+<%def name="file_functions()" filter="trim">
+    $('.showhidefiles').click(function(){
+        if ($(this).html() == "show details"){
+            $(this).parent().parent().next('.showhidefile_div').slideDown();
+            $(this).html("hide details");
+            return false;
+        }
+        else{
+            $(this).parent().parent().next('.showhidefile_div').slideUp();
+            $(this).html("show details");
+            return false;            
+        }
+    });
+</%def>
+
+<%def name="loadJSON_searches()" filter="trim">
+    function d2h(d) {return d.toString(16);}
+    
+    function getTitleText(word, other_terms, num){
+        var text = "\n<h3><img src='${urls.build('images', dict(file='site/magnifier.png'))|h}' class='surround' /> Search Term: "+word+"</h3>";
+        if (num == 1){
+            amount = ' once';
+        } 
+        else if (num == 2){
+            amount = "twice";
+        }
+        else{
+            amount = num + " times";
+        }
+        
+        text += "<p><b>"+word+"</b> has been searched <b>"+ amount +"</b>.</p>";
+        text += "<p><b>"+word+"</b> was used in the following searches:</p>";
+        $.each(other_terms, function(i, vals){
+            text += "<p class='shrunk'><b>"+vals[0]+"</b> ";
+            text += "[On " + vals[1] + "]";
+            text += "</p>\n";
+        }); 
+        return text;
+    };    
+    
+    function loadJSON_searches(){
+        var tab_api = $("ul.in_tabs").data("tabs");
+        var set_tabs_to = tab_api.getIndex();
+        
+        $('.in_panes').empty();
+        $('.in_tabs').empty();
+        $('#waiting_for_searches').show();
+        
+        var filters = {};
+        $('#filters input:checked').each(function(i){
+            filters[$(this).attr('name')] = $(this).val();
+        });
+        var amount = $('.shownumsearches').val();
+        filters['amount'] = amount;
+        
+        $.getJSON('${urls.build("visual.jsonGetWordClouds")|h}', filters, function (obj) {  
+            $('#waiting_for_searches').hide();
+           
+            $.each(obj, function(i, val){
+                var words = val[0];
+                var total_terms = val[1];
+                var search_engine = val[2];
+                var title = val[3];
+                var unique_terms = val[4];
+                var factor = 11/val[5];
+
+                $('.in_tabs').append($('<li/>').html($('<a/>').attr('href','#'+search_engine+'_tab').html($('<span/>').html(title))));
+                $('.in_panes').append($('<div/>').html($('<h2/>').html(title)));
+                
+                if (unique_terms > 0){
+                    if (amount == "all"){
+                        amount = unique_terms;
+                    }
+                    var search_amount = unique_terms<amount?unique_terms:amount;
+                    var search_div = $('.in_panes div:last').append($('<div/>').addClass(search_engine).html('<p>The <b>top ' + search_amount + '</b> searched terms are below.</p>'));
+                    search_div.append($('<div/>').addClass('wordcloud'));
+                    var id = 0;
+                    $.each(words, function(term, details){
+                        term = term.slice(1);
+                        var hex = (0 + d2h(Math.floor(Math.random() * 200))).substr(-2);                        
+                        $('.wordcloud:last').append($('<div/>').addClass('word').attr('rel','#overlay_'+id).addClass('no_format').html(term));
+                        $('.no_format:last').css('color', '#'+hex+hex+hex);
+
+                        var fontsize = factor*details[0];
+                        if (fontsize > 300){
+                            fontsize = 300;
+                        }
+                        
+                        var titletext = getTitleText(term, details[1], details[2]);
+                        $('.word:last').append($('<div/>').addClass('simple_overlay').addClass('word_tooltip').attr('id', 'overlay_'+id).html(titletext)).css('font-size', fontsize);
+                        id++;
+                    });   
+                    $('.in_panes .wordcloud:last').after($('<div/>').addClass('clear'));
+                }
+                else{
+                    $('.in_panes div:last').append($('<p/>').html('No searches were made using ' + title + '.'));
+                }
+            })
+            $("ul.in_tabs").tabs("div.in_panes > div", {initialIndex: set_tabs_to});
+
+            $(".wordcloud div[rel]").overlay({onStart: function(event) { 
+                // Hack to work around jquery tools bug.
+                event.stopImmediatePropagation();
+            }});                
+            $('.simple_overlay').click(function(event) {
+                event.stopImmediatePropagation();
+            });
+            
+        });
+        return false;
+    }
+</%def>
+
+<%def name="pieChart()" filter="trim">
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() { 
+            % for drive, (file_types, drive_count) in files_accessed.iteritems():
+                var data_${drive} = new google.visualization.DataTable();
+                data_${drive}.addColumn('string', 'File Type');
+                data_${drive}.addColumn('number', 'Percent');
+                data_${drive}.addRows(${len(file_types)});  
+                
+                <% i = 0 %>
+                % for filetype, (tree,count) in file_types.iteritems():
+                    data_${drive}.setValue(${i}, 0, '${filetype.title()}s');
+                    data_${drive}.setValue(${i}, 1, ${count});  
+                    <% i = i + 1 %>
+                % endfor
+
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div_${drive}'));
+                chart.draw(data_${drive}, {width: 950, height: 450, title: 'File Types for Drive ${drive}:/'});
+            % endfor
+        }
+    </script>
+</%def>

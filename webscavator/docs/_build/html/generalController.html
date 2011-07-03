@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>generalController &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Controllers" href="controllers.html" />
+    <link rel="next" title="visualController" href="visualController.html" />
+    <link rel="prev" title="caseController" href="caseController.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="visualController.html" title="visualController"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="caseController.html" title="caseController"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="controllers.html" accesskey="U">Controllers</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="caseController.html"
+                                  title="previous chapter">caseController</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="visualController.html"
+                                  title="next chapter">visualController</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/generalController.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.controllers.generalController">
+<h1>generalController<a class="headerlink" href="#module-webscavator.controllers.generalController" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>generalController<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Contains the class for the endpoints of general pages that do not need much complex processing
+(apart form the index page).</p>
+<dl class="class">
+<dt id="webscavator.controllers.generalController.GeneralController">
+<em class="property">
+class </em><tt class="descclassname">webscavator.controllers.generalController.</tt><tt class="descname">GeneralController</tt><big>(</big><em>request</em>, <em>urls</em><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for general pages, e.g. the index page, about page and help pages.</p>
+<dl class="method">
+<dt id="webscavator.controllers.generalController.GeneralController.about">
+<tt class="descname">about</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController.about" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the about page.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.generalController.GeneralController.documentation">
+<tt class="descname">documentation</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController.documentation" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the PyDoc developer documentation.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.generalController.GeneralController.guidelines">
+<tt class="descname">guidelines</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController.guidelines" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for guidelines on what data to add to cases.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.generalController.GeneralController.help">
+<tt class="descname">help</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController.help" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the index help page.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.generalController.GeneralController.help_addfiles">
+<tt class="descname">help_addfiles</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController.help_addfiles" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the help page on how to add new web history program file convertors</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.generalController.GeneralController.index">
+<tt class="descname">index</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController.index" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for index page of webscavator. If a case has been loaded, this will 
+show information about the case and lead onto the visualisations. 
+Otherwise, the index page will display a choice
+to either load a case or create a new case.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.generalController.GeneralController.userguide">
+<tt class="descname">userguide</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.generalController.GeneralController.userguide" title="Permalink to this definition">¶</a></dt>
+<dd>Endpoint for the user documentation.</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

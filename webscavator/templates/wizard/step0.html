@@ -1,0 +1,19 @@
+﻿<%inherit file="/base/base.html"/>
+
+<h1>Welcome to Webscavator</h1>
+
+<h2 class="initial">
+    <a class="no_link" href="${urls.build("case.load", dict())|h}">
+        <img class="initial" src="${urls.build("images", dict(file='site/database_go.png'))|h}" alt="load a previous case" />
+    </a> 
+    <a href="${urls.build("case.load", dict())|h}">Load a previous case</a>
+</h2>
+
+<h2 class="initial">
+    <a class="no_link" href="${urls.build("case.wizard1", dict())|h}">
+        <img class="initial" src="${urls.build("images", dict(file='site/add.png'))|h}" alt="start a new case" />
+    </a>
+    <a href="${urls.build("case.wizard1", dict())|h}">Start a new case</a>
+</h2>
+
+

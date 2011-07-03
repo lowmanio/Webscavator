@@ -1,0 +1,40 @@
+﻿<%inherit file="/base/base.html"/>
+<%namespace file="/utils/common.html" name="c" />
+
+<div id="information">
+    <img id="bubble" src="${urls.build("images", dict(file='site/bubble.bmp'))|h}" />
+    <h2>Change the settings</h2>
+    <p><img class="surround" src="${urls.build("images", dict(file='site/spanner.png'))|h}" alt="spanner icon" /> Change the settings of the case you are currently working on by clicking the spanner. 
+    This will allow you to go through the setup wizard again and change any steps.</p>
+    <div class="clear"></div>
+    <h2>Work on a different existing case</h2>
+    <p><img class="surround" src="${urls.build("images", dict(file='site/database_go.png'))|h}" alt="database icon" />You can also load an old case by clicking on the database icon.</p>
+    <div class="clear"></div>
+    <h2>Work on a new case</h2>
+    <p><img class="surround" src="${urls.build("images", dict(file='site/add.png'))|h}" alt="plus icon" /> If you want to work on a new case click on the plus icon. 
+    The case you are working on has been saved in a file called [casefile] which you can load later.</p>
+</div>
+
+% if load:
+    <h1>Case loaded</h1>
+    <p>Congratulations! The case has been loaded. <a href="${urls.build("general.index", dict())|h}">Click here to view your data</a>. </p>
+% elif edit:
+    <h1>Case Edited</h1>
+    <p>Congratulations! The case has been edited. <a href="${urls.build("general.index", dict())|h}">Click here to view your data</a>. </p>
+% else:
+    <h1>Case Added</h1>
+    <p>Congratulations! The browser data has been added. <a href="${urls.build("general.index", dict())|h}">Click here to view your data</a>. </p>
+% endif
+
+    <h2>MD5 Hashes</h2>
+    <p>The MD5 hash for ${dbfile} is:</p>
+    <p class="indent"><span class="fixedwidth">${hash}</span></p>
+    <p>All the hashes for your databases (with details such as time created and reason) can be found in:</p>
+    <p class="indent"><span class="fixedwidth">${hashfolder}</span></p> 
+    <p>A new hash will be created if you edit any of the information by repeating the wizard or create a new filter. </p>
+    
+% if not load:    
+    <p class="centre">
+        <a class="no_link" href="${urls.build("case.edit3", dict())|h}"><img src="${urls.build("images", dict(file='site/previous.bmp'))|h}" alt="Previous" /></a>
+    </p>
+% endif

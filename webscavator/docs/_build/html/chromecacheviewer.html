@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Chrome Cache Viewer Converter &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="csvConverter" href="csvConverter.html" />
+    <link rel="next" title="Fox Analysis Converter" href="foxanalysis.html" />
+    <link rel="prev" title="csvConverter" href="csvConverter.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="foxanalysis.html" title="Fox Analysis Converter"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="csvConverter.html" title="csvConverter"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="converters.html" >Converters</a> &raquo;</li>
+          <li><a href="csvConverter.html" accesskey="U">csvConverter</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="csvConverter.html"
+                                  title="previous chapter">csvConverter</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="foxanalysis.html"
+                                  title="next chapter">Fox Analysis Converter</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/chromecacheviewer.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.converters.chromecacheviewer">
+<h1>Chrome Cache Viewer Converter<a class="headerlink" href="#module-webscavator.converters.chromecacheviewer" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="webscavator.converters.chromecacheviewer.ChromecacheviewerConverter">
+<em class="property">
+class </em><tt class="descclassname">webscavator.converters.chromecacheviewer.</tt><tt class="descname">ChromecacheviewerConverter</tt><big>(</big><em>csv_file</em><big>)</big><a class="headerlink" href="#webscavator.converters.chromecacheviewer.ChromecacheviewerConverter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts Chrome Cache Viewer CSV output to normalised format.</p>
+<p>To obtain CSV data from Chrome Cache Viewer, select all the entries, and go to <cite>File &gt;
+Save Selected Items</cite>. Save as a <em>Tab-delimited Text File</em>, and then change the extension to 
+<cite>csv</cite>. Make sure the file is in UTF-8 encoding, otherwise the CSV converter will throw
+an exception.</p>
+<dl class="method">
+<dt id="webscavator.converters.chromecacheviewer.ChromecacheviewerConverter.process_row">
+<tt class="descname">process_row</tt><big>(</big><em>row</em><big>)</big><a class="headerlink" href="#webscavator.converters.chromecacheviewer.ChromecacheviewerConverter.process_row" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>process_row</cite> takes in a row from the CSV file, and returns a normalised dictionary as output.</p>
+<p>One row of Chrome Cache Viewer&#8217;s CSV data looks like so:</p>
+<p>filename, url, content_type, file_size, access_time, server_time, modified_time, expired_time, 
+server_name, http_headers, content_encoding, cache_name, cache_control, e_tag, _</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

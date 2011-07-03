@@ -1,0 +1,10 @@
+﻿<%inherit file="/base/base_popup.html"/>
+
+
+<h1>CSV guidelines</h1>
+
+% for k, v in program_explanations.iteritems():
+<h2><img src="${urls.build("images", dict(file='programs/' + v['image']))|h}" alt="${k|h} icon" class="surround" />
+${k|h}</h2>
+${v['description']}
+% endfor

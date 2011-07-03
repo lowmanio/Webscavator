@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Filters &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Models" href="model.html" />
+    <link rel="next" title="Utility functions" href="utilities.html" />
+    <link rel="prev" title="Database Models" href="models.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="utilities.html" title="Utility functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Database Models"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="model.html" accesskey="U">Models</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="models.html"
+                                  title="previous chapter">Database Models</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="utilities.html"
+                                  title="next chapter">Utility functions</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/filters.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.model.filters">
+<h1>Filters<a class="headerlink" href="#module-webscavator.model.filters" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Filters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><cite>FilterQuery</cite> objects save the filter details and are stored pickled in the <cite>Filter</cite> class as
+<cite>Filter.query</cite> in <a class="reference external" href="models.html"><em>Database Models</em></a>.</p>
+<dl class="class">
+<dt id="webscavator.model.filters.FilterQuery">
+<em class="property">
+class </em><tt class="descclassname">webscavator.model.filters.</tt><tt class="descname">FilterQuery</tt><a class="headerlink" href="#webscavator.model.filters.FilterQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the tables, attributes, operations and values of a query, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="n">Entry</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">Is</span><span class="p">,</span> <span class="s">&#39;Test&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>which equates to <cite>WHERE Entry.title = &#8216;Test&#8217;</cite> in SQL.</p>
+<p><cite>FilterQuery</cite> objects get stored inside a <cite>Filter</cite> object in <a class="reference external" href="models.html"><em>Database Models</em></a>. The
+object stored inside the <cite>Filter</cite> object gets pickled thereby preserving the
+filter information.</p>
+<dl class="method">
+<dt id="webscavator.model.filters.FilterQuery.add_element">
+<tt class="descname">add_element</tt><big>(</big><em>cls</em>, <em>attr</em>, <em>func</em>, <em>val</em>, <em>val_list</em><big>)</big><a class="headerlink" href="#webscavator.model.filters.FilterQuery.add_element" title="Permalink to this definition">¶</a></dt>
+<dd>Add a new filter line to the <cite>FilterQuery</cite> object <cite>params</cite> list 
+attribute.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.model.filters.FilterQuery.query">
+<tt class="descname">query</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.model.filters.FilterQuery.query" title="Permalink to this definition">¶</a></dt>
+<dd>Called by <cite>Case.filter_queries()</cite> in <a class="reference external" href="models.html"><em>Database Models</em></a> to construct the filter
+clause. Returns an ANDed list of filters e.g. <cite>Entry.title = &#8220;test&#8221; AND
+Entry.url &lt;&gt; &#8220;http://example.org&#8221;</cite></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.model.filters.regexp">
+<tt class="descclassname">webscavator.model.filters.</tt><tt class="descname">regexp</tt><big>(</big><em>expr</em>, <em>item</em><big>)</big><a class="headerlink" href="#webscavator.model.filters.regexp" title="Permalink to this definition">¶</a></dt>
+<dd>Enables regular expressions for filter queries.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+﻿<%inherit file="/base/base.html"/>
+<%namespace file="/utils/common.html" name="c" />
+<%namespace file="/utils/forms.html" name="f" />
+
+
+<%def name="javascripts()" filter="trim">
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.form.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.tools.min.js"))|h}"></script>
+    <script type="text/javascript" src="${urls.build("js", dict(file="jquery.autofocus-min.js"))|h}"></script>
+     
+    <script type="text/javascript">
+    
+    $(document).ready(function () {
+        
+        $("[autofocus='']").autofocus();
+    
+        ${c.tooltips('wizard1')}
+        ${c.wizard_hover('1', '2', '3')}  
+
+        $('#wizard1').ajaxForm({
+            dataType: 'json', 
+            beforeSubmit: function () {
+                $('span.error').remove();
+            },
+            success: function (obj) {
+                if (obj == true){
+                        % if edit:
+                        window.location = "${urls.build('case.edit2')|h}";
+                        % else:
+                        window.location = "${urls.build('case.wizard2')|h}";
+                        % endif
+                }    
+                else{
+                    jQuery.each(obj, function (key, value) {
+                        $('[name=' + key + ']').after('<span class="error">' + value + '</span>');
+                        $('[name=' + key + ']').addClass('error');
+                    });
+                    $('#form_errors').show();                   
+                }
+        }});    
+      
+    });
+    </script>
+
+</%def>
+
+${c.wizard(1, edit)}
+
+% if edit:
+<h1>Step 1: Edit case information</h1>
+% else:
+<h1>Step 1: Add case information</h1>
+% endif
+
+% if edit:
+<form id="wizard1" action="${urls.build("case.jsonEditCase", dict())|h}" method="post">
+% else:
+<form id="wizard1" action="${urls.build("case.jsonAddCase", dict())|h}" method="post">
+% endif
+    
+    % if edit:
+    <p>To change the name of the file this case is stored in, stop Webscavator, name the file manually, then restart Webscavator and load in the newly named file. </p>
+    % else:
+    <p>Please give a name and filename for this case. All the data added for this case will be saved to an Sqlite database with the filename you have chosen. This means you can reload old cases and share cases between people.</p>
+    % endif 
+    
+    ${c.form_errors()}
+    
+    <fieldset><legend>Information</legend>
+    
+    % if edit:
+    <p>${f.input("Case name", "name", "casename", "E.g. <i>John Doe's Firefox History</i> or <i>Case Ref: 000298</i>", value=case.name, autofocus=True)|h}</p>
+    % else:
+    <p>${f.input("Case name", "name", "casename", "E.g. <i>John Doe's Firefox History</i> or <i>Case Ref: 000298</i>", autofocus=True)|h}</p>
+    <p>${f.input("File to save case to", "dbfile", "casedbfile", "Please make this one word with no spaces or non-ASCII characters e.g. <i>JohnDoe2010</i>")|h}</p>
+    % endif
+    
+    </fieldset>
+    
+    <p class="centre"><input type="image" src="${urls.build("images", dict(file='site/next.bmp'))|h}" alt="Next" /></p>
+
+</form>

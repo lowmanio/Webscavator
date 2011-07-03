@@ -1,0 +1,121 @@
+## if the form field was in error, this makes the field class="required"
+<%def name="isError(field)" filter="trim">
+	% if field in error:
+		required
+	% endif
+</%def>
+
+## gets the name of the error
+<%def name="getError(name)" filter="trim">
+    <% print error %>
+	% if name in error.keys():
+		${error[name]}
+	% endif
+</%def>
+
+## input into form
+<%def name="input(label, inputname, inputid, hint, labelclass=None, inputclass=None, inputtype='text', value=None, autofocus=False)" filter="trim">
+    % if not labelclass:
+        <% labelclass = "label_wizard" %>
+    % else:
+        <% labelclass = "label_wizard " + labelclass %>
+    % endif
+    
+    % if not inputclass:
+        <% inputclass = "input_wizard" %>
+    % else:
+        <% inputclass = "input_wizard " + inputclass %>
+    % endif
+
+    % if value is  None:
+        <% value = '' %>
+    % endif
+    
+	<label class="${labelclass}" for="${inputid}" id="label_${inputid}">${label}:</label>
+    
+    % if autofocus == True:
+     <% auto = " autofocus" %>
+     % else:
+     <% auto = " " %>
+     % endif 
+     
+    <input type="${inputtype}" name="${inputname}" id="${inputid}" value="${value}" class="${inputclass}" title="${hint}"${auto}/>
+</%def>
+
+## input into form - not an input but a piece of text to be aligned like the rest
+<%def name="input_text(label, inputname, inputid, value, labelclass=None, inputclass=None)" filter="trim">
+    % if not labelclass:
+        <% labelclass = "label_wizard" %>
+    % else:
+        <% labelclass = "label_wizard " + labelclass %>
+    % endif
+    
+    % if not inputclass:
+        <% inputclass = "" %>
+    % endif
+    
+	<label class="${labelclass}" for="${inputid}" id="label_${inputid}">${label}:</label>
+    <span name="${inputname}" id="${inputid}" class="${inputclass}">${value}</span>
+</%def>
+
+## input into form
+<%def name="input_radio(label, inputname, inputid, hint, radio_entries, selected, labelclass=None, inputclass=None, inputtype='text')" filter="trim">
+    % if not labelclass:
+        <% labelclass = "label_wizard" %>
+    % else:
+        <% labelclass = "label_wizard " + labelclass %>
+    % endif
+    
+    % if not inputclass:
+        <% inputclass = "input_wizard_radio" %>
+    % else:
+        <% inputclass = "input_wizard_radio " + inputclass %>
+    % endif
+
+	<label class="${labelclass}" for="${inputid}" id="label_${inputid}">${label}:</label>
+    <div class="inputdiv_radio" id="${inputid}">
+    % for radio_value, radio_text in radio_entries:
+        % if radio_value == selected:
+        <p><input type="radio" name="${inputname}" class="${inputclass}" value="${radio_value}" title="${hint}" checked> ${radio_text}</p>
+        % else:
+        <p><input type="radio" name="${inputname}" class="${inputclass}" value="${radio_value}" title="${hint}"> ${radio_text}</p>
+        % endif
+    % endfor
+    </div>
+</%def>
+
+## input into form - select boxes
+<%def name="input_selector(label, inputname, inputid, hint, data, extra_options=None, match_with=None, selected=None, labelclass=None, inputclass=None)" filter="trim">
+    % if not labelclass:
+        <% labelclass = "label_wizard" %>
+    % else:
+        <% labelclass = "label_wizard " + labelclass %>
+    % endif
+    
+    % if not inputclass:
+        <% inputclass = "input_wizard" %>
+    % else:
+        <% inputclass = "input_wizard " + inputclass %>
+    % endif
+    
+	<label class="${labelclass}" for="${inputid}" id="label_${inputid}">${label}:</label>
+    <select name="${inputname}" id="${inputid}" class="${inputclass}" title="${hint}" />
+    % for d in data:
+        % if selected == d or match_with == d:
+        <option value="${d}" selected>${d}</option>
+        % else:
+        <option value="${d}">${d}</option>
+        % endif
+    % endfor
+    % if extra_options is not None:
+    % for d in extra_options:
+        % if selected == d or match_with == d:
+        <option value="${d}" selected>${d}</option>
+        % else:
+        <option value="${d}">${d}</option>
+        % endif
+    % endfor
+    % endif
+    </select>
+</%def>
+

@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>baseController &mdash; Webscavator v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Webscavator v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Controllers" href="controllers.html" />
+    <link rel="next" title="caseController" href="caseController.html" />
+    <link rel="prev" title="Controllers" href="controllers.html" /> 
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="header">
+        <div id="logo">
+            <a href="http://localhost:5000" class="no_link"><img src="_static/logo.jpg" alt="Webscavator logo" /></a>
+        </div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="caseController.html" title="caseController"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="controllers.html" title="Controllers"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Webscavator v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="controllers.html" accesskey="U">Controllers</a> &raquo;</li> 
+      </ul>
+    </div> 
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="controllers.html"
+                                  title="previous chapter">Controllers</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="caseController.html"
+                                  title="next chapter">caseController</a></p>
+            <h4>This Page</h4>
+            <ul class="this-page-menu">
+              <li><a href="_sources/baseController.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox">
+            <h4>Quick search</h4>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div> 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-webscavator.controllers.baseController">
+<h1>baseController<a class="headerlink" href="#module-webscavator.controllers.baseController" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>baseController<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Contains the <cite>BaseController</cite> which all other controllers inherit from and a couple of other useful
+functions for JSON-ifying responses.</p>
+<dl class="class">
+<dt id="webscavator.controllers.baseController.BaseController">
+<em class="property">
+class </em><tt class="descclassname">webscavator.controllers.baseController.</tt><tt class="descname">BaseController</tt><big>(</big><em>request</em>, <em>urls</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>BaseController</cite> contains useful methods for all the controllers, 
+contains the return functions and cookie setters/getters.</p>
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.addDefaultFilters">
+<tt class="descname">addDefaultFilters</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.addDefaultFilters" title="Permalink to this definition">¶</a></dt>
+<dd>Adds the default filters for the timegraph such as filtering by browser type,
+group, work hours, Google searches and local files. Gets called when a new case
+is being set up in <cite>finish_wizard()</cite> in <a class="reference external" href="caseController.html"><em>caseController</em></a>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.defaultResponse">
+<tt class="descname">defaultResponse</tt><big>(</big><em>statuscode</em>, <em>*location</em>, <em>**vars</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.defaultResponse" title="Permalink to this definition">¶</a></dt>
+<dd>Return the rendered template with variables with the given <cite>statuscode</cite>.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.renderTemplate">
+<tt class="descname">renderTemplate</tt><big>(</big><em>*location</em>, <em>**vars</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.renderTemplate" title="Permalink to this definition">¶</a></dt>
+<dd>Returns a rendered Mako HTML template.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.return404">
+<tt class="descname">return404</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.return404" title="Permalink to this definition">¶</a></dt>
+<dd>Calls <cite>defaultResponse</cite> with a 404 page. This method is called by 
+<cite>application()</cite> when none of
+the entries in the URL map match with any controller endpoints.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.return500">
+<tt class="descname">return500</tt><big>(</big><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.return500" title="Permalink to this definition">¶</a></dt>
+<dd>Calls <cite>defaultResponse</cite> with a 500 page. This method is called by 
+<cite>application()</cite> when the endpoint
+has raised an exception or an error has happened.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.returnResponse">
+<tt class="descname">returnResponse</tt><big>(</big><em>*location</em>, <em>**vars</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.returnResponse" title="Permalink to this definition">¶</a></dt>
+<dd>Calls <cite>defaultResponse</cite> with the expected page for the controller endpoint, with
+a 200 status code.</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.validate_form">
+<tt class="descname">validate_form</tt><big>(</big><em>schema</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.validate_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates a form post against schema in <a class="reference external" href="forms.html"><em>Forms</em></a>.</p>
+<p>If no form was posted, returns <cite>False</cite>. 
+If the form was posted and it is invalid, returns <cite>False</cite> 
+and sets <cite>self.form_error</cite>, a dictionary with input names and 
+their corresponding error messages. 
+If the form validated correctly, returns <cite>True</cite> and sets <cite>self.form_result</cite> to the
+validated results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="webscavator.controllers.baseController.BaseController.write_log">
+<tt class="descname">write_log</tt><big>(</big><em>dbfile</em>, <em>msg</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.BaseController.write_log" title="Permalink to this definition">¶</a></dt>
+<dd>Computes a MD5 hash of the dbfile by calling <cite>_computeHash(file)</cite> and then appends 
+the hash in a file for that dbfile by calling <cite>_storeHash(hash, dbfile, msg)</cite>.
+Returns the hash and the path to the folder where the hash file is kept.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webscavator.controllers.baseController.FormState">
+<em class="property">
+class </em><tt class="descclassname">webscavator.controllers.baseController.</tt><tt class="descname">FormState</tt><big>(</big><em>obj</em>, <em>case</em>, <em>urls</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.FormState" title="Permalink to this definition">¶</a></dt>
+<dd>Sometimes the validators in <a class="reference external" href="validators.html"><em>Validators</em></a> need to know stateful information, such as
+the current case being edited to compare values with. 
+This object is passed to the validators as <cite>state</cite>.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.controllers.baseController.jsonify">
+<tt class="descclassname">webscavator.controllers.baseController.</tt><tt class="descname">jsonify</tt><big>(</big><em>func</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.jsonify" title="Permalink to this definition">¶</a></dt>
+<dd>Wrap a function so the return value is &#8216;JSON-ified&#8217; and wrapped in a Werkzeug response object. 
+This essentially returns something an AJAX request will understand.</dd></dl>
+
+<dl class="function">
+<dt id="webscavator.controllers.baseController.jsonifyfile">
+<tt class="descclassname">webscavator.controllers.baseController.</tt><tt class="descname">jsonifyfile</tt><big>(</big><em>func</em><big>)</big><a class="headerlink" href="#webscavator.controllers.baseController.jsonifyfile" title="Permalink to this definition">¶</a></dt>
+<dd>Similar to <cite>jsonify(func)</cite>, but used for file uploads. 
+They have to be put in textareas to work properly.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    
+
+    <div class="clearer"></div>
+    <div class="footer">
+    <a href="http://lowmanio.co.uk">Sarah Lowman</a> © 2010 | 
+    Built using <a href="http://python.org/">Python 2.6</a> and <a href="http://werkzeug.pocoo.org/">Werkzeug</a> | 
+    Webscavator is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
+       | Documentation created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+</div>
+  </body>
+</html>

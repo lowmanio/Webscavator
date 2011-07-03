@@ -1,0 +1,16 @@
+/* the overlayed element */
+.simple_overlay {
+	display:none;
+	z-index:100;
+}
+
+/* close button positioned on upper right corner */
+.simple_overlay .close {
+	background-image:url(close.png);
+	position:absolute;
+	right:5px;
+	top:5px;
+	cursor:pointer;
+	height:35px;
+	width:35px;
+}
